@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "medium", "reason": "Guitar Rig rack tone diagnosis; bass rather than guitar, but the fix surface is the same rack and components."},
+  {"id": 2, "trigger": true, "confidence": "medium", "reason": "Framed as an update problem but the actual complaint is that presets now sound thin — preset/tone work."},
+  {"id": 3, "trigger": true, "confidence": "high", "reason": "Classic harsh electric guitar tone complaint, exactly the symptom-first case the skill is built for."},
+  {"id": 4, "trigger": true, "confidence": "medium", "reason": "Question about an amp component parameter (Sag) and its audible effect in the rack."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Diffing two preset files is direct .ngrr file work."},
+  {"id": 6, "trigger": true, "confidence": "high", "reason": "Chasing a specific artist/album tone, which the skill explicitly covers."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "MIDI mapping an expression pedal to a wah component inside the rack."},
+  {"id": 8, "trigger": true, "confidence": "medium", "reason": "The DAW is only context; the thing to fix is the muffled preset he built in the rack."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Gain-staging diagnosis across blocks in the Guitar Rig rack."},
+  {"id": 10, "trigger": true, "confidence": "high", "reason": "Vague lifeless guitar tone with no jargon — the skill's stated target user."},
+  {"id": 11, "trigger": false, "confidence": "medium", "reason": "Same symptom but a competing amp sim (Neural DSP), so the skill's component and preset knowledge does not apply."},
+  {"id": 12, "trigger": false, "confidence": "low", "reason": "Guitar Rig's tapedeck is a rack component, but this is a recording/export workflow question with no tone or preset problem — genuinely borderline."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Application crash after a Windows update is software support, not tone."},
+  {"id": 14, "trigger": false, "confidence": "medium", "reason": "Harsh guitar symptom, but it is mastering on a master bus with no rack or preset to edit."},
+  {"id": 15, "trigger": true, "confidence": "low", "reason": "Not an electric guitar, but the harshness is coming from Guitar Rig components and gets fixed by editing that rack — I would consult it for the component knowledge."},
+  {"id": 16, "trigger": false, "confidence": "medium", "reason": "Product purchase comparison rather than diagnosing or building a tone."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Physical pedal electronics failure, not the software component of the same name."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Instrument setup and fret buzz is physical lutherie work."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Music theory question about scale choice."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "Reaper volume automation is DAW operation."}
+]

@@ -1,0 +1,61 @@
+[
+  {"id": 1, "should_trigger": true, "lang": "pt",
+   "query": "cara, gravei uma base ontem e o som da guitarra ficou horrível, meio abafado, parece que tem um cobertor na frente do amplificador. uso o guitar rig 6 aqui no pc"},
+
+  {"id": 2, "should_trigger": true, "lang": "pt",
+   "query": "minha guitarra tá com um chiado insuportável quando eu não tô tocando, mas some assim que eu toco alguma coisa. já baixei o ganho e não adiantou muito"},
+
+  {"id": 3, "should_trigger": true, "lang": "en",
+   "query": "my rhythm tone sounds huge when i solo it but the second the drums and bass come in the guitar just vanishes. everything i try makes it worse"},
+
+  {"id": 4, "should_trigger": true, "lang": "en",
+   "query": "i keep getting this nasty crackly distortion on the attack of every chord even though the amp sim gain is only at 3. sounds like digital garbage not like a real amp breaking up"},
+
+  {"id": 5, "should_trigger": true, "lang": "es",
+   "query": "estoy usando guitar rig y quiero acercarme al sonido del solo de Comfortably Numb, ¿por dónde empiezo? tengo una strat con pastillas single coil"},
+
+  {"id": 6, "should_trigger": true, "lang": "fr",
+   "query": "le son de ma guitare est beaucoup trop agressif dans les aigus, ça fatigue les oreilles au bout de deux minutes de jeu. j'ai déjà baissé le treble de l'ampli"},
+
+  {"id": 7, "should_trigger": true, "lang": "en",
+   "query": "i've got a folder of .ngrr files from an old preset pack in D:/Downloads, can you tell me which of them use a tube screamer style pedal in front of the amp"},
+
+  {"id": 8, "should_trigger": true, "lang": "pt",
+   "query": "queria juntar os controles principais do meu preset num lugar só, tipo ganho grave médio agudo e o delay, pra não ficar caçando knob em cinco pedais diferentes"},
+
+  {"id": 9, "should_trigger": true, "lang": "en",
+   "query": "can you put together a preset for me with a big muff into a hiwatt, plus a memory man style delay and a bit of room reverb"},
+
+  {"id": 10, "should_trigger": true, "lang": "pt",
+   "query": "meu palm mute tá sem impacto nenhum, a corda grave fica mole e borrada em vez de dar aquele soco. o que eu mexo?"},
+
+  {"id": 11, "should_trigger": false, "lang": "en",
+   "query": "my acoustic guitar recording sounds boxy and honky, can you recommend a mic position for a dreadnought? i'm using an SM57 about 6 inches from the 12th fret"},
+
+  {"id": 12, "should_trigger": false, "lang": "en",
+   "query": "i'm mixing a full song in reaper and the lead vocal is sitting behind the guitars. what should i do with the vocal bus to bring it forward"},
+
+  {"id": 13, "should_trigger": false, "lang": "pt",
+   "query": "consegue me ajudar a tirar o solo de Comfortably Numb? preciso da tablatura e de umas dicas de como fazer os bends soarem certo"},
+
+  {"id": 14, "should_trigger": false, "lang": "en",
+   "query": "my bass DI track is clipping in Logic, the interface meter goes red on every note even with the gain almost off. scarlett 2i2 if that matters"},
+
+  {"id": 15, "should_trigger": false, "lang": "en",
+   "query": "whats the actual difference between a marshall jcm800 and a plexi? im looking at buying a used head and cant tell if the price difference is worth it"},
+
+  {"id": 16, "should_trigger": false, "lang": "en",
+   "query": "write me a python script that reads a folder of WAV files and plots the frequency spectrum of each one so i can compare them"},
+
+  {"id": 17, "should_trigger": false, "lang": "pt",
+   "query": "meu amplificador valvulado, um Fender Blues Junior, começou a fazer um zumbido alto que aumenta com o volume. pode ser válvula?"},
+
+  {"id": 18, "should_trigger": false, "lang": "en",
+   "query": "help me get my focusrite scarlett working in ableton, i plugged the guitar into input 1 and ableton shows no signal at all on the audio track"},
+
+  {"id": 19, "should_trigger": false, "lang": "en",
+   "query": "the reverb on my snare is way too washy in this mix, its smearing the whole backbeat. how much predelay should i be using"},
+
+  {"id": 20, "should_trigger": false, "lang": "en",
+   "query": "can you review this C# class that parses binary file headers? i think theres an off by one in the chunk length handling but i cant spot it"}
+]

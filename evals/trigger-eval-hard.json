@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "baixo, nao guitarra — mas Bass Pro existe e o diagnostico vale igual",
+    "query": "meu baixo passando pelo guitar rig tá sem definição nenhuma, some no meio da mixagem assim que entra a bateria"
+  },
+  {
+    "id": 2,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "parece suporte de software, mas o problema e timbre",
+    "query": "atualizei o guitar rig e agora meus presets antigos soam diferentes, ficaram mais finos e sem corpo do que eram antes"
+  },
+  {
+    "id": 3,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "curtissima, sem contexto nenhum de software",
+    "query": "tá muito estridente esse tom de guitarra, dói o ouvido depois de um tempo"
+  },
+  {
+    "id": 4,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "duvida sobre parametro, nao reclamacao de som",
+    "query": "pra que serve exatamente o knob Sag nos amps? mexo nele e mal escuto diferença"
+  },
+  {
+    "id": 5,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "tarefa de arquivo, sem sintoma de audio",
+    "query": "tenho dois presets que soam quase iguais e não lembro qual eu editei. dá pra comparar os dois e me dizer o que mudou?"
+  },
+  {
+    "id": 6,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "timbre de artista sem citar equipamento nem software",
+    "query": "quero chegar naquele som de fuzz gigante do Smashing Pumpkins no Siamese Dream, aquela parede de guitarra"
+  },
+  {
+    "id": 7,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "MIDI/hardware, pode parecer configuracao de sistema",
+    "query": "dá pra mapear meu pedal de expressão pra controlar o wah dentro do rack? tenho uma controladora usb simples"
+  },
+  {
+    "id": 8,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "contexto de DAW pode puxar para mixagem",
+    "query": "uso o guitar rig como plugin dentro do reaper e o preset que montei tá abafado só quando tá na sessão, sozinho soa bem"
+  },
+  {
+    "id": 9,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "pergunta de diagnostico, nao pedido de conserto",
+    "query": "como eu descubro em que ponto da minha cadeia no guitar rig o sinal começa a estourar? tenho uns oito blocos no rack"
+  },
+  {
+    "id": 10,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "vago, sem jargao — mas e exatamente o usuario alvo",
+    "query": "o som da minha guitarra tá ruim e eu não sei explicar direito. parece sem vida, sem graça, meio morto"
+  },
+  {
+    "id": 11,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "sintoma identico, software concorrente",
+    "query": "o som tá abafado demais, uso o Neural DSP Archetype Gojira. já mexi no treble e não resolveu"
+  },
+  {
+    "id": 12,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "e Guitar Rig, mas nao e timbre nem preset",
+    "query": "como eu gravo minha guitarra no tapedeck do guitar rig e depois exporto isso como wav pra mandar pro baterista?"
+  },
+  {
+    "id": 13,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "e Guitar Rig, mas e suporte de software",
+    "query": "o guitar rig 6 parou de abrir depois que atualizei o windows, trava na tela de splash e fecha sozinho"
+  },
+  {
+    "id": 14,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "sintoma nosso, mas nao ha preset para editar",
+    "query": "tô masterizando uma faixa de um cliente e a guitarra dele tá estridente demais. o que dá pra fazer no master bus sem estragar o resto?"
+  },
+  {
+    "id": 15,
+    "should_trigger": true,
+    "lang": "pt",
+    "why_hard": "e Guitar Rig e ajuste de rack, so o instrumento e outro. Hipotese inicial era ignorar; tres juizes discordaram por unanimidade e a descricao foi corrigida para incluir outras fontes.",
+    "query": "passei um vocal pelo guitar rig pra dar uma sujeira e ficou estranho, muito áspero e sem inteligibilidade"
+  },
+  {
+    "id": 16,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "cita o produto, mas e decisao de compra",
+    "query": "vale a pena comprar o guitar rig 7 pro ou o amplitube 5 é melhor pro que eu faço? toco mais rock setentista"
+  },
+  {
+    "id": 17,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "pedal real com nome que existe como componente",
+    "query": "meu Tube Screamer TS9 tá com o led aceso mas não passa sinal nenhum quando aciono. já troquei o cabo e a fonte"
+  },
+  {
+    "id": 18,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "problema de instrumento fisico",
+    "query": "minha guitarra tá trasteando da décima segunda casa pra cima. preciso regular o tensor ou é altura de ponte?"
+  },
+  {
+    "id": 19,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "guitarra, mas e teoria musical",
+    "query": "que escala eu uso pra solar em cima de uma sequência Em7 - A7 - Dmaj7? sempre travo nessa parte"
+  },
+  {
+    "id": 20,
+    "should_trigger": false,
+    "lang": "pt",
+    "why_hard": "faixa de guitarra, mas e operacao de DAW",
+    "query": "como faço automação de volume no reaper só na faixa de guitarra? quero abaixar 3 db no refrão"
+  }
+]

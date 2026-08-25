@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "high", "reason": "Names Guitar Rig 6 explicitly and describes a muffled electric guitar tone."},
+  {"id": 2, "trigger": true, "confidence": "high", "reason": "Classic amp-sim noise-floor hiss on an electric guitar signal, gain already adjusted."},
+  {"id": 3, "trigger": true, "confidence": "high", "reason": "Guitar tone that disappears in the mix is a core symptom the skill covers."},
+  {"id": 4, "trigger": true, "confidence": "high", "reason": "Digital clipping/crackle in an amp sim at low gain is a preset/input-level problem."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Explicitly using Guitar Rig and asking for a specific song's guitar tone."},
+  {"id": 6, "trigger": true, "confidence": "high", "reason": "Harsh, fatiguing high end on an electric guitar tone despite treble cuts."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "Directly about inspecting .ngrr preset files for a specific pedal type."},
+  {"id": 8, "trigger": true, "confidence": "high", "reason": "Wants preset knobs consolidated into one place, i.e. Guitar Rig macro controls."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Asks to build a preset rack from named pedal/amp/effect components."},
+  {"id": 10, "trigger": true, "confidence": "medium", "reason": "Flabby, smeared palm-muted low end asking what to adjust is a tone-shaping fix."},
+  {"id": 11, "trigger": false, "confidence": "high", "reason": "Acoustic guitar mic placement, explicitly outside the skill's scope."},
+  {"id": 12, "trigger": false, "confidence": "high", "reason": "General vocal mixing in a DAW, not guitar tone or Guitar Rig."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Wants tablature and playing technique, not a tone change."},
+  {"id": 14, "trigger": false, "confidence": "high", "reason": "Bass DI gain staging on an audio interface, a hardware/routing issue."},
+  {"id": 15, "trigger": false, "confidence": "medium", "reason": "Buying advice comparing two real hardware amp heads, not a sound to fix."},
+  {"id": 16, "trigger": false, "confidence": "high", "reason": "Generic Python DSP scripting task with no guitar tone component."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Hardware tube amp fault diagnosis, not software preset work."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Audio interface/DAW signal routing setup, explicitly out of scope."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Drum reverb decision in a mix, unrelated to guitar tone."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "C# code review task with no audio or guitar relevance."}
+]

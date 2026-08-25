@@ -1,0 +1,419 @@
+{
+  "_about": "Index of Native Instruments' official Guitar Rig manual, so a lookup goes straight to the right page instead of guessing or inventing. Only titles, URLs and topic keywords are stored here — no manual text is reproduced. Fetch the page when you need the wording.",
+  "_source": "Guitar Rig 7 manual, docs.native-instruments.com",
+  "_base_url": "https://docs.native-instruments.com/ni-tech-manuals/guitar-rig-manual/en/",
+  "_note": "There are no per-component pages. `components-reference` is one long page holding every component in every category; fetch it and search within it.",
+  "sections": [
+    {
+      "slug": "welcome-to-guitar-rig",
+      "title": "Welcome to Guitar Rig",
+      "covers": [
+        "document conventions",
+        "manual structure"
+      ],
+      "answers": []
+    },
+    {
+      "slug": "getting-started",
+      "title": "Getting Started",
+      "covers": [
+        "stand-alone setup",
+        "plug-in setup in a DAW",
+        "audio device selection"
+      ],
+      "answers": [
+        "how do I set up the audio interface",
+        "why is there no sound",
+        "stand-alone versus plug-in"
+      ],
+      "keywords": [
+        "setup",
+        "audio device",
+        "asio",
+        "daw",
+        "plugin",
+        "vst",
+        "install"
+      ]
+    },
+    {
+      "slug": "overview-of-guitar-rig",
+      "title": "Overview of Guitar Rig",
+      "covers": [
+        "header",
+        "main menu",
+        "view and rack size",
+        "input selector",
+        "sidebar"
+      ],
+      "answers": [
+        "what is that control in the header",
+        "where is the input meter",
+        "how do I change the window size"
+      ],
+      "keywords": [
+        "header",
+        "menu",
+        "sidebar",
+        "input",
+        "meter",
+        "view",
+        "layout",
+        "ui"
+      ]
+    },
+    {
+      "slug": "signal-path",
+      "title": "Signal Path",
+      "covers": [
+        "mono and stereo processing",
+        "sidechaining, stand-alone and plug-in"
+      ],
+      "answers": [
+        "when does the chain go stereo",
+        "how does sidechain input work",
+        "why does a component have a Stereo switch"
+      ],
+      "keywords": [
+        "mono",
+        "stereo",
+        "sidechain",
+        "signal flow",
+        "routing",
+        "CASSt"
+      ]
+    },
+    {
+      "slug": "browser",
+      "title": "Browser",
+      "covers": [
+        "presets in the browser",
+        "components in the browser",
+        "filters, sorting, search",
+        "favorites and pinning",
+        "loading, saving, importing presets",
+        "editing and managing tags",
+        "deleting presets",
+        "component presets"
+      ],
+      "answers": [
+        "why does a preset file I copied in not appear",
+        "how do I import a preset",
+        "how do preset tags work",
+        "what is a component preset"
+      ],
+      "keywords": [
+        "browser",
+        "preset",
+        "import",
+        "save",
+        "tag",
+        "search",
+        "favorite",
+        "library",
+        "index"
+      ],
+      "relevant_to_this_project": "The browser lists what Guitar Rig's database has indexed. A newly written .ngrr file does not appear until Guitar Rig indexes it — this section is where the official import path is described."
+    },
+    {
+      "slug": "overview-of-the-rack",
+      "title": "Overview of the Rack",
+      "covers": [
+        "toolbar",
+        "component controls",
+        "adding, deleting, replacing, moving and editing components"
+      ],
+      "answers": [
+        "how do I add a component to the chain",
+        "how do I reorder the rack",
+        "what does the power button on a component do"
+      ],
+      "keywords": [
+        "rack",
+        "chain",
+        "component",
+        "add",
+        "delete",
+        "move",
+        "bypass",
+        "order"
+      ],
+      "relevant_to_this_project": "The manual's account of the chain the tool writes as <non-fix-components>."
+    },
+    {
+      "slug": "rack-tools",
+      "title": "Rack Tools",
+      "covers": [
+        "Macros: configuring, assigning, editing",
+        "Tapedeck Pre and Post",
+        "Tuner",
+        "Metronome",
+        "Preset Volume",
+        "Global FX"
+      ],
+      "answers": [
+        "how do I assign a macro to a parameter",
+        "how do I rename a macro",
+        "what is Preset Volume for",
+        "what is Global FX"
+      ],
+      "keywords": [
+        "macro",
+        "macros",
+        "tapedeck",
+        "tuner",
+        "metronome",
+        "preset volume",
+        "global fx",
+        "assign"
+      ],
+      "relevant_to_this_project": "The official counterpart to macros.py. Macros are the 16 controller slots the tool writes into remotecontroldb."
+    },
+    {
+      "slug": "tools-components",
+      "title": "Tools Components",
+      "covers": [
+        "Container",
+        "Crossover",
+        "Loop Machine Pro",
+        "Split Mix",
+        "Split M/S"
+      ],
+      "answers": [
+        "how do parallel chains work",
+        "what does Crossover split on",
+        "how does Container nest components"
+      ],
+      "keywords": [
+        "container",
+        "crossover",
+        "split",
+        "loop machine",
+        "parallel",
+        "mid side"
+      ],
+      "relevant_to_this_project": "Split and Crossover explain the parallel chains found in many presets, and why phase inversion matters in mono."
+    },
+    {
+      "slug": "modifiers",
+      "title": "Modifiers",
+      "covers": [
+        "Analog Sequencer",
+        "Envelope",
+        "Input Level",
+        "LFO",
+        "Step Sequencer",
+        "assigning and editing modifiers"
+      ],
+      "answers": [
+        "how do I make a parameter move by itself",
+        "what does Input Level modify",
+        "how do I assign an LFO to a knob"
+      ],
+      "keywords": [
+        "modifier",
+        "lfo",
+        "envelope",
+        "sequencer",
+        "input level",
+        "modulation assignment"
+      ]
+    },
+    {
+      "slug": "automation-and-midi-control",
+      "title": "Automation and MIDI Control",
+      "covers": [
+        "automation IDs, deactivation and cleanup",
+        "MIDI Learn",
+        "managing MIDI mappings"
+      ],
+      "answers": [
+        "how do I map a MIDI controller to a knob",
+        "are MIDI mappings global or per preset",
+        "what are automation IDs and how are they numbered",
+        "why does a macro-assigned parameter ignore automation"
+      ],
+      "keywords": [
+        "midi",
+        "midi learn",
+        "cc",
+        "automation",
+        "controller",
+        "mapping",
+        "daw automation"
+      ],
+      "relevant_to_this_project": "The authoritative description of the two-layer model the tool works with. Confirmed here: macro and Rack Tools MIDI mappings are stored globally, while ordinary rack component mappings are stored per preset."
+    },
+    {
+      "slug": "preferences",
+      "title": "Preferences",
+      "covers": [
+        "General",
+        "Audio",
+        "MIDI",
+        "Library"
+      ],
+      "answers": [
+        "how do I change the buffer size",
+        "where do I select the MIDI input port",
+        "where does Guitar Rig look for user content",
+        "how do I rescan the library"
+      ],
+      "keywords": [
+        "preferences",
+        "buffer",
+        "latency",
+        "midi port",
+        "library",
+        "user content",
+        "rescan",
+        "path"
+      ],
+      "relevant_to_this_project": "The Library tab governs which folders Guitar Rig scans — the counterpart to paths.py, and the place to look for a rescan control."
+    },
+    {
+      "slug": "keyboard-shortcuts",
+      "title": "Keyboard Shortcuts",
+      "covers": [
+        "shortcut list"
+      ],
+      "answers": [
+        "what is the shortcut for X"
+      ],
+      "keywords": [
+        "shortcut",
+        "hotkey",
+        "keyboard"
+      ]
+    },
+    {
+      "slug": "components-reference",
+      "title": "Components Reference",
+      "covers": [
+        "Amplifiers",
+        "Cabinets",
+        "Delay/Echo",
+        "Distortion",
+        "Dynamics",
+        "EQ",
+        "Filters",
+        "Legacy",
+        "Modulation",
+        "Pitch",
+        "Reverb",
+        "Special FX"
+      ],
+      "answers": [
+        "what does this component do",
+        "what does this knob do",
+        "what hardware is this modelled on",
+        "which components exist in this category"
+      ],
+      "keywords": [
+        "component",
+        "amp",
+        "amplifier",
+        "cabinet",
+        "delay",
+        "distortion",
+        "dynamics",
+        "eq",
+        "filter",
+        "modulation",
+        "pitch",
+        "reverb",
+        "parameter",
+        "knob",
+        "control"
+      ],
+      "relevant_to_this_project": "The authoritative source for what a parameter means. components.json knows a parameter's id, name and observed range; this page says what it does. Note that Native Instruments describes hardware obliquely — 'a renowned synthesizer manufacturer', 'a legendary American amplifier' — rather than naming brands, so gearmap.json stays an interpretation.",
+      "single_page": true
+    }
+  ],
+  "lookup_hints": {
+    "parameter meaning": "components-reference",
+    "what a component emulates": "components-reference (described obliquely) plus gearmap.json (interpretation)",
+    "macro assignment": "rack-tools",
+    "midi mapping": "automation-and-midi-control",
+    "automation id": "automation-and-midi-control",
+    "preset not showing up": "browser, then preferences (Library)",
+    "audio setup or latency": "preferences (Audio), getting-started",
+    "parallel chains and phase": "tools-components, signal-path",
+    "rack editing": "overview-of-the-rack"
+  },
+  "facts_confirmed": {
+    "midi_storage": "Global: preset selection, Rack Tools parameters including Macros, and Global FX parameters. Per preset: ordinary Rack component parameters and Container parameters. This matches the two files the tool reads — Controller Assignments.shm globally, remotecontroldb inside each preset.",
+    "automation_id_ranges": {
+      "1-16": "Macro controls (fixed)",
+      "17-256": "Rack component parameters (dynamic)",
+      "257-276": "Header parameters (fixed)",
+      "277-384": "Rack Tools (fixed)",
+      "385-512": "Global FX parameters (dynamic)"
+    },
+    "automation_id_note": "This decodes the automation-number attribute in <host-automationdb>. A value of 263 or 276 is a header parameter, not a rack component — which is why rackbuild.py must keep those entries when it prunes the table.",
+    "macro_overrides_automation": "A parameter assigned to a Macro ignores automation on its own ID, to avoid conflicting changes."
+  },
+  "gr7_component_names": {
+    "_about": "Names as the Guitar Rig 7 manual lists them. Several differ from what Guitar Rig 6 presets record, which matters when matching a scanned dictionary against a catalog.",
+    "renamed_since_gr6": {
+      "Demon": "Demon Distortion",
+      "MeZone": "Mezone",
+      "EQ Graphic": "Equalizer Graphic",
+      "EQ Parametric": "Equalizer Parametric",
+      "EQ Shelving": "Equalizer Shelving",
+      "Phaser Nine": "Phaser 9",
+      "Solid Buscomp": "Solid Bus Comp",
+      "IceVerb": "Iceverb",
+      "Volume Pedal": "Volume",
+      "AutoFilter": "Auto Filter",
+      "Wahwah": "Wah Wah",
+      "PsycheDelay": "Psyche Delay",
+      "Flanger": "Flanger Chorus",
+      "Loop Machine": "Loop Machine Pro",
+      "Traktor Delay": "Traktor's Delay",
+      "Traktor Reverb": "Traktor's Reverb",
+      "Digital LoFi": "Traktor's Digital LoFi",
+      "Mulholland Drive": "Traktor's Mulholland Drive",
+      "Formant Filter": "Traktor's Formant Filter",
+      "Peak Filter": "Traktor's Peak Filter",
+      "Transpose Stretch": "Traktor's Transpose Stretch",
+      "Beatmasher": "Traktor's Beat Masher",
+      "Beat Slicer": "Traktor's Beat Slicer",
+      "Gater": "Traktor's Gater",
+      "Reverse Grain": "Traktor's Reverse Grain",
+      "Ringmod": "Traktor's Ringmod"
+    },
+    "added_in_gr7": [
+      "AC BOX XV",
+      "Bass Rage",
+      "Cabinet IR Loader",
+      "Chainsaw",
+      "Fire Seeker",
+      "IVP Stomp",
+      "Kolor",
+      "Maximizer",
+      "Noise Machine",
+      "Red Fuzz",
+      "Reverb Delight",
+      "Seattle Fuzz",
+      "Skreamer Deluxe",
+      "Super Fast 100",
+      "Tape Wobble",
+      "Vintage Vibrato"
+    ],
+    "in_gr6_not_listed_in_gr7_manual": {
+      "components": [
+        "Analog Sequencer",
+        "Container",
+        "Envelope",
+        "Global FX",
+        "Input Level",
+        "LFO",
+        "Step Sequencer"
+      ],
+      "explanation": "Not missing. The components-reference page covers signal processors only; Modifiers (Analog Sequencer, Envelope, Input Level, LFO, Step Sequencer) and Tools (Container) have their own manual sections, and Global FX is a Rack Tool. All seven still exist."
+    },
+    "_method": "Computed by comparing the Guitar Rig 7 manual's component reference against catalog.json (read from a Guitar Rig 6 install), after applying renamed_since_gr6. Absence from the GR7 list is not proof of removal — it may be a naming difference not yet mapped.",
+    "gr7_total": 131
+  }
+}

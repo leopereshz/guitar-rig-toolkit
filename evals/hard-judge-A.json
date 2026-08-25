@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "high", "reason": "Explicit Guitar Rig signal chain with a tone complaint (no definition, lost in the mix) — bass is still a rack source."},
+  {"id": 2, "trigger": true, "confidence": "medium", "reason": "Sounds like an update/support issue but the actual ask is why presets now sound thin and bodyless, which is preset/tone diagnosis."},
+  {"id": 3, "trigger": true, "confidence": "medium", "reason": "Classic harshness symptom on an electric guitar tone; the skill explicitly covers unnamed-software symptom descriptions."},
+  {"id": 4, "trigger": true, "confidence": "medium", "reason": "Question about the Sag parameter on Guitar Rig amp components, which is squarely rack/component knowledge."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Diffing two preset files is exactly the .ngrr preset-editing capability."},
+  {"id": 6, "trigger": true, "confidence": "high", "reason": "Asks for a specific artist/album tone, which the skill names as a trigger even without mentioning Guitar Rig."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "MIDI mapping an expression pedal to a wah inside the rack is listed skill scope."},
+  {"id": 8, "trigger": true, "confidence": "medium", "reason": "DAW context, but the muffled thing is his own Guitar Rig preset, which is editable — not a foreign mix."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Gain-staging/clipping diagnosis across an eight-block Guitar Rig rack."},
+  {"id": 10, "trigger": true, "confidence": "medium", "reason": "Vague but unmistakably an electric guitar tone the user wants changed — the skill's stated target case."},
+  {"id": 11, "trigger": false, "confidence": "high", "reason": "Same symptom but the processor is Neural DSP Archetype, and the skill explicitly excludes other amp simulators."},
+  {"id": 12, "trigger": false, "confidence": "low", "reason": "Guitar Rig-specific but it is a recording/export workflow question with no tone or preset element; torn because the Tapedecks are rack components."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Crash on launch after a Windows update is Guitar Rig install/stability support, explicitly out of scope."},
+  {"id": 14, "trigger": false, "confidence": "medium", "reason": "Mastering someone else's track on the master bus — no preset to edit, which the skill excludes."},
+  {"id": 15, "trigger": true, "confidence": "high", "reason": "A vocal running through a Guitar Rig rack sounding harsh is explicitly in scope."},
+  {"id": 16, "trigger": false, "confidence": "medium", "reason": "Product purchase comparison between Guitar Rig 7 and Amplitube, not a tone or rack problem."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Physical TS9 pedal hardware failure, explicitly excluded despite the component name overlap."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Fret buzz and truss rod is physical instrument setup, not signal processing."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Pure music theory question about scale choice over a progression."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "Volume automation in Reaper is DAW operation, explicitly out of scope."}
+]

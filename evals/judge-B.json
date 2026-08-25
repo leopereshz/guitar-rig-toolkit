@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "high", "reason": "Names Guitar Rig 6 explicitly and describes a muffled electric guitar tone to fix."},
+  {"id": 2, "trigger": true, "confidence": "high", "reason": "Hiss that stops when playing is a classic noise-gate/amp-sim tone problem in the skill's stated symptom vocabulary."},
+  {"id": 3, "trigger": true, "confidence": "high", "reason": "Guitar disappearing once drums and bass enter is the 'gets lost in the mix' case the skill names."},
+  {"id": 4, "trigger": true, "confidence": "high", "reason": "Explicitly an amp sim with harsh digital clipping on attack — a preset/rack fix."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Guitar Rig named directly plus a request for a specific song's tone."},
+  {"id": 6, "trigger": true, "confidence": "medium", "reason": "Harsh, fatiguing treble on electric guitar is a listed trigger phrase, though the rig is only implied."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "Directly about reading and inspecting .ngrr preset files."},
+  {"id": 8, "trigger": true, "confidence": "high", "reason": "Consolidating preset knobs into one place is exactly macro control setup."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Asks to build a preset from named amp/pedal/effect components."},
+  {"id": 10, "trigger": true, "confidence": "medium", "reason": "Flabby, smeared palm-muted low end is an electric guitar tone complaint the skill covers."},
+  {"id": 11, "trigger": false, "confidence": "high", "reason": "Acoustic guitar mic placement, not electric guitar processing."},
+  {"id": 12, "trigger": false, "confidence": "high", "reason": "Vocal bus mixing question in a DAW, guitars only mentioned as context."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Wants tablature and playing technique, not tone."},
+  {"id": 14, "trigger": false, "confidence": "high", "reason": "Audio interface gain staging on a bass DI, not Guitar Rig."},
+  {"id": 15, "trigger": false, "confidence": "high", "reason": "Hardware amp buying comparison, no software or preset work involved."},
+  {"id": 16, "trigger": false, "confidence": "high", "reason": "Generic Python audio analysis scripting task."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Physical tube amp hum diagnosis, a hardware repair question."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Audio interface routing setup in Ableton, no signal at all."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Snare reverb predelay, a drum mixing question."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "C# code review, unrelated to guitar tone."}
+]

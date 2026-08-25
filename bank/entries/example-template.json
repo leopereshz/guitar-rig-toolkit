@@ -1,0 +1,138 @@
+{
+  "id": "example-template",
+  "name": "Example Template",
+  "author": {
+    "name": "guitar-rig-toolkit",
+    "contact": "https://github.com/leopereshz/guitar-rig-toolkit"
+  },
+  "license": "MIT",
+  "archetype": "",
+  "description": "Not a tone — a worked example of the entry format, and something safe to run `apply` against while learning the tools. Every value is a deliberately round number chosen to sit at a neutral starting position, so nothing here is anyone's dialled-in sound.",
+  "reference": "No gear reference: this is a schema example. A real entry uses this field to state the gear reasoning behind the tone, in terms of documented equipment rather than anyone's patch. For instance: 'Hiwatt-style clean stack with a Big Muff in front, following what is documented about late-70s Pink Floyd live rigs.'",
+  "guitar": {
+    "pickups": "either",
+    "position": "any"
+  },
+  "chain": [
+    {
+      "component": "Skreamer",
+      "values": {
+        "Pwr": 1,
+        "CASSt": 0,
+        "Vol": 0.75,
+        "Tn": 0.5,
+        "Dr": 0.25,
+        "Bs": 0.5,
+        "Cl": 0.0,
+        "Br": 0.5
+      }
+    },
+    {
+      "component": "Lead 800",
+      "values": {
+        "Pwr": 1,
+        "CASSt": 0,
+        "V1": 0.6,
+        "V2": 0.5,
+        "B": 0.5,
+        "M": 0.5,
+        "T": 0.5,
+        "Pr": 0.5,
+        "Pw": 1,
+        "Var": 0.5,
+        "Sg": 0.25,
+        "Rsp": 0.5,
+        "Bi": 0.5,
+        "Hg": 0,
+        "G4M": 0
+      }
+    },
+    {
+      "component": "Matched Cabinet",
+      "values": {
+        "Pwr": 1,
+        "MV": 0.5,
+        "c": 0.5,
+        "a": 0.5,
+        "Cab": 0,
+        "st": 0
+      }
+    },
+    {
+      "component": "Studio Reverb",
+      "values": {
+        "Pwr": 1,
+        "Wet": 0.2,
+        "Tm": 0.25,
+        "Sz": 0.5,
+        "H": 0.5,
+        "L": 0.5,
+        "Chr": 0.5,
+        "iM": 0
+      }
+    }
+  ],
+  "macros": [
+    {
+      "slot": 1,
+      "component": "Lead 800",
+      "param": "V1",
+      "label": "Gain",
+      "range": [
+        0.1,
+        0.9
+      ]
+    },
+    {
+      "slot": 2,
+      "component": "Lead 800",
+      "param": "B",
+      "label": "Bass",
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "slot": 3,
+      "component": "Lead 800",
+      "param": "M",
+      "label": "Mid",
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "slot": 4,
+      "component": "Lead 800",
+      "param": "T",
+      "label": "Treble",
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "slot": 5,
+      "component": "Skreamer",
+      "param": "Dr",
+      "label": "Drive",
+      "range": [
+        0.0,
+        0.8
+      ]
+    },
+    {
+      "slot": 6,
+      "component": "Studio Reverb",
+      "param": "Wet",
+      "label": "Reverb",
+      "range": [
+        0.0,
+        0.5
+      ]
+    }
+  ],
+  "notes": "Every parameter is written out on purpose, including the switches. An entry that omits one leaves it at whatever value the local preset that supplied that component happened to use, so two people applying the same entry would hear different things — run 'bank.py validate' and it will tell you which are missing. Beyond that: everything sits at or near centre, so it sounds unremarkable and that is the point. It is a starting position, not a destination. Move macro 1 first; gain changes more about a tone than any EQ control. If it comes out harsh on your rig, reach for presence and mic position rather than treble — see the symptom reference."
+}

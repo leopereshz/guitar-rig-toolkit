@@ -1,0 +1,60 @@
+name: checks
+
+# Every check here runs without a Guitar Rig install and without any .ngrr file, which is
+# deliberate: presets are never committed, so CI has to prove correctness from the synthetic
+# fixture and from the data files in the repository alone.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Container reader and writer
+        # Builds a synthetic preset in memory and checks parse, byte-exact rebuild,
+        # recompression, surgical edits and rejection of corrupt input.
+        run: python tools/test_fixture.py
+
+      - name: Symptom reference and translations
+        # Every component and parameter the reference cites must exist in the dictionary,
+        # and every language catalog must carry exactly the keys the structure references.
+        run: python tools/validate_sintomas.py
+
+      - name: Documentation renders in every language
+        run: python tools/build_docs.py --check
+
+      - name: Preset bank entries
+        # Entries are checked for authorship, resolvable components and parameters, and
+        # completeness — an entry that omits a value is not reproducible across machines.
+        run: python tools/bank.py validate
+
+      - name: Wiring conventions parse
+        # topology.json ships in the repo; check it loads and the review path works without
+        # a corpus present.
+        run: python -c "import sys; sys.path.insert(0,'tools'); import topology; print(len(topology.review(['Skreamer','Lead 800'])), 'notes')"
+
+      - name: No presets committed
+        # The one rule that cannot be enforced by a linter: preset files are other people's
+        # work and never belong in the repository.
+        run: |
+          found=$(git ls-files '*.ngrr' '*.nksn' '*.kad' '*.shm' 'gr*db')
+          if [ -n "$found" ]; then
+            echo "These files must not be committed:"
+            echo "$found"
+            exit 1
+          fi
+          echo "none found"
+
+      - name: Manifests parse
+        run: |
+          python -c "import json; json.load(open('.claude-plugin/plugin.json'))"
+          python -c "import json; json.load(open('.claude-plugin/marketplace.json'))"

@@ -1,0 +1,19 @@
+{
+  "name": "guitar-rig-toolkit",
+  "owner": {
+    "name": "Leonardo Peres"
+  },
+  "metadata": {
+    "description": "Tools for reading, editing and building Native Instruments Guitar Rig presets.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "guitar-rig-toolkit",
+      "source": "./",
+      "description": "Fix and build Guitar Rig presets by describing the sound in plain language.",
+      "version": "0.1.0",
+      "category": "audio"
+    }
+  ]
+}

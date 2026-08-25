@@ -1,0 +1,1630 @@
+{
+  "version": 2,
+  "description": "@description",
+  "corpus": {
+    "presets": 349,
+    "componentes": 98,
+    "parametros": 1039
+  },
+  "diagnostic_order": [
+    "level",
+    "noise",
+    "tone",
+    "dynamics",
+    "space"
+  ],
+  "bands_hz": {
+    "sub": [
+      20,
+      60
+    ],
+    "weight": [
+      60,
+      120
+    ],
+    "body": [
+      120,
+      250
+    ],
+    "mud": [
+      250,
+      500
+    ],
+    "box": [
+      500,
+      800
+    ],
+    "definition": [
+      800,
+      1500
+    ],
+    "presence": [
+      1500,
+      3000
+    ],
+    "attack": [
+      3000,
+      5000
+    ],
+    "brightness": [
+      5000,
+      8000
+    ],
+    "air": [
+      8000,
+      20000
+    ]
+  },
+  "symptoms": [
+    {
+      "id": "clipping",
+      "family": "level",
+      "priority": 1,
+      "complaints": "@symptoms.clipping.complaints",
+      "measurement": {
+        "metric": "peak_dbfs",
+        "condition": "@symptoms.clipping.measurement.condition",
+        "confidence": "high"
+      },
+      "ear_test": "@symptoms.clipping.ear_test",
+      "causes": [
+        {
+          "cause": "@symptoms.clipping.causes.0.cause",
+          "outside_guitar_rig": true,
+          "user_action": "@symptoms.clipping.causes.0.user_action"
+        },
+        {
+          "cause": "@symptoms.clipping.causes.1.cause",
+          "actions": [
+            {
+              "component": "Preset Volume",
+              "id": "55000",
+              "param": "PV",
+              "delta": -0.08
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.clipping.causes.2.cause",
+          "actions": [
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Vol",
+              "delta": -0.08,
+              "if": "@symptoms.clipping.causes.2.actions.0.if"
+            },
+            {
+              "component": "Treble Booster",
+              "id": "40000",
+              "param": "Bs",
+              "delta": -0.1,
+              "if": "@symptoms.clipping.causes.2.actions.1.if"
+            },
+            {
+              "component": "Gain Booster",
+              "id": "65000",
+              "param": "B",
+              "delta": -0.1,
+              "if": "@symptoms.clipping.causes.2.actions.2.if"
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Vol",
+              "delta": -0.08,
+              "if": "@symptoms.clipping.causes.2.actions.3.if"
+            },
+            {
+              "component": "Cabinets & Mics",
+              "id": "11000",
+              "param": "MV",
+              "delta": -0.08,
+              "if": "@symptoms.clipping.causes.2.actions.4.if"
+            },
+            {
+              "component": "Matched Cabinet",
+              "id": "88000",
+              "param": "MV",
+              "delta": -0.08,
+              "if": "@symptoms.clipping.causes.2.actions.5.if"
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.clipping.causes.3.cause",
+          "actions": [
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Out",
+              "delta": -0.08
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.clipping.causes.4.cause",
+          "actions": [
+            {
+              "component": "Input Level",
+              "id": "58000",
+              "param": "v",
+              "delta": -0.08,
+              "note": "@symptoms.clipping.causes.4.actions.0.note"
+            },
+            {
+              "component": "Input Level",
+              "id": "58000",
+              "param": "o",
+              "delta": -0.05
+            }
+          ]
+        }
+      ],
+      "safety_net": [
+        {
+          "component": "Limiter",
+          "id": "18000",
+          "param": "Lm",
+          "value": 0.87,
+          "note": "@symptoms.clipping.safety_net.0.note"
+        }
+      ],
+      "pitfalls": "@symptoms.clipping.pitfalls"
+    },
+    {
+      "id": "low_volume",
+      "family": "level",
+      "priority": 1,
+      "complaints": "@symptoms.low_volume.complaints",
+      "measurement": {
+        "metric": "rms_dbfs",
+        "condition": "@symptoms.low_volume.measurement.condition",
+        "confidence": "high"
+      },
+      "not_to_confuse_with": "lost_in_mix",
+      "causes": [
+        {
+          "cause": "@symptoms.low_volume.causes.0.cause",
+          "actions": [
+            {
+              "component": "Preset Volume",
+              "id": "55000",
+              "param": "PV",
+              "delta": 0.08
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Vol",
+              "delta": 0.05
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.low_volume.causes.1.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "V2|Mast",
+              "delta": 0.05
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.low_volume.causes.2.cause",
+          "actions": [
+            {
+              "component": "Volume Pedal",
+              "id": "14000",
+              "param": "Vol",
+              "delta": 0.1
+            },
+            {
+              "component": "Volume Pedal",
+              "id": "14000",
+              "param": "Pd",
+              "note": "@symptoms.low_volume.causes.2.actions.1.note"
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.low_volume.pitfalls"
+    },
+    {
+      "id": "hiss",
+      "family": "noise",
+      "priority": 2,
+      "complaints": "@symptoms.hiss.complaints",
+      "measurement": {
+        "metric": "noise_floor_dbfs",
+        "condition": "@symptoms.hiss.measurement.condition",
+        "confidence": "high",
+        "ignore_if": "< -60"
+      },
+      "ear_test": "@symptoms.hiss.ear_test",
+      "causes": [
+        {
+          "cause": "@symptoms.hiss.causes.0.cause",
+          "actions": [
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Dr",
+              "delta": -0.1,
+              "compensate": {
+                "param": "Vol",
+                "delta": 0.05
+              }
+            },
+            {
+              "component": "*amp",
+              "param": "V1|Gn",
+              "delta": -0.08,
+              "compensate": {
+                "param": "V2|Mast",
+                "delta": 0.05
+              }
+            },
+            {
+              "component": "Treble Booster",
+              "id": "40000",
+              "param": "Bs",
+              "delta": -0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.hiss.causes.1.cause",
+          "order": "@symptoms.hiss.causes.1.order",
+          "actions": [
+            {
+              "component": "Noise Reduction",
+              "id": "67000",
+              "param": "T",
+              "delta": 0.05,
+              "repeat_until": "@symptoms.hiss.causes.1.actions.0.repeat_until"
+            },
+            {
+              "component": "Noise Reduction",
+              "id": "67000",
+              "param": "H",
+              "delta": 0.1,
+              "if": "@symptoms.hiss.causes.1.actions.1.if"
+            },
+            {
+              "component": "Noise Reduction",
+              "id": "67000",
+              "param": "R",
+              "delta": 0.1,
+              "if": "@symptoms.hiss.causes.1.actions.2.if"
+            },
+            {
+              "component": "Noise Gate",
+              "id": "19000",
+              "param": "T",
+              "delta": 0.05,
+              "if": "@symptoms.hiss.causes.1.actions.3.if"
+            },
+            {
+              "component": "Solid Dynamics",
+              "id": "133000",
+              "param": "G8",
+              "delta": 0.05
+            },
+            {
+              "component": "Solid Dynamics",
+              "id": "133000",
+              "param": "G7",
+              "delta": -0.15,
+              "note": "@symptoms.hiss.causes.1.actions.5.note"
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.hiss.pitfalls"
+    },
+    {
+      "id": "hum",
+      "family": "noise",
+      "priority": 2,
+      "complaints": "@symptoms.hum.complaints",
+      "measurement": {
+        "metric": "energy_60_120_180hz",
+        "condition": "@symptoms.hum.measurement.condition",
+        "confidence": "high"
+      },
+      "ear_test": "@symptoms.hum.ear_test",
+      "causes": [
+        {
+          "cause": "@symptoms.hum.causes.0.cause",
+          "outside_guitar_rig": true,
+          "user_action": "@symptoms.hum.causes.0.user_action"
+        },
+        {
+          "cause": "@symptoms.hum.causes.1.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": -0.3,
+              "target_hz": 60,
+              "q": "narrow",
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            },
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G2",
+              "delta": -0.25,
+              "target_hz": 120,
+              "q": "narrow",
+              "related_params": [
+                "F2",
+                "Q2"
+              ]
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.hum.pitfalls"
+    },
+    {
+      "id": "fizz",
+      "family": "noise",
+      "priority": 2,
+      "complaints": "@symptoms.fizz.complaints",
+      "measurement": {
+        "metric": "energy_above_6khz",
+        "condition": "@symptoms.fizz.measurement.condition",
+        "confidence": "high"
+      },
+      "distinguish_from": "@symptoms.fizz.distinguish_from",
+      "causes": [
+        {
+          "cause": "@symptoms.fizz.causes.0.cause",
+          "check": [
+            "Cabinets & Mics",
+            "Matched Cabinet",
+            "CabPanel"
+          ],
+          "actions": [
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Air",
+              "delta": -0.15
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "MPos",
+              "delta": -0.15,
+              "note": "@symptoms.fizz.causes.0.actions.1.note"
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Trb",
+              "delta": -0.1
+            },
+            {
+              "component": "Matched Cabinet",
+              "id": "88000",
+              "param": "a",
+              "delta": -0.15
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.fizz.causes.1.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G2",
+              "delta": -0.2,
+              "target_hz": 7500,
+              "q": "medium",
+              "related_params": [
+                "F2",
+                "Q2"
+              ]
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Dr",
+              "delta": -0.08
+            },
+            {
+              "component": "Solid EQ",
+              "id": "121000",
+              "param": "L13",
+              "target_hz": 7000,
+              "note": "@symptoms.fizz.causes.1.actions.2.note"
+            },
+            {
+              "component": "Pro-Filter",
+              "id": "64000",
+              "param": "F",
+              "target_hz": 7000,
+              "related_params": [
+                "s",
+                "b"
+              ],
+              "note": "@symptoms.fizz.causes.1.actions.3.note"
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.fizz.pitfalls"
+    },
+    {
+      "id": "notes_cutting",
+      "family": "noise",
+      "priority": 2,
+      "complaints": "@symptoms.notes_cutting.complaints",
+      "measurement": {
+        "metric": "envelope_decay",
+        "condition": "@symptoms.notes_cutting.measurement.condition",
+        "confidence": "medium"
+      },
+      "causes": [
+        {
+          "cause": "@symptoms.notes_cutting.causes.0.cause",
+          "actions": [
+            {
+              "component": "Noise Reduction",
+              "id": "67000",
+              "param": "T",
+              "delta": -0.08
+            },
+            {
+              "component": "Noise Reduction",
+              "id": "67000",
+              "param": "R",
+              "delta": 0.1
+            },
+            {
+              "component": "Noise Gate",
+              "id": "19000",
+              "param": "T",
+              "delta": -0.08
+            },
+            {
+              "component": "Noise Gate",
+              "id": "19000",
+              "param": "H",
+              "delta": 0.1
+            },
+            {
+              "component": "Noise Gate",
+              "id": "19000",
+              "param": "R",
+              "delta": 0.1
+            },
+            {
+              "component": "Solid Dynamics",
+              "id": "133000",
+              "param": "G8",
+              "delta": -0.08
+            },
+            {
+              "component": "Solid Dynamics",
+              "id": "133000",
+              "param": "G11",
+              "delta": 0.1
+            },
+            {
+              "component": "Solid Dynamics",
+              "id": "133000",
+              "param": "G7",
+              "delta": -0.15
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.notes_cutting.pitfalls"
+    },
+    {
+      "id": "muffled",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.muffled.complaints",
+      "measurement": {
+        "metric": "energy_2k_5k+spectral_centroid",
+        "condition": "@symptoms.muffled.measurement.condition",
+        "confidence": "high"
+      },
+      "false_causes": "@symptoms.muffled.false_causes",
+      "causes": [
+        {
+          "cause": "@symptoms.muffled.causes.0.cause",
+          "actions": [
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "MPos",
+              "delta": 0.15,
+              "note": "@symptoms.muffled.causes.0.actions.0.note"
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Dst",
+              "delta": -0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Trb",
+              "delta": 0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Air",
+              "delta": 0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.muffled.causes.1.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "Pr|Prs|p",
+              "delta": 0.1
+            },
+            {
+              "component": "*amp",
+              "param": "T|Trb|t",
+              "delta": 0.08
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Br",
+              "delta": 0.1
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Tn",
+              "delta": 0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.muffled.causes.2.cause",
+          "actions": [
+            {
+              "component": "EQ Shelving",
+              "id": "25000",
+              "param": "G2",
+              "delta": 0.15,
+              "target_hz": 3000,
+              "related_params": [
+                "F2"
+              ]
+            },
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": 0.15,
+              "target_hz": 2500,
+              "q": "wide",
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.muffled.pitfalls"
+    },
+    {
+      "id": "harsh",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.harsh.complaints",
+      "measurement": {
+        "metric": "energy_3k_6k",
+        "condition": "@symptoms.harsh.measurement.condition",
+        "confidence": "high"
+      },
+      "distinguish_from": "@symptoms.harsh.distinguish_from",
+      "causes": [
+        {
+          "cause": "@symptoms.harsh.causes.0.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "Pr|Prs|p",
+              "delta": -0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.harsh.causes.1.cause",
+          "actions": [
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "MPos",
+              "delta": -0.15
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Trb",
+              "delta": -0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Air",
+              "delta": -0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.harsh.causes.2.cause",
+          "actions": [
+            {
+              "component": "Treble Booster",
+              "id": "40000",
+              "param": "Bs",
+              "delta": -0.15
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Tn",
+              "delta": -0.1
+            },
+            {
+              "component": "*amp",
+              "param": "T|Trb|t",
+              "delta": -0.08
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.harsh.causes.3.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": -0.2,
+              "target_hz": 3500,
+              "sweep_hz": [
+                2500,
+                5000
+              ],
+              "q": "medium",
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "muddy",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.muddy.complaints",
+      "measurement": {
+        "metric": "energy_250_500",
+        "condition": "@symptoms.muddy.measurement.condition",
+        "confidence": "high"
+      },
+      "causes": [
+        {
+          "cause": "@symptoms.muddy.causes.0.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": -0.2,
+              "target_hz": 350,
+              "sweep_hz": [
+                250,
+                500
+              ],
+              "q": "medium",
+              "related_params": [
+                "F1",
+                "Q1"
+              ],
+              "note": "@symptoms.muddy.causes.0.actions.0.note"
+            },
+            {
+              "component": "*amp",
+              "param": "B|Bs|b",
+              "delta": -0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Bs",
+              "delta": -0.1
+            },
+            {
+              "component": "EQ Shelving",
+              "id": "25000",
+              "param": "G1",
+              "delta": -0.15,
+              "target_hz": 100,
+              "related_params": [
+                "F1"
+              ]
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Bs",
+              "delta": -0.1
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Dr",
+              "delta": -0.08
+            },
+            {
+              "component": "EQ Graphic",
+              "id": "32000",
+              "param": "b2",
+              "delta": -0.15,
+              "related_params": [
+                "mi",
+                "ma",
+                "r"
+              ],
+              "note": "@symptoms.muddy.causes.0.actions.6.note"
+            },
+            {
+              "component": "EQ Graphic",
+              "id": "32000",
+              "param": "b3",
+              "delta": -0.15,
+              "related_params": [
+                "mi",
+                "ma",
+                "r"
+              ]
+            },
+            {
+              "component": "Solid EQ",
+              "id": "121000",
+              "param": "H12",
+              "target_hz": 85,
+              "note": "@symptoms.muddy.causes.0.actions.8.note"
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.muddy.pitfalls"
+    },
+    {
+      "id": "boxy",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.boxy.complaints",
+      "measurement": {
+        "metric": "energy_500_900",
+        "condition": "@symptoms.boxy.measurement.condition",
+        "confidence": "high"
+      },
+      "causes": [
+        {
+          "cause": "@symptoms.boxy.causes.0.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": -0.2,
+              "target_hz": 700,
+              "sweep_hz": [
+                500,
+                900
+              ],
+              "q": "medium-narrow",
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            },
+            {
+              "component": "*amp",
+              "param": "M|Mid|m",
+              "delta": -0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Sz",
+              "delta": 0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Dst",
+              "delta": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thin",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.thin.complaints",
+      "measurement": {
+        "metric": "energy_100_250",
+        "condition": "@symptoms.thin.measurement.condition",
+        "confidence": "high"
+      },
+      "causes": [
+        {
+          "cause": "@symptoms.thin.causes.0.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "B|Bs|b",
+              "delta": 0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Bs",
+              "delta": 0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Sz",
+              "delta": 0.1
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Dst",
+              "delta": 0.08
+            },
+            {
+              "component": "EQ Shelving",
+              "id": "25000",
+              "param": "G1",
+              "delta": 0.15,
+              "target_hz": 150,
+              "related_params": [
+                "F1"
+              ]
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Bs",
+              "delta": 0.1
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Cl",
+              "delta": 0.1
+            },
+            {
+              "component": "Hot Solo+",
+              "id": "122000",
+              "param": "D8",
+              "delta": 0.1
+            },
+            {
+              "component": "Van 51",
+              "id": "134000",
+              "param": "R6",
+              "delta": 0.1
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.thin.pitfalls"
+    },
+    {
+      "id": "lost_in_mix",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.lost_in_mix.complaints",
+      "measurement": {
+        "metric": "energy_800_2k_relative",
+        "condition": "@symptoms.lost_in_mix.measurement.condition",
+        "confidence": "medium"
+      },
+      "not_to_confuse_with": "low_volume",
+      "context": "@symptoms.lost_in_mix.context",
+      "causes": [
+        {
+          "cause": "@symptoms.lost_in_mix.causes.0.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": 0.15,
+              "target_hz": 1200,
+              "sweep_hz": [
+                800,
+                2000
+              ],
+              "q": "wide",
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            },
+            {
+              "component": "*amp",
+              "param": "M|Mid|m",
+              "delta": 0.1
+            },
+            {
+              "component": "*amp",
+              "param": "Pr|Prs|p",
+              "delta": 0.08
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.lost_in_mix.causes.1.cause",
+          "actions": [
+            {
+              "component": "EQ Shelving",
+              "id": "25000",
+              "param": "G1",
+              "delta": -0.15,
+              "target_hz": 100,
+              "related_params": [
+                "F1"
+              ]
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.lost_in_mix.causes.2.cause",
+          "actions": [
+            {
+              "component": "Studio Reverb",
+              "id": "33000",
+              "param": "Wet",
+              "delta": -0.1
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.lost_in_mix.pitfalls"
+    },
+    {
+      "id": "weak_palm_mute",
+      "family": "tone",
+      "priority": 3,
+      "complaints": "@symptoms.weak_palm_mute.complaints",
+      "measurement": {
+        "metric": "attack_transient",
+        "condition": "@symptoms.weak_palm_mute.measurement.condition",
+        "confidence": "low"
+      },
+      "causes": [
+        {
+          "cause": "@symptoms.weak_palm_mute.causes.0.cause",
+          "actions": [
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": -0.15,
+              "target_hz": 90,
+              "q": "narrow",
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Dr",
+              "value": 0.2,
+              "note": "@symptoms.weak_palm_mute.causes.0.actions.1.note"
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Vol",
+              "value": 0.8
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.weak_palm_mute.causes.1.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "Rsp",
+              "delta": 0.1
+            },
+            {
+              "component": "*amp",
+              "param": "Sg",
+              "delta": -0.1
+            },
+            {
+              "component": "*amp",
+              "param": "Var",
+              "delta": 0.1
+            },
+            {
+              "component": "*amp",
+              "param": "Bi",
+              "delta": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "not_enough_gain",
+      "family": "dynamics",
+      "priority": 4,
+      "complaints": "@symptoms.not_enough_gain.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.not_enough_gain.causes.0.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "V1|Gn",
+              "delta": 0.1,
+              "compensate": {
+                "param": "V2|Mast",
+                "delta": -0.05
+              }
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Dr",
+              "delta": 0.15
+            },
+            {
+              "component": "Treble Booster",
+              "id": "40000",
+              "param": "Bs",
+              "delta": 0.15
+            },
+            {
+              "component": "Gain Booster",
+              "id": "65000",
+              "param": "B",
+              "delta": 0.15
+            },
+            {
+              "component": "Lead 800",
+              "id": "56000",
+              "param": "Hg",
+              "value": 1
+            },
+            {
+              "component": "Jump",
+              "id": "101000",
+              "param": "Hg",
+              "value": 1
+            },
+            {
+              "component": "Van 51",
+              "id": "134000",
+              "param": "H14",
+              "value": 1
+            },
+            {
+              "component": "Citrus",
+              "id": "80000",
+              "param": "Br",
+              "value": 1
+            },
+            {
+              "component": "Big Fuzz",
+              "id": "43000",
+              "param": "S",
+              "delta": 0.15,
+              "note": "@symptoms.not_enough_gain.causes.0.actions.8.note"
+            },
+            {
+              "component": "Fuzz",
+              "id": "41000",
+              "param": "F",
+              "delta": 0.15
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.not_enough_gain.pitfalls"
+    },
+    {
+      "id": "mushy",
+      "family": "dynamics",
+      "priority": 4,
+      "complaints": "@symptoms.mushy.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.mushy.causes.0.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "V1|Gn",
+              "delta": -0.1,
+              "compensate": {
+                "param": "V2|Mast",
+                "delta": 0.05
+              }
+            },
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Dr",
+              "delta": -0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.mushy.causes.1.cause",
+          "actions": [
+            {
+              "component": "Skreamer",
+              "id": "15000",
+              "param": "Bs",
+              "delta": -0.1,
+              "note": "@symptoms.mushy.causes.1.actions.0.note"
+            },
+            {
+              "component": "*amp",
+              "param": "M|Mid|m",
+              "delta": 0.08
+            },
+            {
+              "component": "*amp",
+              "param": "Bi",
+              "delta": 0.08
+            },
+            {
+              "component": "*amp",
+              "param": "Sg",
+              "delta": -0.08
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no_sustain",
+      "family": "dynamics",
+      "priority": 4,
+      "complaints": "@symptoms.no_sustain.complaints",
+      "check_first": "notes_cutting",
+      "causes": [
+        {
+          "cause": "@symptoms.no_sustain.causes.0.cause",
+          "actions": [
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Th",
+              "delta": -0.1
+            },
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Rt",
+              "delta": 0.1
+            },
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Rl",
+              "delta": 0.1
+            },
+            {
+              "component": "Stomp Compressor",
+              "id": "48000",
+              "param": "S",
+              "delta": 0.15
+            },
+            {
+              "component": "*amp",
+              "param": "Sg",
+              "delta": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "squashed",
+      "family": "dynamics",
+      "priority": 4,
+      "complaints": "@symptoms.squashed.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.squashed.causes.0.cause",
+          "actions": [
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Rt",
+              "delta": -0.1
+            },
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Th",
+              "delta": 0.1
+            },
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Dyn",
+              "delta": 0.1
+            },
+            {
+              "component": "Stomp Compressor",
+              "id": "48000",
+              "param": "S",
+              "delta": -0.15
+            },
+            {
+              "component": "Fast Comp",
+              "id": "131000",
+              "param": "I0",
+              "delta": -0.1
+            }
+          ]
+        },
+        {
+          "cause": "@symptoms.squashed.causes.1.cause",
+          "actions": [
+            {
+              "component": "*amp",
+              "param": "V1|Gn",
+              "delta": -0.1
+            },
+            {
+              "component": "*amp",
+              "param": "Sg",
+              "delta": -0.1
+            },
+            {
+              "component": "*amp",
+              "param": "Rsp",
+              "delta": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pick_click",
+      "family": "dynamics",
+      "priority": 4,
+      "complaints": "@symptoms.pick_click.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.pick_click.causes.0.cause",
+          "actions": [
+            {
+              "component": "Tube Compressor",
+              "id": "24000",
+              "param": "Att",
+              "delta": -0.1
+            },
+            {
+              "component": "EQ Parametric",
+              "id": "26000",
+              "param": "G1",
+              "delta": -0.12,
+              "target_hz": 2500,
+              "related_params": [
+                "F1",
+                "Q1"
+              ]
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "MPos",
+              "delta": -0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "washed_out",
+      "family": "space",
+      "priority": 5,
+      "complaints": "@symptoms.washed_out.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.washed_out.causes.0.cause",
+          "actions": [
+            {
+              "component": "Studio Reverb",
+              "id": "33000",
+              "param": "Wet",
+              "delta": -0.15
+            },
+            {
+              "component": "Studio Reverb",
+              "id": "33000",
+              "param": "Sz",
+              "delta": -0.1
+            },
+            {
+              "component": "Spring Reverb",
+              "id": "27000",
+              "param": "Wet",
+              "delta": -0.15
+            },
+            {
+              "component": "Quad Delay",
+              "id": "23000",
+              "param": "W",
+              "delta": -0.1
+            },
+            {
+              "component": "Delay Man",
+              "id": "82000",
+              "param": "m",
+              "delta": -0.1
+            },
+            {
+              "component": "Little Reflektor",
+              "id": "126000",
+              "param": "W1",
+              "delta": -0.15
+            }
+          ]
+        }
+      ],
+      "pitfalls": "@symptoms.washed_out.pitfalls"
+    },
+    {
+      "id": "muddy_reverb",
+      "family": "space",
+      "priority": 5,
+      "complaints": "@symptoms.muddy_reverb.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.muddy_reverb.causes.0.cause",
+          "actions": [
+            {
+              "component": "Spring Reverb",
+              "id": "27000",
+              "param": "B",
+              "delta": -0.15
+            },
+            {
+              "component": "Little Reflektor",
+              "id": "126000",
+              "param": "L4",
+              "delta": 0.15
+            },
+            {
+              "component": "Quad Delay",
+              "id": "23000",
+              "param": "LP",
+              "delta": -0.1
+            },
+            {
+              "component": "Studio Reverb",
+              "id": "33000",
+              "param": "L",
+              "delta": -0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mono_collapse",
+      "family": "space",
+      "priority": 5,
+      "complaints": "@symptoms.mono_collapse.complaints",
+      "measurement": {
+        "metric": "stereo_correlation",
+        "condition": "@symptoms.mono_collapse.measurement.condition",
+        "confidence": "high"
+      },
+      "causes": [
+        {
+          "cause": "@symptoms.mono_collapse.causes.0.cause",
+          "actions": [
+            {
+              "component": "Split Mix",
+              "id": "9000",
+              "param": "iP",
+              "toggle": [
+                0,
+                1
+              ]
+            },
+            {
+              "component": "CabPanel",
+              "id": "10000",
+              "param": "Phs",
+              "toggle": [
+                0,
+                1
+              ]
+            },
+            {
+              "component": "Control Room Pro",
+              "id": "119000",
+              "param": "pi1",
+              "toggle": [
+                0,
+                1
+              ],
+              "note": "@symptoms.mono_collapse.causes.0.actions.2.note"
+            },
+            {
+              "component": "CrossOver Mix",
+              "id": "52000",
+              "param": "iP",
+              "toggle": [
+                0,
+                1
+              ],
+              "note": "@symptoms.mono_collapse.causes.0.actions.3.note"
+            },
+            {
+              "component": "Matched Cabinet",
+              "id": "88000",
+              "param": "st",
+              "delta": -0.15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "too_wide",
+      "family": "space",
+      "priority": 5,
+      "complaints": "@symptoms.too_wide.complaints",
+      "causes": [
+        {
+          "cause": "@symptoms.too_wide.causes.0.cause",
+          "actions": [
+            {
+              "component": "Split Mix",
+              "id": "9000",
+              "param": "XFade",
+              "note": "@symptoms.too_wide.causes.0.actions.0.note"
+            },
+            {
+              "component": "Matched Cabinet",
+              "id": "88000",
+              "param": "st",
+              "delta": -0.15
+            },
+            {
+              "component": "Flanger",
+              "id": "28000",
+              "param": "St",
+              "delta": -0.15
+            },
+            {
+              "component": "Ensemble",
+              "id": "29000",
+              "param": "S",
+              "delta": -0.15
+            },
+            {
+              "component": "Stereo Tune",
+              "id": "132000",
+              "param": "S3",
+              "delta": -0.15,
+              "note": "@symptoms.too_wide.causes.0.actions.4.note"
+            },
+            {
+              "component": "Stereo Tune",
+              "id": "132000",
+              "param": "D1",
+              "delta": -0.1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outside_guitar_rig": [
+    {
+      "symptom": "@outside_guitar_rig.0.symptom",
+      "cause": "@outside_guitar_rig.0.cause",
+      "where": "@outside_guitar_rig.0.where"
+    },
+    {
+      "symptom": "@outside_guitar_rig.1.symptom",
+      "cause": "@outside_guitar_rig.1.cause",
+      "where": "@outside_guitar_rig.1.where"
+    },
+    {
+      "symptom": "@outside_guitar_rig.2.symptom",
+      "cause": "@outside_guitar_rig.2.cause",
+      "where": "@outside_guitar_rig.2.where"
+    },
+    {
+      "symptom": "@outside_guitar_rig.3.symptom",
+      "cause": "@outside_guitar_rig.3.cause",
+      "where": "@outside_guitar_rig.3.where"
+    },
+    {
+      "symptom": "@outside_guitar_rig.4.symptom",
+      "cause": "@outside_guitar_rig.4.cause",
+      "where": "@outside_guitar_rig.4.where"
+    },
+    {
+      "symptom": "@outside_guitar_rig.5.symptom",
+      "cause": "@outside_guitar_rig.5.cause",
+      "where": "@outside_guitar_rig.5.where"
+    }
+  ],
+  "common_amp_params": {
+    "V1|Gn": "@common_amp_params.V1|Gn",
+    "V2|Mast": "@common_amp_params.V2|Mast",
+    "B|Bs|b": "@common_amp_params.B|Bs|b",
+    "M|Mid|m": "@common_amp_params.M|Mid|m",
+    "T|Trb|t": "@common_amp_params.T|Trb|t",
+    "Pr|Prs|p": "@common_amp_params.Pr|Prs|p",
+    "Sg": "@common_amp_params.Sg",
+    "Rsp": "@common_amp_params.Rsp",
+    "Bi": "@common_amp_params.Bi",
+    "Var": "@common_amp_params.Var",
+    "Hg": "@common_amp_params.Hg"
+  },
+  "amp_exceptions": {
+    "Plex": "@amp_exceptions.Plex",
+    "Cool Plex": "@amp_exceptions.Cool Plex",
+    "Van 51": "@amp_exceptions.Van 51",
+    "AC Box": "@amp_exceptions.AC Box",
+    "High White": "@amp_exceptions.High White",
+    "Tweedman": "@amp_exceptions.Tweedman",
+    "Gratifier": "@amp_exceptions.Gratifier",
+    "Rammfire": "@amp_exceptions.Rammfire",
+    "Ultrasonic": "@amp_exceptions.Ultrasonic",
+    "Hot Solo+": "@amp_exceptions.Hot Solo+",
+    "Citrus": "@amp_exceptions.Citrus",
+    "Hot Plex": "@amp_exceptions.Hot Plex",
+    "Tweed Delight": "@amp_exceptions.Tweed Delight",
+    "Sledgehammer": "@amp_exceptions.Sledgehammer",
+    "MeZone": "@amp_exceptions.MeZone",
+    "Jazz Amp": "@amp_exceptions.Jazz Amp",
+    "Bass Pro": "@amp_exceptions.Bass Pro",
+    "TransAmp": "@amp_exceptions.TransAmp"
+  }
+}

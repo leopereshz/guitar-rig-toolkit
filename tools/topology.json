@@ -1,0 +1,1926 @@
+{
+  "_about": "Wiring conventions learned from a preset corpus: what follows what, where each category sits in the signal path, how long chains run. Structure only — no parameter values, and nothing that identifies a source preset.",
+  "corpus": {
+    "presets_read": 351,
+    "unique_chains": 270,
+    "min_n": 5
+  },
+  "chain_length": {
+    "median": 7.0,
+    "mean": 8.5,
+    "min": 2,
+    "max": 29
+  },
+  "component_position": {
+    "AC Box": {
+      "n": 18,
+      "median_position": 0.263,
+      "spread": 0.213
+    },
+    "Big Fuzz": {
+      "n": 9,
+      "median_position": 0.0,
+      "spread": 0.127
+    },
+    "CabPanel": {
+      "n": 206,
+      "median_position": 0.556,
+      "spread": 0.165
+    },
+    "Cabinets & Mics": {
+      "n": 117,
+      "median_position": 0.429,
+      "spread": 0.17
+    },
+    "Cat": {
+      "n": 25,
+      "median_position": 0.125,
+      "spread": 0.185
+    },
+    "Citrus": {
+      "n": 11,
+      "median_position": 0.143,
+      "spread": 0.09
+    },
+    "Control Room": {
+      "n": 21,
+      "median_position": 0.556,
+      "spread": 0.171
+    },
+    "Control Room Pro": {
+      "n": 53,
+      "median_position": 0.5,
+      "spread": 0.128
+    },
+    "Cry Wah": {
+      "n": 11,
+      "median_position": 0.143,
+      "spread": 0.118
+    },
+    "Custom EQ": {
+      "n": 24,
+      "median_position": 0.16,
+      "spread": 0.178
+    },
+    "Delay Man": {
+      "n": 31,
+      "median_position": 0.667,
+      "spread": 0.191
+    },
+    "Demon": {
+      "n": 14,
+      "median_position": 0.174,
+      "spread": 0.204
+    },
+    "Distortion": {
+      "n": 25,
+      "median_position": 0.167,
+      "spread": 0.145
+    },
+    "EQ Graphic": {
+      "n": 49,
+      "median_position": 0.667,
+      "spread": 0.29
+    },
+    "EQ Parametric": {
+      "n": 105,
+      "median_position": 0.667,
+      "spread": 0.242
+    },
+    "EQ Shelving": {
+      "n": 70,
+      "median_position": 0.218,
+      "spread": 0.326
+    },
+    "Ensemble": {
+      "n": 14,
+      "median_position": 0.652,
+      "spread": 0.28
+    },
+    "Fast Comp": {
+      "n": 7,
+      "median_position": 0.091,
+      "spread": 0.3
+    },
+    "Flanger": {
+      "n": 44,
+      "median_position": 0.481,
+      "spread": 0.259
+    },
+    "Fuzz": {
+      "n": 5,
+      "median_position": 0.0,
+      "spread": 0.104
+    },
+    "Gain Booster": {
+      "n": 7,
+      "median_position": 0.083,
+      "spread": 0.273
+    },
+    "Gratifier": {
+      "n": 43,
+      "median_position": 0.25,
+      "spread": 0.174
+    },
+    "Hot Plex": {
+      "n": 5,
+      "median_position": 0.2,
+      "spread": 0.124
+    },
+    "Hot Solo+": {
+      "n": 14,
+      "median_position": 0.25,
+      "spread": 0.169
+    },
+    "Jump": {
+      "n": 17,
+      "median_position": 0.4,
+      "spread": 0.198
+    },
+    "Lead 800": {
+      "n": 43,
+      "median_position": 0.308,
+      "spread": 0.192
+    },
+    "Little Reflektor": {
+      "n": 8,
+      "median_position": 0.845,
+      "spread": 0.084
+    },
+    "Loop Machine": {
+      "n": 223,
+      "median_position": 1.0,
+      "spread": 0.0
+    },
+    "Matched Cabinet": {
+      "n": 102,
+      "median_position": 0.5,
+      "spread": 0.211
+    },
+    "Noise Gate": {
+      "n": 30,
+      "median_position": 0.177,
+      "spread": 0.328
+    },
+    "Noise Reduction": {
+      "n": 65,
+      "median_position": 0.0,
+      "spread": 0.162
+    },
+    "Pitch Pedal": {
+      "n": 16,
+      "median_position": 0.225,
+      "spread": 0.341
+    },
+    "Plex": {
+      "n": 40,
+      "median_position": 0.286,
+      "spread": 0.181
+    },
+    "PsycheDelay": {
+      "n": 27,
+      "median_position": 0.765,
+      "spread": 0.19
+    },
+    "Quad Delay": {
+      "n": 74,
+      "median_position": 0.75,
+      "spread": 0.232
+    },
+    "Rotator": {
+      "n": 7,
+      "median_position": 0.667,
+      "spread": 0.073
+    },
+    "Skreamer": {
+      "n": 74,
+      "median_position": 0.143,
+      "spread": 0.13
+    },
+    "Split": {
+      "n": 50,
+      "median_position": 0.118,
+      "spread": 0.171
+    },
+    "Split B": {
+      "n": 50,
+      "median_position": 0.444,
+      "spread": 0.116
+    },
+    "Split Mix": {
+      "n": 50,
+      "median_position": 0.8,
+      "spread": 0.118
+    },
+    "Spring Reverb": {
+      "n": 48,
+      "median_position": 0.8,
+      "spread": 0.211
+    },
+    "Stomp Compressor": {
+      "n": 19,
+      "median_position": 0.0,
+      "spread": 0.103
+    },
+    "Stoned Phaser": {
+      "n": 15,
+      "median_position": 0.25,
+      "spread": 0.184
+    },
+    "Studio Reverb": {
+      "n": 140,
+      "median_position": 0.857,
+      "spread": 0.161
+    },
+    "Talk Wah": {
+      "n": 7,
+      "median_position": 0.643,
+      "spread": 0.225
+    },
+    "Tape Echo": {
+      "n": 9,
+      "median_position": 0.8,
+      "spread": 0.289
+    },
+    "Treble Booster": {
+      "n": 38,
+      "median_position": 0.143,
+      "spread": 0.147
+    },
+    "Tremolo": {
+      "n": 6,
+      "median_position": 0.404,
+      "spread": 0.177
+    },
+    "Tube Compressor": {
+      "n": 45,
+      "median_position": 0.286,
+      "spread": 0.341
+    },
+    "Twang Reverb": {
+      "n": 29,
+      "median_position": 0.333,
+      "spread": 0.143
+    },
+    "Tweedman": {
+      "n": 10,
+      "median_position": 0.205,
+      "spread": 0.169
+    },
+    "Twin Delay": {
+      "n": 7,
+      "median_position": 0.8,
+      "spread": 0.051
+    },
+    "Ultrasonic": {
+      "n": 16,
+      "median_position": 0.062,
+      "spread": 0.174
+    },
+    "Van 51": {
+      "n": 13,
+      "median_position": 0.333,
+      "spread": 0.206
+    },
+    "Vintage Verb": {
+      "n": 8,
+      "median_position": 0.844,
+      "spread": 0.139
+    },
+    "Volume Pedal": {
+      "n": 29,
+      "median_position": 0.25,
+      "spread": 0.326
+    },
+    "Wahwah": {
+      "n": 8,
+      "median_position": 0.056,
+      "spread": 0.097
+    }
+  },
+  "category_position": {
+    "Amplifiers": {
+      "n": 275,
+      "median_position": 0.25,
+      "spread": 0.184
+    },
+    "Cabinets": {
+      "n": 176,
+      "median_position": 0.5,
+      "spread": 0.185
+    },
+    "Delay & Echo": {
+      "n": 148,
+      "median_position": 0.75,
+      "spread": 0.217
+    },
+    "Distortion": {
+      "n": 206,
+      "median_position": 0.154,
+      "spread": 0.16
+    },
+    "Dynamics": {
+      "n": 200,
+      "median_position": 0.08,
+      "spread": 0.317
+    },
+    "EQ": {
+      "n": 250,
+      "median_position": 0.556,
+      "spread": 0.309
+    },
+    "Filters": {
+      "n": 29,
+      "median_position": 0.143,
+      "spread": 0.243
+    },
+    "Legacy": {
+      "n": 117,
+      "median_position": 0.429,
+      "spread": 0.17
+    },
+    "Modulation": {
+      "n": 94,
+      "median_position": 0.5,
+      "spread": 0.262
+    },
+    "Pitch": {
+      "n": 20,
+      "median_position": 0.134,
+      "spread": 0.333
+    },
+    "Reverb": {
+      "n": 206,
+      "median_position": 0.833,
+      "spread": 0.173
+    }
+  },
+  "adjacency": [
+    {
+      "from": "Cabinets & Mics",
+      "to": "CabPanel",
+      "n": 117
+    },
+    {
+      "from": "Studio Reverb",
+      "to": "Loop Machine",
+      "n": 90
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Loop Machine",
+      "n": 21
+    },
+    {
+      "from": "Plex",
+      "to": "Cabinets & Mics",
+      "n": 20
+    },
+    {
+      "from": "CabPanel",
+      "to": "EQ Parametric",
+      "n": 20
+    },
+    {
+      "from": "Quad Delay",
+      "to": "Studio Reverb",
+      "n": 18
+    },
+    {
+      "from": "Noise Reduction",
+      "to": "Skreamer",
+      "n": 18
+    },
+    {
+      "from": "Lead 800",
+      "to": "Matched Cabinet",
+      "n": 17
+    },
+    {
+      "from": "Gratifier",
+      "to": "Cabinets & Mics",
+      "n": 17
+    },
+    {
+      "from": "EQ Shelving",
+      "to": "EQ Parametric",
+      "n": 17
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "Studio Reverb",
+      "n": 16
+    },
+    {
+      "from": "CabPanel",
+      "to": "Studio Reverb",
+      "n": 16
+    },
+    {
+      "from": "Split Mix",
+      "to": "Studio Reverb",
+      "n": 15
+    },
+    {
+      "from": "Spring Reverb",
+      "to": "Loop Machine",
+      "n": 15
+    },
+    {
+      "from": "Delay Man",
+      "to": "Studio Reverb",
+      "n": 15
+    },
+    {
+      "from": "Quad Delay",
+      "to": "Loop Machine",
+      "n": 14
+    },
+    {
+      "from": "Control Room Pro",
+      "to": "Delay Man",
+      "n": 13
+    },
+    {
+      "from": "CabPanel",
+      "to": "Split B",
+      "n": 13
+    },
+    {
+      "from": "CabPanel",
+      "to": "Loop Machine",
+      "n": 12
+    },
+    {
+      "from": "Control Room Pro",
+      "to": "Studio Reverb",
+      "n": 12
+    },
+    {
+      "from": "Split B",
+      "to": "Quad Delay",
+      "n": 12
+    },
+    {
+      "from": "Plex",
+      "to": "Matched Cabinet",
+      "n": 12
+    },
+    {
+      "from": "EQ Graphic",
+      "to": "EQ Parametric",
+      "n": 12
+    },
+    {
+      "from": "Twang Reverb",
+      "to": "Cabinets & Mics",
+      "n": 12
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Cabinets & Mics",
+      "n": 12
+    },
+    {
+      "from": "EQ Shelving",
+      "to": "Volume Pedal",
+      "n": 11
+    },
+    {
+      "from": "Quad Delay",
+      "to": "Split Mix",
+      "n": 11
+    },
+    {
+      "from": "CabPanel",
+      "to": "Split Mix",
+      "n": 11
+    },
+    {
+      "from": "EQ Graphic",
+      "to": "Studio Reverb",
+      "n": 11
+    },
+    {
+      "from": "Twang Reverb",
+      "to": "Matched Cabinet",
+      "n": 11
+    },
+    {
+      "from": "Skreamer",
+      "to": "Gratifier",
+      "n": 10
+    },
+    {
+      "from": "Lead 800",
+      "to": "Cabinets & Mics",
+      "n": 9
+    },
+    {
+      "from": "Ultrasonic",
+      "to": "Matched Cabinet",
+      "n": 9
+    },
+    {
+      "from": "Jump",
+      "to": "Control Room Pro",
+      "n": 9
+    },
+    {
+      "from": "Van 51",
+      "to": "Control Room Pro",
+      "n": 9
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Spring Reverb",
+      "n": 8
+    },
+    {
+      "from": "Lead 800",
+      "to": "Control Room Pro",
+      "n": 8
+    },
+    {
+      "from": "Split Mix",
+      "to": "Loop Machine",
+      "n": 8
+    },
+    {
+      "from": "Citrus",
+      "to": "Matched Cabinet",
+      "n": 8
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Split B",
+      "n": 7
+    },
+    {
+      "from": "Gratifier",
+      "to": "Control Room Pro",
+      "n": 7
+    },
+    {
+      "from": "CabPanel",
+      "to": "Quad Delay",
+      "n": 7
+    },
+    {
+      "from": "Flanger",
+      "to": "Spring Reverb",
+      "n": 7
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "EQ Shelving",
+      "n": 7
+    },
+    {
+      "from": "PsycheDelay",
+      "to": "Studio Reverb",
+      "n": 7
+    },
+    {
+      "from": "Cat",
+      "to": "Twang Reverb",
+      "n": 7
+    },
+    {
+      "from": "Hot Solo+",
+      "to": "Control Room Pro",
+      "n": 7
+    },
+    {
+      "from": "AC Box",
+      "to": "Cabinets & Mics",
+      "n": 7
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "Loop Machine",
+      "n": 7
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Studio Reverb",
+      "n": 7
+    },
+    {
+      "from": "Flanger",
+      "to": "Twang Reverb",
+      "n": 7
+    },
+    {
+      "from": "Noise Reduction",
+      "to": "Treble Booster",
+      "n": 7
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "EQ Graphic",
+      "n": 7
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "Tube Compressor",
+      "n": 7
+    },
+    {
+      "from": "Gratifier",
+      "to": "Noise Gate",
+      "n": 7
+    },
+    {
+      "from": "Volume Pedal",
+      "to": "Plex",
+      "n": 6
+    },
+    {
+      "from": "Noise Reduction",
+      "to": "Cat",
+      "n": 6
+    },
+    {
+      "from": "Skreamer",
+      "to": "Treble Booster",
+      "n": 6
+    },
+    {
+      "from": "Little Reflektor",
+      "to": "Loop Machine",
+      "n": 6
+    },
+    {
+      "from": "Control Room",
+      "to": "Spring Reverb",
+      "n": 6
+    },
+    {
+      "from": "Split Mix",
+      "to": "EQ Parametric",
+      "n": 6
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Delay Man",
+      "n": 6
+    },
+    {
+      "from": "Skreamer",
+      "to": "Van 51",
+      "n": 6
+    },
+    {
+      "from": "Tweedman",
+      "to": "Cabinets & Mics",
+      "n": 6
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "Quad Delay",
+      "n": 6
+    },
+    {
+      "from": "Noise Gate",
+      "to": "Loop Machine",
+      "n": 6
+    },
+    {
+      "from": "PsycheDelay",
+      "to": "Loop Machine",
+      "n": 6
+    },
+    {
+      "from": "EQ Shelving",
+      "to": "Loop Machine",
+      "n": 6
+    },
+    {
+      "from": "Quad Delay",
+      "to": "Split B",
+      "n": 6
+    },
+    {
+      "from": "Treble Booster",
+      "to": "Citrus",
+      "n": 6
+    },
+    {
+      "from": "CabPanel",
+      "to": "Talk Wah",
+      "n": 6
+    },
+    {
+      "from": "Talk Wah",
+      "to": "EQ Shelving",
+      "n": 6
+    },
+    {
+      "from": "Skreamer",
+      "to": "Distortion",
+      "n": 6
+    },
+    {
+      "from": "Studio Reverb",
+      "to": "Noise Gate",
+      "n": 6
+    },
+    {
+      "from": "Studio Reverb",
+      "to": "EQ Graphic",
+      "n": 6
+    },
+    {
+      "from": "Tube Compressor",
+      "to": "Quad Delay",
+      "n": 6
+    },
+    {
+      "from": "Skreamer",
+      "to": "Jump",
+      "n": 5
+    },
+    {
+      "from": "CabPanel",
+      "to": "Spring Reverb",
+      "n": 5
+    },
+    {
+      "from": "Volume Pedal",
+      "to": "Loop Machine",
+      "n": 5
+    },
+    {
+      "from": "Skreamer",
+      "to": "Plex",
+      "n": 5
+    },
+    {
+      "from": "CabPanel",
+      "to": "EQ Shelving",
+      "n": 5
+    },
+    {
+      "from": "CabPanel",
+      "to": "Volume Pedal",
+      "n": 5
+    },
+    {
+      "from": "Treble Booster",
+      "to": "Plex",
+      "n": 5
+    },
+    {
+      "from": "Matched Cabinet",
+      "to": "Split Mix",
+      "n": 5
+    },
+    {
+      "from": "Flanger",
+      "to": "Studio Reverb",
+      "n": 5
+    },
+    {
+      "from": "Tube Compressor",
+      "to": "Loop Machine",
+      "n": 5
+    },
+    {
+      "from": "Skreamer",
+      "to": "Lead 800",
+      "n": 5
+    },
+    {
+      "from": "EQ Shelving",
+      "to": "Skreamer",
+      "n": 5
+    },
+    {
+      "from": "Control Room Pro",
+      "to": "Ensemble",
+      "n": 5
+    },
+    {
+      "from": "Quad Delay",
+      "to": "Cabinets & Mics",
+      "n": 5
+    },
+    {
+      "from": "Split",
+      "to": "Flanger",
+      "n": 5
+    },
+    {
+      "from": "Split Mix",
+      "to": "Quad Delay",
+      "n": 5
+    },
+    {
+      "from": "AC Box",
+      "to": "Matched Cabinet",
+      "n": 5
+    },
+    {
+      "from": "Tape Echo",
+      "to": "Loop Machine",
+      "n": 5
+    },
+    {
+      "from": "Split",
+      "to": "Quad Delay",
+      "n": 5
+    },
+    {
+      "from": "EQ Parametric",
+      "to": "Matched Cabinet",
+      "n": 5
+    },
+    {
+      "from": "Tube Compressor",
+      "to": "Split",
+      "n": 5
+    },
+    {
+      "from": "Noise Gate",
+      "to": "Tube Compressor",
+      "n": 5
+    }
+  ],
+  "category_adjacency": [
+    {
+      "from": "Amplifiers",
+      "to": "Cabinets",
+      "n": 140
+    },
+    {
+      "from": "Distortion",
+      "to": "Amplifiers",
+      "n": 119
+    },
+    {
+      "from": "Amplifiers",
+      "to": "Legacy",
+      "n": 74
+    },
+    {
+      "from": "Dynamics",
+      "to": "Distortion",
+      "n": 60
+    },
+    {
+      "from": "Delay & Echo",
+      "to": "Reverb",
+      "n": 51
+    },
+    {
+      "from": "Cabinets",
+      "to": "Reverb",
+      "n": 42
+    },
+    {
+      "from": "EQ",
+      "to": "Reverb",
+      "n": 34
+    },
+    {
+      "from": "EQ",
+      "to": "Dynamics",
+      "n": 31
+    },
+    {
+      "from": "Cabinets",
+      "to": "Delay & Echo",
+      "n": 31
+    },
+    {
+      "from": "Dynamics",
+      "to": "Amplifiers",
+      "n": 27
+    },
+    {
+      "from": "Modulation",
+      "to": "Amplifiers",
+      "n": 23
+    },
+    {
+      "from": "Dynamics",
+      "to": "EQ",
+      "n": 20
+    },
+    {
+      "from": "Modulation",
+      "to": "Reverb",
+      "n": 19
+    },
+    {
+      "from": "EQ",
+      "to": "Amplifiers",
+      "n": 18
+    },
+    {
+      "from": "EQ",
+      "to": "Distortion",
+      "n": 17
+    },
+    {
+      "from": "Cabinets",
+      "to": "EQ",
+      "n": 16
+    },
+    {
+      "from": "Cabinets",
+      "to": "Modulation",
+      "n": 16
+    },
+    {
+      "from": "Distortion",
+      "to": "EQ",
+      "n": 16
+    },
+    {
+      "from": "Reverb",
+      "to": "Delay & Echo",
+      "n": 15
+    },
+    {
+      "from": "Reverb",
+      "to": "Dynamics",
+      "n": 15
+    },
+    {
+      "from": "Modulation",
+      "to": "Delay & Echo",
+      "n": 15
+    },
+    {
+      "from": "Reverb",
+      "to": "EQ",
+      "n": 15
+    },
+    {
+      "from": "EQ",
+      "to": "Delay & Echo",
+      "n": 14
+    },
+    {
+      "from": "Amplifiers",
+      "to": "EQ",
+      "n": 13
+    },
+    {
+      "from": "Distortion",
+      "to": "Dynamics",
+      "n": 12
+    },
+    {
+      "from": "Amplifiers",
+      "to": "Dynamics",
+      "n": 12
+    },
+    {
+      "from": "Cabinets",
+      "to": "Legacy",
+      "n": 12
+    },
+    {
+      "from": "Filters",
+      "to": "Distortion",
+      "n": 11
+    },
+    {
+      "from": "Delay & Echo",
+      "to": "Amplifiers",
+      "n": 10
+    },
+    {
+      "from": "Filters",
+      "to": "EQ",
+      "n": 9
+    },
+    {
+      "from": "Distortion",
+      "to": "Modulation",
+      "n": 9
+    },
+    {
+      "from": "Dynamics",
+      "to": "Legacy",
+      "n": 9
+    },
+    {
+      "from": "EQ",
+      "to": "Cabinets",
+      "n": 9
+    },
+    {
+      "from": "Dynamics",
+      "to": "Delay & Echo",
+      "n": 9
+    },
+    {
+      "from": "EQ",
+      "to": "Modulation",
+      "n": 8
+    },
+    {
+      "from": "Amplifiers",
+      "to": "Delay & Echo",
+      "n": 7
+    },
+    {
+      "from": "Distortion",
+      "to": "Delay & Echo",
+      "n": 7
+    },
+    {
+      "from": "Dynamics",
+      "to": "Modulation",
+      "n": 7
+    },
+    {
+      "from": "Delay & Echo",
+      "to": "Legacy",
+      "n": 7
+    },
+    {
+      "from": "Amplifiers",
+      "to": "Modulation",
+      "n": 6
+    },
+    {
+      "from": "Dynamics",
+      "to": "Reverb",
+      "n": 6
+    },
+    {
+      "from": "Pitch",
+      "to": "EQ",
+      "n": 5
+    },
+    {
+      "from": "EQ",
+      "to": "Legacy",
+      "n": 5
+    },
+    {
+      "from": "Filters",
+      "to": "Amplifiers",
+      "n": 5
+    }
+  ],
+  "co_occurrence": [
+    {
+      "pair": [
+        "Loop Machine",
+        "Studio Reverb"
+      ],
+      "n": 119
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Cabinets & Mics"
+      ],
+      "n": 104
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Loop Machine"
+      ],
+      "n": 99
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Loop Machine"
+      ],
+      "n": 99
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Loop Machine"
+      ],
+      "n": 73
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Matched Cabinet"
+      ],
+      "n": 66
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Studio Reverb"
+      ],
+      "n": 65
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Studio Reverb"
+      ],
+      "n": 65
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Skreamer"
+      ],
+      "n": 62
+    },
+    {
+      "pair": [
+        "EQ Shelving",
+        "Loop Machine"
+      ],
+      "n": 59
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Quad Delay"
+      ],
+      "n": 57
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Noise Reduction"
+      ],
+      "n": 56
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Studio Reverb"
+      ],
+      "n": 55
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "EQ Parametric"
+      ],
+      "n": 53
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "EQ Parametric"
+      ],
+      "n": 53
+    },
+    {
+      "pair": [
+        "Split",
+        "Split B"
+      ],
+      "n": 50
+    },
+    {
+      "pair": [
+        "Split",
+        "Split Mix"
+      ],
+      "n": 50
+    },
+    {
+      "pair": [
+        "Split B",
+        "Split Mix"
+      ],
+      "n": 50
+    },
+    {
+      "pair": [
+        "Quad Delay",
+        "Studio Reverb"
+      ],
+      "n": 50
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "EQ Shelving"
+      ],
+      "n": 47
+    },
+    {
+      "pair": [
+        "EQ Shelving",
+        "Studio Reverb"
+      ],
+      "n": 47
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Split"
+      ],
+      "n": 45
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Split B"
+      ],
+      "n": 45
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Split Mix"
+      ],
+      "n": 45
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "EQ Shelving"
+      ],
+      "n": 44
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "EQ Shelving"
+      ],
+      "n": 44
+    },
+    {
+      "pair": [
+        "Control Room Pro",
+        "Loop Machine"
+      ],
+      "n": 44
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Quad Delay"
+      ],
+      "n": 43
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Quad Delay"
+      ],
+      "n": 43
+    },
+    {
+      "pair": [
+        "Noise Reduction",
+        "Studio Reverb"
+      ],
+      "n": 39
+    },
+    {
+      "pair": [
+        "EQ Graphic",
+        "Loop Machine"
+      ],
+      "n": 38
+    },
+    {
+      "pair": [
+        "Skreamer",
+        "Studio Reverb"
+      ],
+      "n": 37
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Plex"
+      ],
+      "n": 36
+    },
+    {
+      "pair": [
+        "Gratifier",
+        "Loop Machine"
+      ],
+      "n": 36
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Treble Booster"
+      ],
+      "n": 35
+    },
+    {
+      "pair": [
+        "EQ Graphic",
+        "Studio Reverb"
+      ],
+      "n": 35
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Tube Compressor"
+      ],
+      "n": 33
+    },
+    {
+      "pair": [
+        "Lead 800",
+        "Loop Machine"
+      ],
+      "n": 32
+    },
+    {
+      "pair": [
+        "Matched Cabinet",
+        "Studio Reverb"
+      ],
+      "n": 32
+    },
+    {
+      "pair": [
+        "Split",
+        "Studio Reverb"
+      ],
+      "n": 32
+    },
+    {
+      "pair": [
+        "Split B",
+        "Studio Reverb"
+      ],
+      "n": 32
+    },
+    {
+      "pair": [
+        "Split Mix",
+        "Studio Reverb"
+      ],
+      "n": 32
+    },
+    {
+      "pair": [
+        "Control Room Pro",
+        "Skreamer"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "Noise Reduction",
+        "Skreamer"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Gratifier"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Split"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Split B"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Split Mix"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Gratifier"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Split"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Split B"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Split Mix"
+      ],
+      "n": 29
+    },
+    {
+      "pair": [
+        "Control Room Pro",
+        "Studio Reverb"
+      ],
+      "n": 28
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Spring Reverb"
+      ],
+      "n": 28
+    },
+    {
+      "pair": [
+        "Flanger",
+        "Loop Machine"
+      ],
+      "n": 28
+    },
+    {
+      "pair": [
+        "Gratifier",
+        "Studio Reverb"
+      ],
+      "n": 26
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Noise Reduction"
+      ],
+      "n": 26
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "EQ Graphic"
+      ],
+      "n": 26
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "EQ Graphic"
+      ],
+      "n": 26
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Volume Pedal"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "Quad Delay",
+        "Split"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "Quad Delay",
+        "Split B"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "Quad Delay",
+        "Split Mix"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Skreamer"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Skreamer"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Twang Reverb"
+      ],
+      "n": 25
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Plex"
+      ],
+      "n": 24
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Plex"
+      ],
+      "n": 24
+    },
+    {
+      "pair": [
+        "EQ Graphic",
+        "EQ Shelving"
+      ],
+      "n": 24
+    },
+    {
+      "pair": [
+        "EQ Shelving",
+        "Noise Reduction"
+      ],
+      "n": 24
+    },
+    {
+      "pair": [
+        "Delay Man",
+        "Loop Machine"
+      ],
+      "n": 24
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "Noise Gate"
+      ],
+      "n": 24
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Volume Pedal"
+      ],
+      "n": 23
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Volume Pedal"
+      ],
+      "n": 23
+    },
+    {
+      "pair": [
+        "Control Room Pro",
+        "Noise Reduction"
+      ],
+      "n": 23
+    },
+    {
+      "pair": [
+        "Studio Reverb",
+        "Tube Compressor"
+      ],
+      "n": 23
+    },
+    {
+      "pair": [
+        "Studio Reverb",
+        "Volume Pedal"
+      ],
+      "n": 22
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Noise Reduction"
+      ],
+      "n": 22
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Noise Reduction"
+      ],
+      "n": 22
+    },
+    {
+      "pair": [
+        "Loop Machine",
+        "PsycheDelay"
+      ],
+      "n": 22
+    },
+    {
+      "pair": [
+        "Flanger",
+        "Studio Reverb"
+      ],
+      "n": 22
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Matched Cabinet"
+      ],
+      "n": 22
+    },
+    {
+      "pair": [
+        "EQ Graphic",
+        "Noise Reduction"
+      ],
+      "n": 21
+    },
+    {
+      "pair": [
+        "Lead 800",
+        "Matched Cabinet"
+      ],
+      "n": 21
+    },
+    {
+      "pair": [
+        "EQ Graphic",
+        "EQ Parametric"
+      ],
+      "n": 21
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Tube Compressor"
+      ],
+      "n": 21
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Tube Compressor"
+      ],
+      "n": 21
+    },
+    {
+      "pair": [
+        "Plex",
+        "Studio Reverb"
+      ],
+      "n": 20
+    },
+    {
+      "pair": [
+        "Lead 800",
+        "Studio Reverb"
+      ],
+      "n": 20
+    },
+    {
+      "pair": [
+        "EQ Shelving",
+        "Quad Delay"
+      ],
+      "n": 20
+    },
+    {
+      "pair": [
+        "Distortion",
+        "Loop Machine"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "Delay Man",
+        "Studio Reverb"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Treble Booster"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Treble Booster"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Quad Delay"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Noise Gate"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Noise Gate"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "Noise Gate",
+        "Studio Reverb"
+      ],
+      "n": 19
+    },
+    {
+      "pair": [
+        "EQ Shelving",
+        "Plex"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Lead 800"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Lead 800"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "Noise Reduction",
+        "Treble Booster"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Gratifier"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Split"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Split B"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Split Mix"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "EQ Graphic",
+        "Gratifier"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "Gratifier",
+        "Quad Delay"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "AC Box",
+        "Loop Machine"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Tube Compressor"
+      ],
+      "n": 18
+    },
+    {
+      "pair": [
+        "Distortion",
+        "Studio Reverb"
+      ],
+      "n": 17
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Skreamer"
+      ],
+      "n": 17
+    },
+    {
+      "pair": [
+        "CabPanel",
+        "Flanger"
+      ],
+      "n": 17
+    },
+    {
+      "pair": [
+        "Cabinets & Mics",
+        "Flanger"
+      ],
+      "n": 17
+    },
+    {
+      "pair": [
+        "Delay Man",
+        "Noise Reduction"
+      ],
+      "n": 16
+    },
+    {
+      "pair": [
+        "Matched Cabinet",
+        "Spring Reverb"
+      ],
+      "n": 16
+    },
+    {
+      "pair": [
+        "Control Room Pro",
+        "Delay Man"
+      ],
+      "n": 16
+    },
+    {
+      "pair": [
+        "PsycheDelay",
+        "Skreamer"
+      ],
+      "n": 16
+    },
+    {
+      "pair": [
+        "EQ Parametric",
+        "Treble Booster"
+      ],
+      "n": 16
+    },
+    {
+      "pair": [
+        "Cat",
+        "Loop Machine"
+      ],
+      "n": 16
+    }
+  ],
+  "canonical_order": [
+    "Filters",
+    "Dynamics",
+    "Distortion",
+    "Amplifiers",
+    "Cabinets",
+    "Legacy",
+    "EQ",
+    "Modulation",
+    "Delay & Echo",
+    "Reverb"
+  ]
+}

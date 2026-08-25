@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "medium", "reason": "Bass rather than guitar, but it is a Guitar Rig rack/preset tone diagnosis and the mix-definition workflow is the same."},
+  {"id": 2, "trigger": true, "confidence": "medium", "reason": "Framed as an update issue, but the actual ask is why presets now sound thin and how to restore body."},
+  {"id": 3, "trigger": true, "confidence": "high", "reason": "Textbook harsh/strident electric guitar tone complaint."},
+  {"id": 4, "trigger": true, "confidence": "medium", "reason": "Parameter question about a Guitar Rig amp component, which is squarely component-knowledge territory."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Comparing and diffing two preset files is direct .ngrr work."},
+  {"id": 6, "trigger": true, "confidence": "high", "reason": "Chasing a specific artist/album guitar tone."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "MIDI mapping an expression pedal to a wah inside the rack."},
+  {"id": 8, "trigger": true, "confidence": "medium", "reason": "DAW context, but the object of complaint is the Guitar Rig preset sounding muffled in the mix."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Locating gain staging/clipping across blocks in the Guitar Rig rack."},
+  {"id": 10, "trigger": true, "confidence": "high", "reason": "Vague but unmistakable electric guitar tone complaint, exactly the symptom-first user."},
+  {"id": 11, "trigger": false, "confidence": "medium", "reason": "Same symptom, but the user is on Neural DSP, a different amp-sim product the skill does not cover."},
+  {"id": 12, "trigger": false, "confidence": "low", "reason": "Happens inside Guitar Rig but is a recording/export workflow question, not tone, preset or rack work."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Application crash after a Windows update is software support, not tone."},
+  {"id": 14, "trigger": false, "confidence": "medium", "reason": "Mastering someone else's mixed track on the master bus, with no Guitar Rig preset to edit."},
+  {"id": 15, "trigger": true, "confidence": "low", "reason": "Not an electric guitar, but the fix is tuning distortion/EQ components in a Guitar Rig rack, so the component knowledge applies; genuinely on the line."},
+  {"id": 16, "trigger": false, "confidence": "medium", "reason": "Purchase comparison between two products rather than a tone or preset task."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Physical pedal hardware failure, not the software component of the same name."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Instrument setup and fret buzz, a physical guitar repair issue."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Music theory question about scale choice over a progression."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "Volume automation in Reaper is DAW operation."}
+]

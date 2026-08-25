@@ -1,0 +1,108 @@
+{
+  "_about": "Which real-world gear each Guitar Rig component models. Native Instruments named the models after the originals, so most of this is legible from the name plus what the component does. This is a naming table, not settings: no preset values from anyone are reproduced here. Confidence is stated per entry — 'high' means the mapping is unambiguous, 'medium' means it is the obvious reading but not confirmed by NI, 'unknown' means do not guess. Corrections welcome; see CONTRIBUTING.md.",
+  "_disclaimer": "Not affiliated with or endorsed by Native Instruments, nor by any manufacturer named here. Manufacturer and model names appear only to identify what a component emulates.",
+  "_confidence_levels": ["high", "medium", "unknown"],
+
+  "amps": {
+    "Plex":            {"emulates": "Marshall Super Lead 'Plexi' 1959", "confidence": "high",   "voice": "British 60s stack, two channels jumpered, cleans up with guitar volume"},
+    "Hot Plex":        {"emulates": "Marshall Super Lead, hotter/modded", "confidence": "high", "voice": "same family with more gain"},
+    "Cool Plex":       {"emulates": "Marshall Super Lead, lower gain",   "confidence": "high",  "voice": "same family, cleaner"},
+    "Lead 800":        {"emulates": "Marshall JCM800 2203",              "confidence": "high",  "voice": "British 80s master-volume crunch to lead"},
+    "Jump":            {"emulates": "Marshall JMP-era hot-rodded lead",  "confidence": "medium","voice": "brown-sound territory; name nods to the Van Halen track"},
+    "AC Box":          {"emulates": "Vox AC30",                          "confidence": "high",  "voice": "British chime, Top Boost, jangle"},
+    "High White":      {"emulates": "Hiwatt DR103",                      "confidence": "high",  "voice": "huge clean headroom, stiff and loud; the Gilmour/Townshend amp"},
+    "Twang Reverb":    {"emulates": "Fender Twin Reverb",                "confidence": "high",  "voice": "American clean with spring reverb and vibrato"},
+    "Tweedman":        {"emulates": "Fender Bassman 5F6-A tweed",        "confidence": "high",  "voice": "the amp Marshall copied; warm breakup"},
+    "Tweed Delight":   {"emulates": "Fender Tweed Deluxe 5E3",           "confidence": "high",  "voice": "small tweed, breaks up early, single tone control"},
+    "Jazz Amp":        {"emulates": "Roland JC-120 Jazz Chorus",         "confidence": "high",  "voice": "solid-state clean, built-in chorus, never distorts"},
+    "Citrus":          {"emulates": "Orange",                            "confidence": "high",  "voice": "thick British mids, F.A.C. tone control"},
+    "Gratifier":       {"emulates": "Mesa/Boogie Dual Rectifier",        "confidence": "high",  "voice": "modern American high gain, scooped, tight low end"},
+    "Van 51":          {"emulates": "Peavey 5150 / EVH",                 "confidence": "high",  "voice": "aggressive high gain, rhythm and lead channels"},
+    "Hot Solo+":       {"emulates": "Soldano SLO-100",                   "confidence": "high",  "voice": "smooth saturated lead, singing sustain"},
+    "Ultrasonic":      {"emulates": "modern boutique high gain",         "confidence": "unknown","voice": "high gain with sweepable character; original unclear"},
+    "Rammfire":        {"emulates": "Rammstein signature high gain",     "confidence": "medium","voice": "NI signature product; shares the Gratifier control set"},
+    "Bass Pro":        {"emulates": "Ampeg SVT-style bass head",         "confidence": "medium","voice": "bass amp with a graphic EQ labelled in Hz"},
+    "TransAmp":        {"emulates": "Tech 21 SansAmp",                   "confidence": "medium","voice": "amp-in-a-box with cab sim built in"},
+    "Bass Invader":    {"emulates": "?",                                 "confidence": "unknown","voice": "Guitar Rig 7 era"},
+    "Fire Breather":   {"emulates": "?",                                 "confidence": "unknown","voice": "Guitar Rig 7 era"},
+    "Chicago":         {"emulates": "?",                                 "confidence": "unknown","voice": "Guitar Rig 7 era"}
+  },
+
+  "drive": {
+    "Skreamer":        {"emulates": "Ibanez TS808/TS9 Tube Screamer",    "confidence": "high",  "voice": "mid hump, cuts bass before the amp; classic 'boost a cranked amp' pedal"},
+    "Big Fuzz":        {"emulates": "Electro-Harmonix Big Muff Pi",      "confidence": "high",  "voice": "scooped sustaining fuzz; the Gilmour and Smashing Pumpkins wall"},
+    "Fuzz":            {"emulates": "Fuzz Face-style germanium fuzz",    "confidence": "medium","voice": "60s fuzz, reacts hard to guitar volume"},
+    "Treble Booster":  {"emulates": "Dallas Rangemaster",                "confidence": "high",  "voice": "bright boost into a cranked amp; Clapton/Iommi/May territory"},
+    "Cat":             {"emulates": "ProCo RAT",                         "confidence": "high",  "voice": "hard clipping with a filter control"},
+    "Distortion":      {"emulates": "Boss DS-1",                         "confidence": "medium","voice": "gritty mid-forward distortion"},
+    "MeZone":          {"emulates": "Boss MT-2 Metal Zone",              "confidence": "medium","voice": "extreme scoop, parametric mid, pre-EQ before the clipping stage"},
+    "Demon":           {"emulates": "?",                                 "confidence": "unknown","voice": "high gain with sweepable band frequencies"},
+    "Sledgehammer":    {"emulates": "?",                                 "confidence": "unknown","voice": "contour + sweepable frequency"},
+    "Gain Booster":    {"emulates": "clean boost",                       "confidence": "high",  "voice": "level only, no tone shaping"},
+    "Mulholland Drive":{"emulates": "?",                                 "confidence": "unknown","voice": "later addition"},
+    "Bite":            {"emulates": "?",                                 "confidence": "unknown","voice": "later addition"},
+    "Dirt":            {"emulates": "?",                                 "confidence": "unknown","voice": "later addition"},
+    "Digital LoFi":    {"emulates": "bit crusher",                       "confidence": "high",  "voice": "sample-rate and bit-depth reduction"}
+  },
+
+  "time": {
+    "Tape Echo":       {"emulates": "Maestro Echoplex / Roland Space Echo", "confidence": "high", "voice": "multi-head tape echo with wow, dropouts and its own spring reverb"},
+    "Delay Man":       {"emulates": "Electro-Harmonix Deluxe Memory Man",   "confidence": "high", "voice": "analogue delay with chorus/vibrato on the repeats"},
+    "Quad Delay":      {"emulates": "digital delay",                        "confidence": "high", "voice": "clean, filterable, tempo-syncable"},
+    "Twin Delay":      {"emulates": "dual/ping-pong digital delay",          "confidence": "high", "voice": "independent left and right times"},
+    "PsycheDelay":     {"emulates": "reverse/detune delay",                  "confidence": "high", "voice": "effect delay, not a echo emulation"},
+    "Replika GR":      {"emulates": "NI Replika",                            "confidence": "high", "voice": "NI's own delay, ported in"}
+  },
+
+  "modulation": {
+    "Stoned Phaser":   {"emulates": "MXR Phase 90 / Phase 100",  "confidence": "high",   "voice": "the Van Halen swirl"},
+    "Phaser Nine":     {"emulates": "MXR Phase 90 family",       "confidence": "medium", "voice": "selectable notch count"},
+    "Electric Lady":   {"emulates": "Univox Uni-Vibe",           "confidence": "high",   "voice": "Hendrix/Gilmour throb; named after Electric Lady Studios"},
+    "Rotator":         {"emulates": "Leslie rotary speaker",     "confidence": "high",   "voice": "separate horn and drum speeds"},
+    "Ensemble":        {"emulates": "Roland/Boss CE-1 Chorus Ensemble", "confidence": "medium", "voice": "chorus and vibrato modes"},
+    "Flanger":         {"emulates": "generic flanger",           "confidence": "high",   "voice": "jet sweep"},
+    "Tremolo":         {"emulates": "amp tremolo",               "confidence": "high",   "voice": "amplitude modulation, optional panning"},
+    "Stereo Tune":     {"emulates": "stereo widener/detuner",    "confidence": "high",   "voice": "width only, no time effect"}
+  },
+
+  "filter_pitch": {
+    "Cry Wah":         {"emulates": "Dunlop Cry Baby",           "confidence": "high",   "voice": "the standard wah"},
+    "Wahwah":          {"emulates": "Vox-style wah, configurable","confidence": "medium","voice": "fully parameterised wah"},
+    "Real Wah":        {"emulates": "?",                          "confidence": "unknown","voice": "later addition"},
+    "AutoFilter":      {"emulates": "envelope filter / auto-wah", "confidence": "high",  "voice": "responds to playing dynamics"},
+    "Pro-Filter":      {"emulates": "studio filter",              "confidence": "high",  "voice": "HP/LP with adjustable slope"},
+    "Oktaver":         {"emulates": "Boss OC-2 Octaver",          "confidence": "medium","voice": "one and two octaves below, monophonic"},
+    "Pitch Pedal":     {"emulates": "pedal-controlled pitch shift","confidence": "high", "voice": "whammy-style"},
+    "Harmonic Synthesizer": {"emulates": "harmoniser",            "confidence": "high",  "voice": "adds harmony voices"}
+  },
+
+  "dynamics_eq": {
+    "Tube Compressor": {"emulates": "valve/opto studio compressor", "confidence": "medium", "voice": "slow and musical, with saturation"},
+    "Stomp Compressor":{"emulates": "MXR Dyna Comp-style pedal",    "confidence": "medium", "voice": "squashy sustain pedal"},
+    "VC 76":           {"emulates": "UREI 1176",                    "confidence": "high",   "voice": "fast FET compression"},
+    "VC 2A":           {"emulates": "Teletronix LA-2A",             "confidence": "high",   "voice": "opto levelling, slow and smooth"},
+    "VC 160":          {"emulates": "dbx 160",                      "confidence": "high",   "voice": "VCA punch"},
+    "Solid Buscomp":   {"emulates": "SSL bus compressor",           "confidence": "high",   "voice": "glue compression"},
+    "Solid EQ":        {"emulates": "SSL channel EQ",               "confidence": "high",   "voice": "four bands plus dedicated HP and LP"},
+    "Solid Dynamics":  {"emulates": "SSL channel dynamics",         "confidence": "high",   "voice": "compressor and gate in one, with Range"},
+    "Supercharger":    {"emulates": "NI Supercharger",              "confidence": "high",   "voice": "NI's own valve-style compressor"},
+    "Transient Master":{"emulates": "NI Transient Master",          "confidence": "high",   "voice": "attack/sustain shaping, not level-dependent"}
+  },
+
+  "reverb_cab": {
+    "Spring Reverb":   {"emulates": "Fender-style spring tank",   "confidence": "high",   "voice": "drippy surf reverb"},
+    "Studio Reverb":   {"emulates": "generic studio plate/room",  "confidence": "high",   "voice": "the workhorse"},
+    "Reflektor":       {"emulates": "convolution reverb",         "confidence": "high",   "voice": "impulse-response based"},
+    "Little Reflektor":{"emulates": "convolution reverb, reduced","confidence": "high",   "voice": "fewer controls"},
+    "Vintage Verb":    {"emulates": "vintage digital reverb",     "confidence": "medium", "voice": "IR selector"},
+    "RC 24":           {"emulates": "Lexicon 224",                "confidence": "high",   "voice": "the 80s digital reverb"},
+    "RC 48":           {"emulates": "Lexicon 480L",               "confidence": "high",   "voice": "the studio standard"},
+    "Raum":            {"emulates": "NI Raum",                    "confidence": "high",   "voice": "NI's own modern reverb"},
+    "Matched Cabinet":  {"emulates": "cabinet matched to the amp above it", "confidence": "high", "voice": "follows the amp choice automatically"},
+    "Matched Cabinet Pro": {"emulates": "matched cabinet, extended", "confidence": "high", "voice": "more mic and room control"},
+    "Control Room":    {"emulates": "multi-mic cabinet room",     "confidence": "high",   "voice": "eight mics, blend and phase per mic"},
+    "Control Room Pro":{"emulates": "multi-mic cabinet room, extended", "confidence": "high", "voice": "eight independent cab/mic/position slots"},
+    "Cabinets & Mics": {"emulates": "legacy cabinet section",     "confidence": "high",   "voice": "Guitar Rig 4/5 era; kept for old presets"},
+    "CabPanel":        {"emulates": "cabinet and mic placement",  "confidence": "high",   "voice": "Mic Pos and Air are the strongest brightness controls in the rack"}
+  }
+}

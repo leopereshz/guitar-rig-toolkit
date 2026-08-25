@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "high", "reason": "Names Guitar Rig and describes a tone problem (no definition, lost in the mix) on a signal running through an editable rack."},
+  {"id": 2, "trigger": true, "confidence": "medium", "reason": "Framed as an update issue but the actual complaint is presets sounding thin and bodyless, which is preset/tone diagnosis."},
+  {"id": 3, "trigger": true, "confidence": "medium", "reason": "Classic harsh electric guitar tone symptom; the skill is meant to fire even when the software is never named."},
+  {"id": 4, "trigger": true, "confidence": "medium", "reason": "Sag is an amp-component parameter question, which the skill covers, though 'amps' alone could mean a real amplifier."},
+  {"id": 5, "trigger": true, "confidence": "medium", "reason": "Comparing and diffing two preset files is squarely preset-file work even though no audio symptom is described."},
+  {"id": 6, "trigger": true, "confidence": "high", "reason": "Explicit request for a specific artist/album guitar tone, a named trigger for the skill."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "MIDI mapping an expression pedal to a wah inside the rack is explicitly in scope."},
+  {"id": 8, "trigger": true, "confidence": "medium", "reason": "DAW context, but the preset they built is theirs to edit and the symptom is 'abafado', so it is rack diagnosis not track mixing."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Asking where in an eight-block Guitar Rig chain the signal clips is core gain-staging diagnosis."},
+  {"id": 10, "trigger": true, "confidence": "medium", "reason": "Vague but unmistakably an electric guitar sound the user wants changed, described by feel rather than jargon."},
+  {"id": 11, "trigger": false, "confidence": "high", "reason": "Same symptom but the tool is Neural DSP Archetype, a competing amp sim explicitly out of scope."},
+  {"id": 12, "trigger": false, "confidence": "low", "reason": "Torn: the tapedeck is a Guitar Rig component, but recording and exporting a WAV is software operation, not tone or preset work."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Crash on startup after a Windows update is installation/stability support, explicitly excluded."},
+  {"id": 14, "trigger": false, "confidence": "high", "reason": "Mastering someone else's track on the master bus, with no preset available to edit."},
+  {"id": 15, "trigger": true, "confidence": "high", "reason": "A vocal running through a Guitar Rig rack sounding harsh is in scope; the skill covers non-guitar sources."},
+  {"id": 16, "trigger": false, "confidence": "medium", "reason": "A buy-this-or-that product comparison rather than a tone, rack or preset problem."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "A physical TS9 pedal passing no signal is hardware repair, not a rack component issue."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Fret buzz and truss rod adjustment is physical instrument setup."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Which scale to solo over a chord progression is music theory."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "Volume automation in Reaper is DAW operation, unrelated to the Guitar Rig rack."}
+]

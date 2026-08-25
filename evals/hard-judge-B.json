@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "high", "reason": "Signal running through a Guitar Rig rack with a tonal complaint (no definition, buried in the mix) — editable preset, diagnosis applies regardless of instrument."},
+  {"id": 2, "trigger": true, "confidence": "medium", "reason": "Framed as an update issue but the actual complaint is tonal (thin, no body) in presets I can inspect and fix."},
+  {"id": 3, "trigger": true, "confidence": "medium", "reason": "Bare symptom description of a harsh electric guitar tone, which is exactly the case the skill says to catch even without the software named."},
+  {"id": 4, "trigger": true, "confidence": "medium", "reason": "Question about an amp component parameter and why it seems inaudible — component behavior inside the rack, though it reads as generic amp trivia."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Diffing two preset files is squarely preset-file work even with no audio symptom."},
+  {"id": 6, "trigger": true, "confidence": "high", "reason": "Asking to recreate a specific artist/album guitar tone, which the skill covers explicitly."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": "MIDI mapping an expression pedal to a rack component is named in scope."},
+  {"id": 8, "trigger": true, "confidence": "medium", "reason": "DAW context, but the object of complaint is a Guitar Rig preset I can edit, not a bounced track."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Gain-staging diagnosis across an eight-block Guitar Rig rack."},
+  {"id": 10, "trigger": true, "confidence": "medium", "reason": "Vague, jargon-free description of a lifeless guitar sound — the archetypal symptom-only user, though no rack is confirmed."},
+  {"id": 11, "trigger": false, "confidence": "high", "reason": "Same symptom but a competing amp simulator, which the skill explicitly excludes."},
+  {"id": 12, "trigger": false, "confidence": "low", "reason": "Guitar Rig specific but it is recording/export operation rather than tone, preset or rack editing — genuinely borderline since the skill may still document the tapedeck."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Crash-on-launch software support, explicitly out of scope."},
+  {"id": 14, "trigger": false, "confidence": "high", "reason": "Mastering someone else's track on the master bus with no preset to edit."},
+  {"id": 15, "trigger": true, "confidence": "medium", "reason": "A vocal through a Guitar Rig rack sounding harsh is still rack/preset diagnosis, which the skill extends to non-guitar sources."},
+  {"id": 16, "trigger": false, "confidence": "medium", "reason": "Purchase comparison between products, not a tone or preset task."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Physical pedal hardware failure, explicitly excluded."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Physical instrument setup (fret buzz, truss rod), explicitly excluded."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Music theory question about scales over a progression."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "DAW automation operation in Reaper, nothing to do with the rack."}
+]

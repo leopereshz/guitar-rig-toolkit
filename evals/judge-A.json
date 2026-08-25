@@ -1,0 +1,22 @@
+[
+  {"id": 1, "trigger": true, "confidence": "high", "reason": "Names Guitar Rig 6 explicitly and describes a muffled electric guitar tone."},
+  {"id": 2, "trigger": true, "confidence": "medium", "reason": "Classic amp-sim hiss/noise-gate symptom on an electric guitar signal, gain already tried."},
+  {"id": 3, "trigger": true, "confidence": "medium", "reason": "Electric guitar tone getting lost in the mix is a named symptom the skill covers."},
+  {"id": 4, "trigger": true, "confidence": "high", "reason": "Explicitly an amp sim with digital-sounding clipping on attack."},
+  {"id": 5, "trigger": true, "confidence": "high", "reason": "Says he is using Guitar Rig and asks for a specific song's solo tone."},
+  {"id": 6, "trigger": true, "confidence": "medium", "reason": "Harsh/fatiguing treble on an electric guitar tone, one of the listed symptoms."},
+  {"id": 7, "trigger": true, "confidence": "high", "reason": ".ngrr preset files and their amp/pedal chain contents."},
+  {"id": 8, "trigger": true, "confidence": "high", "reason": "Consolidating preset knobs into one place is exactly macro control work."},
+  {"id": 9, "trigger": true, "confidence": "high", "reason": "Direct request to build a preset rack from named amp/pedal/effect components."},
+  {"id": 10, "trigger": true, "confidence": "medium", "reason": "Flabby, undefined palm-mute low end is an electric guitar tone problem to fix in the rack."},
+  {"id": 11, "trigger": false, "confidence": "high", "reason": "Acoustic guitar mic placement, not electric guitar amp-sim tone."},
+  {"id": 12, "trigger": false, "confidence": "high", "reason": "Vocal bus mixing question; the guitars are only context."},
+  {"id": 13, "trigger": false, "confidence": "high", "reason": "Wants tablature and playing technique, not a tone change."},
+  {"id": 14, "trigger": false, "confidence": "high", "reason": "Audio interface gain staging on a bass DI, not Guitar Rig."},
+  {"id": 15, "trigger": false, "confidence": "high", "reason": "Buying advice on real hardware amp heads."},
+  {"id": 16, "trigger": false, "confidence": "high", "reason": "General Python/DSP scripting task with no guitar tone involved."},
+  {"id": 17, "trigger": false, "confidence": "high", "reason": "Hardware tube amp fault diagnosis, possibly a failing valve."},
+  {"id": 18, "trigger": false, "confidence": "high", "reason": "Audio interface routing/setup in Ableton, no signal at all."},
+  {"id": 19, "trigger": false, "confidence": "high", "reason": "Snare reverb predelay is drum mixing, not guitar tone."},
+  {"id": 20, "trigger": false, "confidence": "high", "reason": "C# code review task; the code-review skill fits, not guitar-rig."}
+]
