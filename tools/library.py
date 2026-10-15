@@ -5,6 +5,7 @@ Guitar Rig's browser, and repair them.
     python library.py check  [--path DIR] [--json]
     python library.py index  [--version 7]
     python library.py fix    --path DIR [--mode name|rename] [--apply] [--backup]
+    python library.py rename --replace "OLD=NEW" [--apply]   |   rename <preset> --to NAME
     python library.py assets [--path DIR] [--json]
 
 Why presets go missing
@@ -33,6 +34,10 @@ Two ways to repair that, both of which make the two names agree again:
                     metadata cannot be resized in place
 
 After either repair, run the Scan in Guitar Rig again.
+
+`rename` exists so that renaming a preset does not recreate the problem: it moves the file
+and rewrites the internal name in one step, which is the invariant everything else here
+depends on. `--replace "FUINK=FUNK"` fixes a typo across a whole folder.
 
 External audio
 --------------
@@ -125,13 +130,19 @@ def write_preset_name(path: str, new_name: str, out: str) -> None:
 def indexed_names(db_path: str) -> set[str]:
     """Preset names the Guitar Rig database currently indexes under its User bank.
 
-    Entries are stored as the key `GR<n>://RackPreset/User/<name>` followed by the same
-    name again as the display string. Neither is length-prefixed in a way that has been
-    decoded, so the name is recovered from the repetition.
+    Entries are stored as the key `GR<n>://RackPreset/User/<name>`, usually followed by the
+    same name again as the display string, though a preset Guitar Rig saved itself carries
+    its display name before the key instead. Neither is length-prefixed in a way that has
+    been decoded, so the name is read up to whatever follows: the next `GR<n>://` key, or
+    the end of the printable run.
+
+    The terminator has to be the whole scheme. Cutting at a bare "GR" truncates every
+    preset with those two letters in its name — "ZZ GR7 TEST" became "ZZ ".
     """
     m = re.search(r"Guitar Rig (\d+)", db_path)
     version = m.group(1) if m else "7"
-    prefix = f"GR{version}://RackPreset/User/".encode()
+    scheme = f"GR{version}://".encode()
+    prefix = scheme + b"RackPreset/User/"
     raw = open(db_path, "rb").read()
 
     names: set[str] = set()
@@ -141,18 +152,20 @@ def indexed_names(db_path: str) -> set[str]:
         while j < len(raw) and raw[j] >= 0x20 and raw[j] != 0x7F:
             j += 1
         run = raw[i:j]
-        cut = run.find(b"GR")
-        if cut > 0 and run[cut:cut + 6].decode("latin-1", "ignore").startswith("GR"):
-            maybe = run[:cut]
-            if maybe:
-                run = maybe
+        cut = run.find(scheme)
+        if cut > 0:
+            run = run[:cut]
         text = run.decode("utf-8", "replace")
         if not text:
             continue
-        # the record form repeats the name; the reference form does not
-        half = len(text) // 2
-        if half and text[:half] == text[half:half * 2]:
-            names.add(text[:half])
+        # The record form repeats the name, and whatever string starts the next record can
+        # be glued to the end of it ("…RiffBand & Co - RiffNew Preset"), so the split is the
+        # longest prefix that appears twice in a row rather than an exact halving. The
+        # reference form does not repeat at all, hence the raw text as a candidate too.
+        for n in range(len(text) // 2, 0, -1):
+            if text[:n] == text[n:n * 2]:
+                names.add(text[:n])
+                break
         names.add(text)
     return names
 
@@ -383,6 +396,62 @@ def unique_target(directory: str, stem: str, taken: set[str]) -> str:
     return candidate
 
 
+def cmd_rename(args) -> None:
+    """Rename presets, file and internal name together, so the pair stays consistent."""
+    if args.preset:
+        if not args.to:
+            raise LibraryError("renaming one preset needs --to")
+        jobs = [(os.path.dirname(os.path.abspath(args.preset)),
+                 os.path.basename(args.preset), args.to)]
+    else:
+        if not args.replace or "=" not in args.replace:
+            raise LibraryError('bulk renaming needs --replace "OLD=NEW"')
+        old, new = args.replace.split("=", 1)
+        directory = args.path or default_preset_dir(args.version)
+        jobs = []
+        for entry in sorted(os.listdir(directory)):
+            if not entry.lower().endswith(".ngrr"):
+                continue
+            stem = os.path.splitext(entry)[0]
+            if old in stem:
+                jobs.append((directory, entry, stem.replace(old, new)))
+
+    if not jobs:
+        print("nothing matched")
+        return
+
+    done = skipped = 0
+    for directory, entry, new_stem in jobs:
+        src = os.path.join(directory, entry)
+        dst = os.path.join(directory, new_stem + ".ngrr")
+        flavour, name = read_preset_name(src)
+        if flavour == "nish":
+            print(f"  skip {entry}: NISH container, its name cannot be resized in place")
+            skipped += 1
+            continue
+        if os.path.exists(dst) and os.path.abspath(dst) != os.path.abspath(src):
+            print(f"  skip {entry}: {new_stem}.ngrr already exists")
+            skipped += 1
+            continue
+        print(f"  {entry}  ->  {new_stem}.ngrr")
+        print(f"       internal name {name!r} -> {new_stem!r}")
+        if args.apply:
+            if args.backup:
+                shutil.copy2(src, src + ".bak")
+            write_preset_name(src, new_stem, src)
+            if os.path.abspath(dst) != os.path.abspath(src):
+                os.rename(src, dst)
+        done += 1
+
+    print(f"\n{done} preset(s) {'renamed' if args.apply else 'would be renamed'}"
+          f"{f', {skipped} skipped' if skipped else ''}")
+    if args.apply:
+        print("the old names stay in Guitar Rig's database until the next "
+              "File > Preferences > Library > Scan")
+    else:
+        print("this was a dry run - add --apply to write the changes")
+
+
 def cmd_fix(args) -> None:
     directory = args.path or default_preset_dir(args.version)
     rows = survey(directory, None)
@@ -488,6 +557,17 @@ def main() -> None:
     a.add_argument("--verbose", action="store_true", help="list every missing backing track")
     a.add_argument("--json", action="store_true")
     a.set_defaults(func=cmd_assets)
+
+    a = sub.add_parser("rename", help="rename presets, file and internal name together")
+    a.add_argument("preset", nargs="?", help="one preset; omit for a bulk --replace")
+    a.add_argument("--to", help="the new name, with a single preset")
+    a.add_argument("--replace", metavar='"OLD=NEW"',
+                   help="substring substitution over a whole folder, e.g. \"FUINK=FUNK\"")
+    a.add_argument("--path", help="Rack Presets folder (default: newest install)")
+    a.add_argument("--version", help="pick the folder of this Guitar Rig version, e.g. 7")
+    a.add_argument("--apply", action="store_true", help="write changes (default is a dry run)")
+    a.add_argument("--backup", action="store_true", help="keep a .bak beside each edited file")
+    a.set_defaults(func=cmd_rename)
 
     a = sub.add_parser("fix", help="make file names and internal names agree")
     a.add_argument("--path", help="Rack Presets folder (default: newest install)")

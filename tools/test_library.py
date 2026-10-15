@@ -117,6 +117,63 @@ def main() -> int:
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
+    tmp = tempfile.mkdtemp(prefix="grlib-")
+    try:
+        write_preset(tmp, "FUINK - Kravitz.ngrr", "FUINK - Kravitz")
+        write_preset(tmp, "FUINK - chery2.ngrr", "FUINK - chery2")
+        write_preset(tmp, "Untouched.ngrr", "Untouched")
+        library.cmd_rename(argparse.Namespace(
+            preset=None, to=None, replace="FUINK=FUNK", path=tmp, version=None,
+            apply=True, backup=False))
+        left = sorted(os.listdir(tmp))
+        check("bulk rename renames the files",
+              left == ["FUNK - Kravitz.ngrr", "FUNK - chery2.ngrr", "Untouched.ngrr"], str(left))
+        check("bulk rename rewrites the internal name too",
+              library.read_preset_name(os.path.join(tmp, "FUNK - Kravitz.ngrr"))[1]
+              == "FUNK - Kravitz")
+        check("bulk rename leaves non-matching presets alone",
+              library.read_preset_name(os.path.join(tmp, "Untouched.ngrr"))[1] == "Untouched")
+        check("renamed presets still satisfy check",
+              all(r["matches"] for r in library.survey(tmp, None)))
+
+        library.cmd_rename(argparse.Namespace(
+            preset=os.path.join(tmp, "Untouched.ngrr"), to="Renamed By Hand", replace=None,
+            path=None, version=None, apply=True, backup=False))
+        check("single rename moves the file",
+              os.path.isfile(os.path.join(tmp, "Renamed By Hand.ngrr")))
+        check("single rename rewrites the internal name",
+              library.read_preset_name(os.path.join(tmp, "Renamed By Hand.ngrr"))[1]
+              == "Renamed By Hand")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+    # indexed_names against a synthetic database. The layout is the one a real gr<n>db
+    # uses: a GR<n>:// key per preset, the name repeated after it for presets the scan
+    # imported, and the display name placed before the key for ones Guitar Rig saved
+    # itself. "ZZ GR7 TEST" is the regression: a bare "GR" terminator truncated it to "ZZ ".
+    tmp = tempfile.mkdtemp(prefix="grlib-")
+    try:
+        dbdir = os.path.join(tmp, "Guitar Rig 7", "Database")
+        os.makedirs(dbdir)
+        db = os.path.join(dbdir, "gr7db")
+        K = "GR7://RackPreset/User/"
+        blob = (
+            b"\x00\x01binary junk\x00"
+            + f"{K}Plain TonePlain Tone".encode()
+            + f"{K}Band & Co - RiffBand & Co - Riff".encode()
+            + f"New Preset{K}ZZ GR7 TEST".encode()
+            + f"{K}80 FUZZ - GRIT80 FUZZ - GRIT".encode()
+            + b"\x00\xff tail"
+        )
+        open(db, "wb").write(blob)
+        names = library.indexed_names(db)
+        for want in ("Plain Tone", "Band & Co - Riff", "ZZ GR7 TEST", "80 FUZZ - GRIT"):
+            check(f"indexed_names finds {want!r}", want in names,
+                  "" if want in names else f"got {sorted(names)}")
+        check("indexed_names does not keep the truncation", "ZZ " not in names)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
     # audio_assets is a pure function over rack XML, so it needs no preset on disk
     import base64
     samples = 8

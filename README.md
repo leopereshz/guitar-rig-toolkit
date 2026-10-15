@@ -48,7 +48,7 @@ edit `tools/sintomas.json` and `tools/i18n/*.json`, then run `python tools/build
 | `tools/ngrr.py` | container reader/writer for the SoundShell/zlib `.ngrr` format |
 | `tools/grpreset.py` | CLI: `info`, `dump`, `set`, `rename` — works on both container formats |
 | `tools/paths.py` | cross-platform discovery of preset folders and the Guitar Rig database |
-| `tools/library.py` | `check`, `index`, `fix`, `assets` — presets the scan skips, and external audio |
+| `tools/library.py` | `check`, `index`, `fix`, `rename`, `assets` — presets the scan skips, and external audio |
 | `tools/catalog.py` | extracts Guitar Rig's own component catalog from `User.kad`, across versions |
 | `tools/catalog.json` | 138 components in 15 categories, with the version each first appeared in |
 | `tools/scan.py` | builds/extends the parameter dictionary by scanning presets |
@@ -223,6 +223,20 @@ Two options worth knowing:
 
 `library.py index` prints what the database currently holds, which is the way to confirm a
 scan did what you expected.
+
+Renaming a preset afterwards would put it straight back into the broken state, so do it
+with `rename`, which moves the file and rewrites the internal name in one step:
+
+```bash
+python tools/library.py rename --version 7 --replace "FUINK=FUNK" --apply
+```
+
+```bash
+python tools/library.py rename "Old Name.ngrr" --to "Better Name" --apply
+```
+
+Both default to a dry run. Guitar Rig keeps the old entry in its database until the next
+Scan.
 
 ### Impulse responses and other external audio
 
