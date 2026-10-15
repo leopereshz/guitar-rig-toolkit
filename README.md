@@ -264,6 +264,18 @@ The fingerprint is the rack with that bookkeeping removed: uuids, the
 order automation numbers happen to be serialised in. Measured on a 547-preset collection:
 24 groups of genuine copies, 29 files removable.
 
+The hash is not trusted on its own. Before a group is offered for deletion its members
+are compared again as structure — the ordered chain of components, and every parameter
+value of every component, read from the parsed rack — and any group where the two methods
+disagree is reported as a bug and left alone. The dry run prints what was compared:
+
+```
+  Skreamer > Twang Reverb > Quad Delay > Cabinets & Mics > CabPanel > Studio Reverb > Loop Machine
+  7 in the chain, 134 parameter values, identical across all 3
+  KEEP Eric Johnson - 1987 (Ritmo).ngrr
+  del  Eric Johnson -1988.ngrr
+```
+
 The preset's **name, author and comment are deliberately left out of the fingerprint and
 compared separately**, because two copies of one rack saved under different names are not
 the same thing to a person:

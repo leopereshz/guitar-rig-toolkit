@@ -17,6 +17,7 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import library
 from test_fixture import make_fixture
+from grpreset import Preset
 from ngrr import NgrrFile
 
 PASS, FAIL = "ok  ", "FAIL"
@@ -224,11 +225,16 @@ def main() -> int:
           library._entry_name("Wah-Wah - Clean Talk.ksd") == "Wah")
 
     # rack_fingerprint: the same rack saved twice must hash the same
+    # the unescaped > inside preset-author is legal XML and is exactly what Guitar Rig
+    # writes; it is what broke the old <metadata[^>]*> pattern
     base = (
         '<gr-instrument-chunk build-number="2447" time="Sat May 12 17:37:02 2018">'
-        '<metadata preset-author="&lt;none>" preset-comment="" preset-name="A">'
+        '<metadata preset-author="&lt;none>" preset-comment="" preset-name="A"/>'
+        '<gr-rack><non-fix-components>'
         '<component id="1000" name="Lead 800" uuid="AAAA">'
-        '<parameter id="V1" value="0.750000"/></component>'
+        '<parameter id="V1" name="Volume" value="0.750000"/>'
+        '</component>'
+        '</non-fix-components></gr-rack>'
         '<automatable-parameter automation-number="17"/>'
         '<automatable-parameter automation-number="41"/>'
         '<preset-ordering order-number="9" tag-path="RP://GR3"/>'
@@ -251,6 +257,35 @@ def main() -> int:
     check("fingerprint still sees a changed parameter",
           library.rack_fingerprint(base)
           != library.rack_fingerprint(base.replace('0.750000', '0.250000')))
+    check("rack_profile reads the chain and the values",
+          library.profile_summary(library.rack_profile(base)) == ("Lead 800", 1),
+          str(library.profile_summary(library.rack_profile(base))))
+    check("rack_profile sees a changed value the hash would also see",
+          library.rack_profile(base) != library.rack_profile(base.replace("0.750000",
+                                                                          "0.250000")))
+
+    tmp = tempfile.mkdtemp(prefix="grlib-")
+    try:
+        for name in ("Tone.ngrr", "Tone (2).ngrr", "Tone 1.ngrr", "Different.ngrr"):
+            write_preset(tmp, name, os.path.splitext(name)[0])
+        # make one genuinely different so it must not join the group
+        library.write_preset_name(os.path.join(tmp, "Different.ngrr"), "Different",
+                                  os.path.join(tmp, "Different.ngrr"))
+        p = Preset(os.path.join(tmp, "Different.ngrr"))
+        p.rack = p.rack.replace('value="0.500000"', 'value="0.250000"')
+        p.save(os.path.join(tmp, "Different.ngrr"))
+
+        same, renamed, disputed = library.find_duplicates(tmp)
+        check("duplicates grouped", len(same) == 1 and len(same[0]) == 3,
+              f"{len(same)} group(s)")
+        check("the altered preset is not in the group",
+              "Different.ngrr" not in [m["file"] for m in same[0]])
+        check("copy markers lose to the plain name", same[0][0]["file"] == "Tone.ngrr",
+              same[0][0]["file"])
+        check("no group where the hash and the components disagree", disputed == [])
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
     check("metadata survives the > inside preset-author",
           library.rack_metadata(base) == {"preset-author": "&lt;none>", "preset-comment": "",
                                           "preset-name": "A"},

@@ -68,7 +68,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths as grpaths
-from grpreset import Preset
+from grpreset import Preset, components
 from ngrr import NgrrFile, NgrrError
 
 NAME_RE = re.compile(r"<name>(.*?)</name>", re.S)
@@ -401,6 +401,27 @@ def rack_metadata(rack_xml: str) -> dict:
     return dict(META_FIELD.findall(m.group(1))) if m else {}
 
 
+def rack_profile(rack_xml: str) -> tuple:
+    """The chain and every parameter value, read as structure rather than as text.
+
+    `rack_fingerprint` hashes a normalised document, so two racks that hash alike must
+    agree on their components as well - but "must" is an argument, and deleting someone's
+    presets deserves a check. This walks the parsed rack, and groups are compared on it
+    element by element before anything is removed.
+    """
+    chain, fixed = [], []
+    for cid, cname, is_fixed, params in components(rack_xml):
+        entry = (cid, cname, tuple(sorted((pid, value) for pid, _n, value in params)))
+        (fixed if is_fixed else chain).append(entry)
+    return tuple(chain), tuple(sorted(fixed))
+
+
+def profile_summary(profile: tuple) -> tuple[str, int]:
+    chain, fixed = profile
+    names = " > ".join(c[1] for c in chain) or "(empty chain)"
+    return names, sum(len(c[2]) for c in chain) + sum(len(c[2]) for c in fixed)
+
+
 def _keep_rank(entry: dict) -> tuple:
     """Lower sorts first: the copy worth keeping out of a group of identical racks.
 
@@ -421,8 +442,10 @@ def _keep_rank(entry: dict) -> tuple:
     )
 
 
-def find_duplicates(directory: str) -> tuple[list, list]:
-    """(groups that agree on everything, groups that agree on the rack but not its name)."""
+def find_duplicates(directory: str) -> tuple[list, list, list]:
+    """Groups of copies: fully identical, same rack under another name, and - if the
+    fingerprint ever disagreed with a component-level comparison - the groups where that
+    happened, which are never touched and mean this code has a bug."""
     entries = []
     for f in sorted(os.listdir(directory)):
         if not f.lower().endswith(".ngrr"):
@@ -432,33 +455,38 @@ def find_duplicates(directory: str) -> tuple[list, list]:
         except Exception:
             continue
         entries.append({"file": f, "fingerprint": rack_fingerprint(rack),
-                        "meta": rack_metadata(rack),
+                        "meta": rack_metadata(rack), "profile": rack_profile(rack),
                         "size": os.path.getsize(os.path.join(directory, f))})
 
     groups: dict[str, list] = {}
     for e in entries:
         groups.setdefault(e["fingerprint"], []).append(e)
 
-    same, renamed = [], []
+    same, renamed, disputed = [], [], []
     for members in groups.values():
         if len(members) < 2:
             continue
         members.sort(key=_keep_rank)
+        # independent of the hash: the chain and every parameter value must agree
+        if any(m["profile"] != members[0]["profile"] for m in members[1:]):
+            disputed.append(members)
+            continue
         labels = {(m["meta"].get("preset-name", ""), m["meta"].get("preset-author", ""),
                    m["meta"].get("preset-comment", "")) for m in members}
         (same if len(labels) == 1 else renamed).append(members)
-    same.sort(key=lambda g: g[0]["file"].lower())
-    renamed.sort(key=lambda g: g[0]["file"].lower())
-    return same, renamed
+    for g in (same, renamed, disputed):
+        g.sort(key=lambda m: m[0]["file"].lower())
+    return same, renamed, disputed
 
 
 def cmd_dupes(args) -> None:
     directory = args.path or default_preset_dir(args.version)
-    same, renamed = find_duplicates(directory)
+    same, renamed, disputed = find_duplicates(directory)
 
     if args.json:
         print(json.dumps({"directory": directory, "identical": same,
-                          "same_rack_different_name": renamed}, ensure_ascii=False, indent=2))
+                          "same_rack_different_name": renamed,
+                          "fingerprint_disputed": disputed}, ensure_ascii=False, indent=2))
         return
 
     print(f"folder : {directory}")
@@ -466,6 +494,12 @@ def cmd_dupes(args) -> None:
           f"{sum(len(g) - 1 for g in same)} removable")
     print(f"same rack, different name : {len(renamed)} group(s), "
           f"{sum(len(g) - 1 for g in renamed)} removable")
+
+    if disputed:
+        print(f"\n{len(disputed)} group(s) hashed alike but their components do not match.")
+        print("That is a bug in the fingerprint, not a duplicate. Left untouched:")
+        for g in disputed:
+            print("  " + " | ".join(m["file"] for m in g))
 
     if renamed:
         print("\nSame rack, different name or author. To a person these are not the same")
@@ -480,8 +514,13 @@ def cmd_dupes(args) -> None:
         return
 
     removed = 0
-    print("\nkeeping the first of each group:")
+    print("\nkeeping the first of each group. The chain and parameter count shown were")
+    print("compared component by component across the group, not just hashed:")
     for g in targets:
+        chain, nparams = profile_summary(g[0]["profile"])
+        print(f"\n  {chain}")
+        print(f"  {len(g[0]['profile'][0])} in the chain, {nparams} parameter values, "
+              f"identical across all {len(g)}")
         print(f"  KEEP {g[0]['file']}")
         for m in g[1:]:
             print(f"  del  {m['file']}")
