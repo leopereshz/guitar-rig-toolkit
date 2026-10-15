@@ -235,8 +235,17 @@ python tools/library.py rename --version 7 --replace "FUINK=FUNK" --apply
 python tools/library.py rename "Old Name.ngrr" --to "Better Name" --apply
 ```
 
-Both default to a dry run. Guitar Rig keeps the old entry in its database until the next
-Scan.
+Both default to a dry run.
+
+**The Scan only adds.** It never removes an entry whose file is gone, so a renamed or
+deleted preset keeps its old row in the browser and that row fails to load. Measured by
+renaming six presets and rescanning: the six new names were added and the six old ones
+stayed. Guitar Rig owns its database and nothing here writes to it, so the cleanup is a
+right-click → delete in the browser. To see which rows need it:
+
+```bash
+python tools/library.py index --version 7 --stale
+```
 
 ### Impulse responses and other external audio
 

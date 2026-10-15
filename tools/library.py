@@ -3,7 +3,7 @@ library.py - find out why presets sitting in the Rack Presets folder never show 
 Guitar Rig's browser, and repair them.
 
     python library.py check  [--path DIR] [--json]
-    python library.py index  [--version 7]
+    python library.py index  [--version 7] [--stale]
     python library.py fix    --path DIR [--mode name|rename] [--apply] [--backup]
     python library.py rename --replace "OLD=NEW" [--apply]   |   rename <preset> --to NAME
     python library.py assets [--path DIR] [--json]
@@ -70,6 +70,8 @@ from grpreset import Preset
 from ngrr import NgrrFile, NgrrError
 
 NAME_RE = re.compile(r"<name>(.*?)</name>", re.S)
+# an absolute path appearing inside a database entry, which marks where the name ended
+PATH_RE = re.compile(r"[A-Za-z]:[\\/]|/Users/|/Volumes/")
 
 
 class LibraryError(Exception):
@@ -127,6 +129,65 @@ def write_preset_name(path: str, new_name: str, out: str) -> None:
 
 # --------------------------------------------------------------------------- database
 
+def _user_entry_runs(db_path: str) -> list[str]:
+    """The raw text following each `GR<n>://RackPreset/User/` key in the database."""
+    m = re.search(r"Guitar Rig (\d+)", db_path)
+    version = m.group(1) if m else "7"
+    scheme = f"GR{version}://".encode()
+    prefix = scheme + b"RackPreset/User/"
+    raw = open(db_path, "rb").read()
+
+    runs = []
+    for hit in re.finditer(re.escape(prefix), raw):
+        i = hit.end()
+        j = i
+        while j < len(raw) and raw[j] >= 0x20 and raw[j] != 0x7F:
+            j += 1
+        run = raw[i:j]
+        cut = run.find(scheme)
+        if cut > 0:
+            run = run[:cut]
+        text = run.decode("utf-8", "replace")
+        if text:
+            runs.append(text)
+    return runs
+
+
+def stale_entries(db_path: str, directory: str) -> list[str]:
+    """Indexed names with no matching `<name>.ngrr` in `directory`.
+
+    Guitar Rig's Scan is additive: it adds what it finds and leaves everything already in
+    the database alone, so renaming or deleting a preset file leaves its old entry behind
+    and the browser keeps offering a preset that cannot load. Measured by renaming six
+    presets and rescanning: the six new names were added and the six old ones stayed.
+
+    Conservative by construction. An entry is only called stale when nothing on disk
+    accounts for it, so a name that happens to start with a real preset's name is let
+    through rather than risk telling someone to delete something that works.
+    """
+    stems = {os.path.splitext(f)[0] for f in os.listdir(directory)
+             if f.lower().endswith(".ngrr")}
+    stale = []
+    for text in _user_entry_runs(db_path):
+        if any(text == s or text.startswith(s) for s in stems):
+            continue
+        # An entry Guitar Rig imported stores the folder it came from after the name, so
+        # cut at the first absolute path.
+        cut = PATH_RE.search(text)
+        if cut and cut.start() > 0:
+            text = text[:cut.start()]
+        # Only an exact halving is trustworthy for a name shown to a human. The
+        # longest-repeated-prefix rule indexed_names uses is fine for membership tests,
+        # where a spurious candidate costs nothing, but here it would turn "ZZTOOL" into
+        # "Z". Anything else is reported verbatim rather than guessed at.
+        half, name = len(text) // 2, text
+        if half and text[:half] == text[half:]:
+            name = text[:half]
+        if name not in stems and name not in stale:
+            stale.append(name)
+    return stale
+
+
 def indexed_names(db_path: str) -> set[str]:
     """Preset names the Guitar Rig database currently indexes under its User bank.
 
@@ -139,25 +200,8 @@ def indexed_names(db_path: str) -> set[str]:
     The terminator has to be the whole scheme. Cutting at a bare "GR" truncates every
     preset with those two letters in its name — "ZZ GR7 TEST" became "ZZ ".
     """
-    m = re.search(r"Guitar Rig (\d+)", db_path)
-    version = m.group(1) if m else "7"
-    scheme = f"GR{version}://".encode()
-    prefix = scheme + b"RackPreset/User/"
-    raw = open(db_path, "rb").read()
-
     names: set[str] = set()
-    for hit in re.finditer(re.escape(prefix), raw):
-        i = hit.end()
-        j = i
-        while j < len(raw) and raw[j] >= 0x20 and raw[j] != 0x7F:
-            j += 1
-        run = raw[i:j]
-        cut = run.find(scheme)
-        if cut > 0:
-            run = run[:cut]
-        text = run.decode("utf-8", "replace")
-        if not text:
-            continue
+    for text in _user_entry_runs(db_path):
         # The record form repeats the name, and whatever string starts the next record can
         # be glued to the end of it ("…RiffBand & Co - RiffNew Preset"), so the split is the
         # longest prefix that appears twice in a row rather than an exact halving. The
@@ -250,6 +294,22 @@ def cmd_index(args) -> None:
     db_path = args.db or database_for(args.version)
     if not db_path:
         raise LibraryError("no Guitar Rig database found")
+    directory = args.path or default_preset_dir(args.version)
+
+    if args.stale:
+        stale = stale_entries(db_path, directory)
+        print(f"database : {db_path}")
+        print(f"folder   : {directory}")
+        print(f"entries with no matching file: {len(stale)}")
+        for n in stale:
+            print("  ", n)
+        if stale:
+            print()
+            print("The Scan only adds; it never removes. These entries are still offered in")
+            print("the browser and will fail to load. Right-click each one there and delete")
+            print("it — Guitar Rig owns its database and nothing here writes to it.")
+        return
+
     names = sorted(n for n in indexed_names(db_path) if n)
     print(f"database: {db_path}")
     print(f"user presets indexed: {len(names)}")
@@ -446,8 +506,9 @@ def cmd_rename(args) -> None:
     print(f"\n{done} preset(s) {'renamed' if args.apply else 'would be renamed'}"
           f"{f', {skipped} skipped' if skipped else ''}")
     if args.apply:
-        print("the old names stay in Guitar Rig's database until the next "
-              "File > Preferences > Library > Scan")
+        print("Guitar Rig's Scan only adds entries, it never removes them, so the old")
+        print("names stay in the browser even after a rescan. 'library.py index --stale'")
+        print("lists them; delete those in the browser by hand.")
     else:
         print("this was a dry run - add --apply to write the changes")
 
@@ -548,6 +609,9 @@ def main() -> None:
     a = sub.add_parser("index", help="list what the database currently holds")
     a.add_argument("--version")
     a.add_argument("--db")
+    a.add_argument("--path", help="Rack Presets folder, for --stale")
+    a.add_argument("--stale", action="store_true",
+                   help="instead list indexed entries whose file is gone")
     a.add_argument("--limit", type=int, default=50)
     a.set_defaults(func=cmd_index)
 

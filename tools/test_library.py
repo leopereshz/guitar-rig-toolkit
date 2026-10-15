@@ -171,6 +171,29 @@ def main() -> int:
             check(f"indexed_names finds {want!r}", want in names,
                   "" if want in names else f"got {sorted(names)}")
         check("indexed_names does not keep the truncation", "ZZ " not in names)
+
+        # stale_entries needs a preset folder to compare the database against
+        presets = os.path.join(tmp, "Rack Presets")
+        os.makedirs(presets)
+        for stem in ("Plain Tone", "Band & Co - Riff", "ZZ GR7 TEST"):
+            write_preset(presets, stem + ".ngrr", stem)
+        stale = library.stale_entries(db, presets)
+        check("stale_entries finds the entry with no file",
+              stale == ["80 FUZZ - GRIT"], str(stale))
+
+        # names that repeat a letter must not be split into it, and an imported entry
+        # carries the folder it came from after the name
+        open(db, "wb").write(
+            f"{K}ZZTOOL".encode()
+            + f"{K}Import Test 01C:\\Users\\x\\PresetsImport Test 01".encode()
+            + f"{K}Kravitz 1Kravitz 1".encode()
+            + f"{K}KravitzKravitz".encode()
+        )
+        stale = library.stale_entries(db, presets)
+        check("ZZTOOL is not truncated to Z", "ZZTOOL" in stale, str(stale))
+        check("an imported entry's path is stripped", "Import Test 01" in stale, str(stale))
+        check("names sharing a prefix stay separate",
+              "Kravitz" in stale and "Kravitz 1" in stale, str(stale))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 

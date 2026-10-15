@@ -76,6 +76,19 @@ what shows up in the browser. Then have them run the Scan again. Presets saved b
 Rig 6 or later (NISH container) cannot have their metadata resized in place, so those need
 `--mode rename`, which renames the file to the internal name instead.
 
+The Scan **only adds**. An entry whose file was renamed or deleted stays in the browser and
+fails to load, so after any renaming tell the user to clean those up by hand — Guitar Rig
+owns its database and nothing here writes to it. `python tools/library.py index --stale`
+lists exactly which rows to right-click and delete.
+
+Renaming a preset is itself a way back into this mess, so use the command that does both
+halves at once rather than moving files around:
+
+```
+python tools/library.py rename --version 7 --replace "OLD=NEW" --apply
+python tools/library.py rename "<file.ngrr>" --to "New Name" --apply
+```
+
 ### Impulse responses are not broken by moving files
 
 If the user worries that a moved or renamed `.wav` broke a preset, check before agreeing.
