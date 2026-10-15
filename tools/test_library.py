@@ -117,6 +117,39 @@ def main() -> int:
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
+    # audio_assets is a pure function over rack XML, so it needs no preset on disk
+    import base64
+    samples = 8
+    payload = base64.b64encode(b"\x00\x01\x02\x03" * samples).decode()
+    rack = (
+        '<gr-rack>'
+        '<component id="118000" name="Reflektor">'
+        f'<convolutionreverb channel0="{payload}" factory="0"'
+        ' filename="D:\\someone\\else\\cab.wav" irname="cab"'
+        f' numchannels="1" numsamples="{samples}" samplerate="44100" version="2"/>'
+        '</component>'
+        '<component id="56000" name="Tapedeck">'
+        '<tapedeckbase filename="F:\\My Music\\111.wav"/>'
+        '</component>'
+        '</gr-rack>'
+    )
+    assets = library.audio_assets(rack)
+    check("both asset kinds found", len(assets) == 2, str(len(assets)))
+    ir = next(a for a in assets if a["element"] == "convolutionreverb")
+    check("IR attributed to its component", ir["component"] == "Reflektor", ir["component"])
+    check("IR counted as embedded", ir["embeds_audio"] is True)
+    check("IR byte count matches numsamples", ir["intact"] is True,
+          f"{ir['bytes']} vs {ir['expected']}")
+    check("dead IR path reported as unresolved", ir["path_resolves"] is False)
+
+    truncated = rack.replace(payload, base64.b64encode(b"\x00\x01\x02\x03" * 3).decode())
+    bad = next(a for a in library.audio_assets(truncated)
+               if a["element"] == "convolutionreverb")
+    check("truncated IR detected", bad["intact"] is False, f"{bad['bytes']} vs {bad['expected']}")
+
+    tape = next(a for a in assets if a["element"] == "tapedeckbase")
+    check("backing track counted as path-only", tape["embeds_audio"] is False)
+
     print("\nall good" if not failures else f"\n{failures} failure(s)")
     return 1 if failures else 0
 

@@ -2,9 +2,10 @@
 library.py - find out why presets sitting in the Rack Presets folder never show up in
 Guitar Rig's browser, and repair them.
 
-    python library.py check [--path DIR] [--json]
-    python library.py index [--version 7]
-    python library.py fix   --path DIR [--mode name|rename] [--apply] [--backup]
+    python library.py check  [--path DIR] [--json]
+    python library.py index  [--version 7]
+    python library.py fix    --path DIR [--mode name|rename] [--apply] [--backup]
+    python library.py assets [--path DIR] [--json]
 
 Why presets go missing
 ----------------------
@@ -32,6 +33,21 @@ Two ways to repair that, both of which make the two names agree again:
                     metadata cannot be resized in place
 
 After either repair, run the Scan in Guitar Rig again.
+
+External audio
+--------------
+`assets` answers the other question a moved preset collection raises: does anything in it
+point at an audio file that is no longer there? Two components store one.
+
+    Reflektor / convolutionreverb   impulse response
+    Tapedeck                        the loaded backing track
+
+Reflektor embeds the impulse response in the preset, as `channel0`/`channel1` base64 next
+to the original `filename`. The path is provenance, not a lookup - a preset whose IR came
+from someone else's machine still plays it. `assets` decodes the base64 and checks it
+against `numsamples * numchannels * 4`, which is what actually says whether the IR
+survived. Tapedeck stores a path only, so a missing file there is a real loss, though it
+costs nothing but the backing track.
 """
 
 from __future__ import annotations
@@ -45,6 +61,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths as grpaths
+from grpreset import Preset
 from ngrr import NgrrFile, NgrrError
 
 NAME_RE = re.compile(r"<name>(.*?)</name>", re.S)
@@ -229,6 +246,131 @@ def cmd_index(args) -> None:
         print(f"  ... and {len(names) - args.limit} more")
 
 
+# --------------------------------------------------------------------------- assets
+
+ELEM_RE = re.compile(r'<([a-zA-Z0-9_-]+)((?:\s+[a-zA-Z0-9_-]+="[^"]*")*)\s*/?>')
+ATTR_RE = re.compile(r'([a-zA-Z0-9_-]+)="([^"]*)"')
+COMP_RE = re.compile(r'name="([^"]*)"')
+
+# element -> (what it is, whether the audio travels inside the preset)
+ASSET_ELEMENTS = {
+    "convolutionreverb": ("impulse response", True),
+    "tapedeckbase": ("backing track", False),
+}
+
+
+def audio_assets(rack_xml: str) -> list[dict]:
+    """Every external audio file this rack points at, and whether it still has the audio."""
+    import base64
+
+    found = []
+    for m in ELEM_RE.finditer(rack_xml):
+        kind = ASSET_ELEMENTS.get(m.group(1))
+        if kind is None:
+            continue
+        attrs = dict(ATTR_RE.findall(m.group(2)))
+        filename = attrs.get("filename", "")
+        if not filename and not attrs.get("irname"):
+            continue
+
+        start = rack_xml.rfind("<component ", 0, m.start())
+        owner = COMP_RE.search(rack_xml[start:rack_xml.find(">", start)]) if start >= 0 else None
+
+        row = {
+            "element": m.group(1),
+            "what": kind[0],
+            "component": owner.group(1) if owner else "?",
+            "filename": filename,
+            "name": attrs.get("irname") or os.path.basename(filename.replace("\\", "/")),
+            "path_resolves": bool(filename) and os.path.isfile(filename),
+            "embeds_audio": kind[1],
+        }
+        if kind[1]:
+            channels = sorted(k for k in attrs if k.startswith("channel"))
+            try:
+                got = sum(len(base64.b64decode(attrs[k])) for k in channels)
+            except Exception:
+                got = -1
+            want = int(attrs.get("numsamples") or 0) * int(attrs.get("numchannels") or 1) * 4
+            row.update(samples=attrs.get("numsamples", ""), channels=len(channels),
+                       bytes=got, expected=want, intact=(got == want and want > 0))
+        found.append(row)
+    return found
+
+
+def cmd_assets(args) -> None:
+    directory = args.path or default_preset_dir(getattr(args, "version", None))
+    rows = []
+    for entry in sorted(os.listdir(directory)):
+        if not entry.lower().endswith(".ngrr"):
+            continue
+        try:
+            rack = Preset(os.path.join(directory, entry)).rack
+        except Exception as exc:
+            rows.append({"file": entry, "error": str(exc)[:80]})
+            continue
+        for asset in audio_assets(rack):
+            rows.append(dict(asset, file=entry))
+
+    if args.json:
+        print(json.dumps({"directory": directory, "assets": rows}, ensure_ascii=False, indent=2))
+        return
+
+    embedded = [r for r in rows if r.get("embeds_audio")]
+    external = [r for r in rows if "embeds_audio" in r and not r["embeds_audio"]]
+    broken_embedded = [r for r in embedded if not r.get("intact")]
+    missing_external = [r for r in external if not r["path_resolves"]]
+
+    print(f"folder : {directory}")
+    print(f"presets pointing at an audio file outside themselves : "
+          f"{len({r['file'] for r in rows if 'what' in r})}")
+    print()
+    print(f"impulse responses (embedded in the preset) : {len(embedded)}")
+    print(f"  audio intact                             : {len(embedded) - len(broken_embedded)}")
+    print(f"  original path still resolves             : "
+          f"{sum(1 for r in embedded if r['path_resolves'])}"
+          "   (does not matter — see below)")
+    factory = [r for r in missing_external if "Native Instruments" in r["filename"]]
+    print(f"Tapedeck backing tracks (path only)        : {len(external)}")
+    print(f"  file missing                             : {len(missing_external)}"
+          f"   ({len(factory)} of them factory content)")
+
+    if embedded:
+        print("\nimpulse responses:")
+        for r in embedded:
+            mark = "ok " if r.get("intact") else "BAD"
+            print(f"  [{mark}] {r['file']}")
+            print(f"        {r['name']}  —  {r['samples']} samples x {r['channels']} ch, "
+                  f"{r['bytes']} bytes embedded (expected {r['expected']})")
+            if not r["path_resolves"] and r["filename"]:
+                print(f"        original path is gone: {r['filename']}")
+    if broken_embedded:
+        print("\nThese impulse responses are NOT intact — the preset lost its audio and the\n"
+              "IR has to be reloaded by hand in Reflektor.")
+    elif embedded:
+        print("\nEvery impulse response carries its own samples, so the dead paths above are\n"
+              "cosmetic: Reflektor plays them without the original .wav. Copying those .wav\n"
+              "files anywhere, or renaming them, changes nothing either way.")
+
+    if missing_external:
+        own = [r for r in missing_external if r not in factory]
+        print(f"\nTapedeck remembers the last backing track the preset's author had loaded.")
+        print(f"{len(missing_external)} of those paths do not exist here — {len(factory)} point at "
+              f"Guitar Rig factory content that is")
+        print(f"not installed, {len(own)} at files on someone else's machine. None of it affects "
+              f"the tone:")
+        print("Tapedeck is the practice player, not part of the signal chain. Nothing to repair.")
+        if args.verbose:
+            for r in missing_external:
+                print(f"  {r['file']}\n     {r['filename']}")
+        else:
+            print("  (--verbose lists them)")
+
+    for r in rows:
+        if "error" in r:
+            print(f"  unreadable: {r['file']}: {r['error']}")
+
+
 # --------------------------------------------------------------------------- repair
 
 def unique_target(directory: str, stem: str, taken: set[str]) -> str:
@@ -339,6 +481,13 @@ def main() -> None:
     a.add_argument("--db")
     a.add_argument("--limit", type=int, default=50)
     a.set_defaults(func=cmd_index)
+
+    a = sub.add_parser("assets", help="report external audio (impulse responses, backing tracks)")
+    a.add_argument("--path", help="Rack Presets folder (default: newest install)")
+    a.add_argument("--version", help="pick the folder of this Guitar Rig version, e.g. 7")
+    a.add_argument("--verbose", action="store_true", help="list every missing backing track")
+    a.add_argument("--json", action="store_true")
+    a.set_defaults(func=cmd_assets)
 
     a = sub.add_parser("fix", help="make file names and internal names agree")
     a.add_argument("--path", help="Rack Presets folder (default: newest install)")

@@ -48,7 +48,7 @@ edit `tools/sintomas.json` and `tools/i18n/*.json`, then run `python tools/build
 | `tools/ngrr.py` | container reader/writer for the SoundShell/zlib `.ngrr` format |
 | `tools/grpreset.py` | CLI: `info`, `dump`, `set`, `rename` — works on both container formats |
 | `tools/paths.py` | cross-platform discovery of preset folders and the Guitar Rig database |
-| `tools/library.py` | `check`, `index`, `fix` — finds presets the library scan silently skips |
+| `tools/library.py` | `check`, `index`, `fix`, `assets` — presets the scan skips, and external audio |
 | `tools/catalog.py` | extracts Guitar Rig's own component catalog from `User.kad`, across versions |
 | `tools/catalog.json` | 138 components in 15 categories, with the version each first appeared in |
 | `tools/scan.py` | builds/extends the parameter dictionary by scanning presets |
@@ -223,6 +223,39 @@ Two options worth knowing:
 
 `library.py index` prints what the database currently holds, which is the way to confirm a
 scan did what you expected.
+
+### Impulse responses and other external audio
+
+A preset can point at an audio file outside itself in two places, and they behave very
+differently when the collection moves to another machine.
+
+**Reflektor embeds its impulse response.** The `<convolutionreverb>` element carries the
+samples as base64 in `channel0`/`channel1`, right beside the `filename` they were imported
+from. The path is provenance, not a lookup — a preset whose IR came from a stranger's
+`D:\Impulses\` folder still plays it here. Checked across 12 IR slots in a real
+collection: every one decoded to exactly `numsamples × numchannels × 4` bytes, and not one
+of the 12 original paths existed on the machine.
+
+So copying the `.wav` files alongside the presets, or renaming them, changes nothing in
+either direction. The check that matters is the byte count, not the path:
+
+```bash
+python tools/library.py assets --version 7
+```
+
+```
+impulse responses (embedded in the preset) : 12
+  audio intact                             : 12
+  original path still resolves             : 0   (does not matter)
+```
+
+A `BAD` line there means the base64 does not match the declared sample count — that preset
+really did lose its IR and it has to be reloaded by hand in Reflektor.
+
+**Tapedeck stores a path and nothing else.** It remembers the last backing track the
+preset's author had loaded, which is almost always a file on their machine. Those paths are
+dead on arrival and it does not matter: Tapedeck is the practice player, not part of the
+signal chain.
 
 ### Working with indexed slots
 

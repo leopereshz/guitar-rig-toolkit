@@ -132,6 +132,21 @@ Note for name matching: the internal Loop Machine component is called **Loop Mac
 in GR7 (`id=53000`, unchanged). Ids stay stable across versions; names do not, which is why
 nothing in the toolkit keys off a component name alone.
 
+### External audio
+
+Two components reference a file outside the preset, and only one of them is fragile.
+
+| component | element | what is stored | survives a move |
+|---|---|---|---|
+| Reflektor | `convolutionreverb` | base64 samples in `channel0`/`channel1`, plus the source `filename` | ✅ the audio travels inside the preset |
+| Tapedeck | `tapedeckbase` | a path, nothing else | ❌ but it is only the practice backing track |
+
+Measured over 12 Reflektor slots in 11 presets: all 12 decoded to exactly
+`numsamples × numchannels × 4` bytes, and 0 of the 12 `filename` paths existed on the
+machine — they pointed into other people's `Downloads` and `Impulses` folders. The presets
+play their IRs regardless. `library.py assets` checks the byte count rather than the path,
+which is the only test that distinguishes a lost IR from a stale path.
+
 ### The library scan
 
 This is the part that bites hardest in practice and it is not version-specific — see

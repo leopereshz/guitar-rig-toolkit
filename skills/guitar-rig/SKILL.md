@@ -76,6 +76,22 @@ what shows up in the browser. Then have them run the Scan again. Presets saved b
 Rig 6 or later (NISH container) cannot have their metadata resized in place, so those need
 `--mode rename`, which renames the file to the internal name instead.
 
+### Impulse responses are not broken by moving files
+
+If the user worries that a moved or renamed `.wav` broke a preset, check before agreeing.
+**Reflektor embeds the impulse response in the preset** as base64 beside the original
+`filename`; that path is provenance, not a lookup, and it is normally dead already because
+the preset came from someone else's machine. Tapedeck stores a path only, but that is the
+practice backing track, not the tone.
+
+```
+python tools/library.py assets --version 7
+```
+
+`audio intact` is the number that matters. `original path still resolves` can be 0 with
+nothing wrong. Only a `BAD` line means a preset genuinely lost its IR, and the fix for that
+is loading the `.wav` again in Reflektor — there is no file-shuffling that repairs it.
+
 ## The loop
 
 Guitar Rig caches the preset it has loaded. After writing a file, tell the user to
