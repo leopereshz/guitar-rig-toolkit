@@ -157,6 +157,180 @@
       },
       "count": 122,
       "path": "C:\\Users\\leona\\AppData\\Local\\Native Instruments\\Guitar Rig 6\\Database\\User.kad"
+    },
+    "7": {
+      "categories": {
+        "Amplifiers": [
+          "Gratifier",
+          "Twang Reverb",
+          "Plex",
+          "AC Box",
+          "Jazz Amp",
+          "Bass Pro",
+          "Lead 800",
+          "Tweedman",
+          "Tweed Delight",
+          "Citrus",
+          "Ultrasonic",
+          "High White",
+          "Hot Plex",
+          "Cool Plex",
+          "Rammfire",
+          "Jump",
+          "Hot Solo+",
+          "Van 51",
+          "Bass Invader",
+          "Fire Breather",
+          "Chicago",
+          "Fire Seeker",
+          "Super Fast 100",
+          "Reverb Delight",
+          "AC Box XV",
+          "Bass Rage"
+        ],
+        "Cabinets": [
+          "Matched Cabinet",
+          "Control Room",
+          "Control Room Pro",
+          "Matched Cabinet Pro",
+          "Cabinet IR Loader"
+        ],
+        "Delay & Echo": [
+          "Quad Delay",
+          "PsycheDelay",
+          "Tape Echo",
+          "Delay Man",
+          "Twin Delay",
+          "Traktor Delay",
+          "Replika GR"
+        ],
+        "Distortion": [
+          "Skreamer",
+          "Distortion",
+          "Treble Booster",
+          "Fuzz",
+          "Cat",
+          "Big Fuzz",
+          "Demon",
+          "TransAmp",
+          "MeZone",
+          "Gain Booster",
+          "Sledgehammer",
+          "Mulholland Drive",
+          "Digital LoFi",
+          "Bite",
+          "Dirt",
+          "Chainsaw",
+          "Red Fuzz",
+          "Skreamer Deluxe",
+          "Ivp Stomp",
+          "Kolor",
+          "Seattle Fuzz"
+        ],
+        "Dynamics": [
+          "Volume Pedal",
+          "Limiter",
+          "Noise Gate",
+          "Tube Compressor",
+          "Stomp Compressor",
+          "Noise Reduction",
+          "Transient Master",
+          "VC 76",
+          "VC 2A",
+          "VC 160",
+          "Solid Buscomp",
+          "Fast Comp",
+          "Solid Dynamics",
+          "Supercharger",
+          "Supercharger GT",
+          "Maximizer"
+        ],
+        "EQ": [
+          "EQ Shelving",
+          "EQ Parametric",
+          "EQ Graphic",
+          "Custom EQ",
+          "Solid EQ"
+        ],
+        "Filters": [
+          "Wahwah",
+          "Talk Wah",
+          "AutoFilter",
+          "Pro-Filter",
+          "Cry Wah",
+          "Real Wah",
+          "Peak Filter",
+          "Formant Filter",
+          "Filterbank",
+          "Driver",
+          "Doppel-Filter"
+        ],
+        "Hidden": [
+          "Global FX"
+        ],
+        "Legacy": [
+          "Cabinets & Mics"
+        ],
+        "Modifier": [
+          "Envelope",
+          "Input Level",
+          "LFO",
+          "Step Sequencer",
+          "Analog Sequencer"
+        ],
+        "Modulation": [
+          "Tremolo",
+          "Stoned Phaser",
+          "Flanger",
+          "Ensemble",
+          "Rotator",
+          "Electric Lady",
+          "Phaser Nine",
+          "Stereo Tune",
+          "Choral",
+          "Flair",
+          "Phasis",
+          "Freak",
+          "Vintage Vibrato",
+          "Tape Wobble"
+        ],
+        "Pitch": [
+          "Oktaver",
+          "Pitch Pedal",
+          "Harmonic Synthesizer",
+          "Transpose Stretch",
+          "Resochord"
+        ],
+        "Reverb": [
+          "Spring Reverb",
+          "Studio Reverb",
+          "Octaverb",
+          "IceVerb",
+          "Traktor Reverb",
+          "Reflektor",
+          "Little Reflektor",
+          "Vintage Verb",
+          "Raum",
+          "RC 24",
+          "RC 48",
+          "Replika Shimmer"
+        ],
+        "Special FX": [
+          "Ring Modulator",
+          "Grain Delay",
+          "Ringmod",
+          "Reverse Grain",
+          "Gater",
+          "Beatmasher",
+          "Beat Slicer",
+          "Noise Machine"
+        ],
+        "Tools": [
+          "Container"
+        ]
+      },
+      "count": 138,
+      "path": "C:\\Users\\leona\\AppData\\Local\\Native Instruments\\Guitar Rig 7\\Database\\User.kad"
     }
   },
   "categories": {
@@ -181,13 +355,19 @@
       "Van 51",
       "Bass Invader",
       "Fire Breather",
-      "Chicago"
+      "Chicago",
+      "Fire Seeker",
+      "Super Fast 100",
+      "Reverb Delight",
+      "AC Box XV",
+      "Bass Rage"
     ],
     "Cabinets": [
       "Matched Cabinet",
       "Control Room",
       "Control Room Pro",
-      "Matched Cabinet Pro"
+      "Matched Cabinet Pro",
+      "Cabinet IR Loader"
     ],
     "Delay & Echo": [
       "Quad Delay",
@@ -213,7 +393,13 @@
       "Mulholland Drive",
       "Digital LoFi",
       "Bite",
-      "Dirt"
+      "Dirt",
+      "Chainsaw",
+      "Red Fuzz",
+      "Skreamer Deluxe",
+      "Ivp Stomp",
+      "Kolor",
+      "Seattle Fuzz"
     ],
     "Dynamics": [
       "Volume Pedal",
@@ -230,7 +416,8 @@
       "Fast Comp",
       "Solid Dynamics",
       "Supercharger",
-      "Supercharger GT"
+      "Supercharger GT",
+      "Maximizer"
     ],
     "EQ": [
       "EQ Shelving",
@@ -277,7 +464,9 @@
       "Choral",
       "Flair",
       "Phasis",
-      "Freak"
+      "Freak",
+      "Vintage Vibrato",
+      "Tape Wobble"
     ],
     "Pitch": [
       "Oktaver",
@@ -307,7 +496,8 @@
       "Reverse Grain",
       "Gater",
       "Beatmasher",
-      "Beat Slicer"
+      "Beat Slicer",
+      "Noise Machine"
     ],
     "Tools": [
       "Container"
@@ -435,7 +625,23 @@
     "Gater": "Special FX",
     "Beatmasher": "Special FX",
     "Beat Slicer": "Special FX",
-    "Container": "Tools"
+    "Container": "Tools",
+    "Fire Seeker": "Amplifiers",
+    "Super Fast 100": "Amplifiers",
+    "Reverb Delight": "Amplifiers",
+    "AC Box XV": "Amplifiers",
+    "Bass Rage": "Amplifiers",
+    "Cabinet IR Loader": "Cabinets",
+    "Chainsaw": "Distortion",
+    "Red Fuzz": "Distortion",
+    "Skreamer Deluxe": "Distortion",
+    "Ivp Stomp": "Distortion",
+    "Kolor": "Distortion",
+    "Seattle Fuzz": "Distortion",
+    "Maximizer": "Dynamics",
+    "Vintage Vibrato": "Modulation",
+    "Tape Wobble": "Modulation",
+    "Noise Machine": "Special FX"
   },
   "since": {
     "Gratifier": "6",
@@ -559,6 +765,22 @@
     "Gater": "6",
     "Beatmasher": "6",
     "Beat Slicer": "6",
-    "Container": "6"
+    "Container": "6",
+    "Fire Seeker": "7",
+    "Super Fast 100": "7",
+    "Reverb Delight": "7",
+    "AC Box XV": "7",
+    "Bass Rage": "7",
+    "Cabinet IR Loader": "7",
+    "Chainsaw": "7",
+    "Red Fuzz": "7",
+    "Skreamer Deluxe": "7",
+    "Ivp Stomp": "7",
+    "Kolor": "7",
+    "Seattle Fuzz": "7",
+    "Maximizer": "7",
+    "Vintage Vibrato": "7",
+    "Tape Wobble": "7",
+    "Noise Machine": "7"
   }
 }

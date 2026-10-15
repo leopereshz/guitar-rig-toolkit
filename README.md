@@ -48,8 +48,9 @@ edit `tools/sintomas.json` and `tools/i18n/*.json`, then run `python tools/build
 | `tools/ngrr.py` | container reader/writer for the SoundShell/zlib `.ngrr` format |
 | `tools/grpreset.py` | CLI: `info`, `dump`, `set`, `rename` — works on both container formats |
 | `tools/paths.py` | cross-platform discovery of preset folders and the Guitar Rig database |
+| `tools/library.py` | `check`, `index`, `fix` — finds presets the library scan silently skips |
 | `tools/catalog.py` | extracts Guitar Rig's own component catalog from `User.kad`, across versions |
-| `tools/catalog.json` | 122 components in 15 categories, with the version each first appeared in |
+| `tools/catalog.json` | 138 components in 15 categories, with the version each first appeared in |
 | `tools/scan.py` | builds/extends the parameter dictionary by scanning presets |
 | `tools/rackbuild.py` | composes a rack from harvested component blocks |
 | `tools/macros.py` | assigns Guitar Rig's 16 macro controls to rack parameters |
@@ -57,7 +58,7 @@ edit `tools/sintomas.json` and `tools/i18n/*.json`, then run `python tools/build
 | `tools/components.json` | the dictionary: component id → parameters → ranges and observed values |
 | `COMPONENTS.md` | the same dictionary as a readable reference table |
 | `tools/schema.txt` | every distinct XML element path seen in the rack documents |
-| `COMPAT.md` | measured version-compatibility matrix (GR4/5/6, and how GR7 is handled) |
+| `COMPAT.md` | measured version-compatibility matrix (GR4/5/6/7) |
 | `skills/guitar-rig/references/SINTOMAS.md` and its en/es/fr siblings | the symptom reference, generated per language |
 | `tools/sintomas.json` | the decision tree, machine-readable and language-neutral |
 | `tools/i18n/*.json` | every translatable string, one catalog per language |
@@ -177,6 +178,52 @@ single click on the preset that is already current does nothing. **Double-clicki
 re-reads the file from disk** — an edited preset picks up its new values immediately, with
 no restart. That is the fast way to iterate.
 
+### Presets that are in the folder but not in the browser
+
+Copying a pack into `User Content/Guitar Rig <n>/Rack Presets/` and running
+**File → Preferences → Library → Scan** imports some presets and silently drops others.
+There is no error and no log entry.
+
+The reason: the scan indexes a preset under the `<name>` stored *inside* the file — in the
+soundinfo document, not the file name — and then resolves that entry back to `<name>.ngrr`
+on disk. Packs that ship as `Artist - Song.ngrr` while the soundinfo still says `Song` fail
+that lookup, and the entry is thrown away.
+
+Measured on a Guitar Rig 7.0.2 install: 537 files copied in, **93 indexed and 444 not**,
+and the 93 were exactly the files whose name matched their internal name. The correlation
+held in both directions, with no exceptions.
+
+```bash
+python tools/library.py check --version 7
+```
+
+```
+presets  : 538
+  file name matches internal name : 93
+  mismatched (will not be indexed): 445
+  currently in the database       : 103
+```
+
+```bash
+python tools/library.py fix --version 7 --backup --apply
+```
+
+`fix` rewrites each file's internal name to its file name, so the browser shows
+`Guns n Roses - Dont cry` rather than `Dont cry`. The rack is not touched — only the
+`<name>` element of the soundinfo chunk changes. Run the Scan again afterwards.
+
+Two options worth knowing:
+
+- `--mode rename` renames the file to the internal name instead of editing the file. This
+  is the only option for presets saved by Guitar Rig 6 or later, whose NISH container
+  cannot have its metadata resized in place; `fix` detects those and says so.
+- `--strip ".ksd"` first drops a stray second extension from file names, so
+  `Blues Rock - Tweed Club.ksd.ngrr` becomes `Blues Rock - Tweed Club.ngrr` before the name
+  is written.
+
+`library.py index` prints what the database currently holds, which is the way to confirm a
+scan did what you expected.
+
 ### Working with indexed slots
 
 The index is the only real constraint, and there is a clean way around it that never touches
@@ -191,7 +238,7 @@ Guitar Rig's database:
 4. **To keep a result**, save it from inside Guitar Rig under its own name. That registers it
    properly and frees the working slot for the next idea.
 
-Presets saved by Guitar Rig 6 use the NISH container, which only accepts width-preserving
+Presets saved by Guitar Rig 6 or 7 use the NISH container, which only accepts width-preserving
 edits — not enough to install a different chain. `rackbuild.py --replace-container` writes a
 SoundShell container over that path instead. Verified in Guitar Rig 6.2.0: a NISH slot with
 an empty rack (36908 bytes) was replaced with a SoundShell preset carrying a five-component
@@ -428,8 +475,10 @@ python scan.py --coverage
 That lists every catalogued component with no parameter data yet. If you own presets using
 any of them, run `scan.py` and send the `components.json` diff.
 
-The second most useful contribution is Guitar Rig 7 output — no GR7 install was available,
-so `COMPAT.md` predicts rather than measures its behaviour.
+Guitar Rig 7.0.2 has been measured on Windows (catalog, containers, headers, the library
+scan), so the open questions there are narrower now: parameter data for the 16 components
+it added, and anything at all from a macOS install — `paths.py` has macOS branches that
+have never run against a real one.
 
 **Do not commit `.ngrr` files.** Presets are other people's work; this repository carries
 only code and extracted interface metadata.

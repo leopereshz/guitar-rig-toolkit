@@ -142,7 +142,7 @@ def write_markdown(ordered: dict, flavours: Counter, n_files: int, cat: dict) ->
     md = [
         "# Guitar Rig component dictionary", "",
         f"Extracted from {n_files} `.ngrr` presets "
-        f"({flavours.get('sndf', 0)} SoundShell/zlib, {flavours.get('nish', 0)} GR6 native).", "",
+        f"({flavours.get('sndf', 0)} SoundShell/zlib, {flavours.get('nish', 0)} GR6/GR7 native).", "",
         "`min`/`max` come from each parameter's `<base-parameters remote-min/remote-max>`.",
         "`observed` is the range actually used across the scanned presets — a practical hint",
         "for musically sane values. Most continuous controls are normalised floats in `0.0 - 1.0`.", "",

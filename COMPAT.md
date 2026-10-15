@@ -22,11 +22,14 @@ version ships a component catalog.
 | Guitar Rig 4 | SoundShell / zlib | `-in-` | fully — chunks carry their own lengths |
 | Guitar Rig 5 | SoundShell / zlib | `-in-` | fully |
 | Guitar Rig 6 | NISH | `…hsin` | in place only — values must keep their exact character width |
-| Guitar Rig 7 | untested | — | see below |
+| Guitar Rig 7 | NISH | `…hsin` | in place only — same rule as Guitar Rig 6 |
 
 Guitar Rig 6 **reads** both containers. Verified: a Guitar Rig 5 preset was edited through
 the full recompression path (file grew 6033 → 6056 bytes, so the container's length headers
 had to be rewritten) and Guitar Rig 6.2.0 loaded it with its 18-component chain intact.
+
+Guitar Rig 7 **reads** both containers too: 537 Guitar Rig 4/5 SoundShell presets were
+indexed and loaded by GR 7.0.2 with no conversion step.
 
 Guitar Rig 5 reading a NISH file is **untested and unlikely** — NISH postdates it. Treat
 Guitar Rig 5 as write-target `sndf` only.
@@ -75,47 +78,71 @@ first provided a given component when more than one version is installed.
 
 ## Guitar Rig 7
 
-Not installed here, so nothing about its **file format** is verified. Its **component set**
-is now documented, though, from Native Instruments' own manual — see `docs-index.json` and
-`python query.py docs`.
+Measured on **Guitar Rig 7.0.2 (x64)**, Windows, installed alongside 5 and 6.
 
-| | GR6 (read from a real install) | GR7 (from the manual) |
+| | GR6 (real install) | GR7 (real install) |
 |---|---|---|
-| components | 122 | 131 |
+| `User.kad` components | 122 | 138 |
+| categories | 15 | 15 |
+| components removed | — | 0 |
+| database file | `Database/gr6db` | `Database/gr7db`, same `JL` header |
 
-**16 components are new in Guitar Rig 7:** AC BOX XV, Bass Rage, Cabinet IR Loader, Chainsaw,
-Fire Seeker, IVP Stomp, Kolor, Maximizer, Noise Machine, Red Fuzz, Reverb Delight,
-Seattle Fuzz, Skreamer Deluxe, Super Fast 100, Tape Wobble, Vintage Vibrato.
+**The 16 new components are confirmed**, and they are exactly the 16 the manual listed:
+AC Box XV, Bass Rage, Cabinet IR Loader, Chainsaw, Fire Seeker, Ivp Stomp, Kolor,
+Maximizer, Noise Machine, Red Fuzz, Reverb Delight, Seattle Fuzz, Skreamer Deluxe,
+Super Fast 100, Tape Wobble, Vintage Vibrato. Nothing from the GR6 catalog disappeared.
 
-**Around 25 components were renamed**, which matters more than the additions: a dictionary
-scanned from Guitar Rig 6 presets will not match a Guitar Rig 7 catalog by name alone.
-`Demon` → `Demon Distortion`, `MeZone` → `Mezone`, `EQ Graphic` → `Equalizer Graphic`,
-`Phaser Nine` → `Phaser 9`, `Volume Pedal` → `Volume`, `Wahwah` → `Wah Wah`,
-`Flanger` → `Flanger Chorus`, and every Traktor-derived effect gained a possessive
-(`Traktor Delay` → `Traktor's Delay`). The full map is in `docs-index.json` under
-`gr7_component_names.renamed_since_gr6`. This is why `scan.py` records `aliases` per
-component id and matches on all of them — the id is stable, the name is not.
+**The renames the manual shows are display names only.** `User.kad` in Guitar Rig 7 still
+says `Wahwah`, `Demon`, `MeZone`, `EQ Graphic`, `Phaser Nine`, `Volume Pedal`, `Flanger`
+and `Traktor Delay` — the spellings the manual gives as `Wah Wah`, `Demon Distortion` and
+so on do not appear in the catalog or in preset XML. A GR6-scanned dictionary therefore
+matches a GR7 install by name as well as by id. The alias machinery in `scan.py` stays
+because it costs nothing and the manual spellings are what users will type.
 
-Seven components in the GR6 catalog are absent from the GR7 components reference — Analog
-Sequencer, Container, Envelope, Global FX, Input Level, LFO, Step Sequencer. They were not
-removed: the reference page covers signal processors only, and those live under the manual's
-Modifiers, Tools Components and Rack Tools sections instead.
+None of the 16 new components has parameter data yet: `scan.py --coverage` reports 98 of
+138 components covered, and the 40 uncovered ones are the new arrivals plus components no
+preset in the sample happens to use. Parameters are learned from presets, so building a
+rack with a new component in GR7 and saving it is what fills those in.
 
-What is still unverified: which container Guitar Rig 7 writes, whether its `User.kad` keeps
-the `CP://` catalog, and whether the `<gr-instrument-chunk>` header changed again. The design
-degrades in a defined way:
+### Reading and editing
 
-- `paths.py` globs `Guitar Rig *`, so a GR7 install is discovered with no code change, and
-  `database_dirs()` sorts newest-first so GR7 would take precedence.
-- Container handling is by magic bytes. If GR7 writes NISH, editing works immediately. If it
-  introduces a third container, `NgrrFile.parse` raises a clear error naming the unknown
-  magic rather than corrupting anything.
-- `catalog.py` parses whatever `CP://` sets it finds. A GR7 catalog with new components is
-  picked up automatically and merged, with `since: "7"`.
+537 Guitar Rig 4/5 presets copied into `User Content/Guitar Rig 7/Rack Presets` all parse,
+and `test_roundtrip.py` rebuilds 1132 of 1133 discovered presets byte-for-byte (the one
+exception is the single NISH file, which is skipped by design). Guitar Rig 7 loads
+SoundShell files directly — no conversion step.
 
-If you have Guitar Rig 7, running `python paths.py`, `python catalog.py` and
-`python test_roundtrip.py` and reporting the output is the single most useful contribution —
-it turns this section from prediction into measurement.
+**Guitar Rig 7 writes NISH**, the same container as Guitar Rig 6. A preset saved from
+inside GR 7.0.2 reads back as:
+
+```
+container  : nish  (width-preserving edits only: True)
+written by : Guitar Rig 7.0.2 build 0
+```
+
+So the width-preserving rule applies to GR7-saved presets exactly as it does to GR6 ones,
+and `rackbuild.py --replace-container` is still how a different chain gets installed over
+such a slot. No code changed to read it: the container is chosen by magic bytes.
+
+Its rack header carries the same five attributes GR6 writes — `build-number`,
+`major-version`, `minor-version`, `micro-version`, `time` — and none of the four GR4/GR5
+pack attributes came back. One oddity: GR7 writes `build-number="0"` where GR6 wrote a real
+build number, so read the version from `major/minor/micro` and treat the build as unreliable.
+
+Note for name matching: the internal Loop Machine component is called **Loop Machine Pro**
+in GR7 (`id=53000`, unchanged). Ids stay stable across versions; names do not, which is why
+nothing in the toolkit keys off a component name alone.
+
+### The library scan
+
+This is the part that bites hardest in practice and it is not version-specific — see
+`python library.py check`. Guitar Rig indexes a preset under the `<name>` stored *inside*
+the file and then resolves that entry back to `<name>.ngrr` on disk. Copying a pack whose
+files are named `Artist - Song.ngrr` while the soundinfo still says `Song` leaves every
+entry unresolvable, and the scan drops them without a word.
+
+Measured on this install: of 537 files in the GR7 folder, the **93 whose file name matched
+their internal name were indexed and the other 444 were not** — the split was exact in both
+directions. `library.py fix` makes the two names agree again.
 
 ## What this means per version
 
@@ -123,4 +150,4 @@ it turns this section from prediction into measurement.
 |---|---|---|---|---|
 | GR5 only | ✅ sndf | ✅ full rewrite | ❌ none | from preset scan |
 | GR6 | ✅ both | ✅ sndf full, nish in place | ✅ 122 components | scan + catalog coverage |
-| GR7 | expected ✅ | expected ✅ | expected ✅ | untested |
+| GR7 | ✅ both | ✅ sndf full, nish in place | ✅ 138 components | scan + catalog coverage |

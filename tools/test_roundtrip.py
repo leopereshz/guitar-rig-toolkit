@@ -6,7 +6,7 @@ exercised, and verifies the rebuilt file re-parses to identical payloads.
     python test_roundtrip.py                    # discovered preset folders
     python test_roundtrip.py --path D:\\Presets  # add another folder
 
-Files in the GR6 native NISH container are counted separately: ngrr.py handles the
+Files in the GR6/GR7 native NISH container are counted separately: ngrr.py handles the
 SoundShell/zlib container only, and grpreset.py edits NISH files in place instead.
 """
 
@@ -37,7 +37,7 @@ errors: list[str] = []
 for path in files:
     blob = open(path, "rb").read()
     if blob[:4] != b"-in-":
-        nish += 1          # GR6 native container, not handled by ngrr.py
+        nish += 1          # GR6/GR7 native container, not handled by ngrr.py
         continue
     try:
         pf = NgrrFile.parse(blob)
@@ -68,7 +68,7 @@ print(f"SoundShell/zlib    : {exact + failed}")
 print(f"  byte-exact rebuild : {exact}")
 print(f"  recompress + reload: {recode}")
 print(f"  failed             : {failed}")
-print(f"GR6 native (NISH)  : {nish}  (skipped, edited in place by grpreset.py)")
+print(f"GR6/GR7 native NISH : {nish}  (skipped, edited in place by grpreset.py)")
 for e in errors[:20]:
     print("  !", e)
 

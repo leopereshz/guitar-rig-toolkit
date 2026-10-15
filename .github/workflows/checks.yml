@@ -24,6 +24,11 @@ jobs:
         # recompression, surgical edits and rejection of corrupt input.
         run: python tools/test_fixture.py
 
+      - name: Library repair
+        # The scan-visibility fix: name detection, the soundinfo rewrite, XML escaping,
+        # --strip, --only and rename mode, all on synthetic presets.
+        run: python tools/test_library.py
+
       - name: Symptom reference and translations
         # Every component and parameter the reference cites must exist in the dictionary,
         # and every language catalog must carry exactly the keys the structure references.

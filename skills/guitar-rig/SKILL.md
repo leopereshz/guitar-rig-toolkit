@@ -44,18 +44,37 @@ prints — it tells the user how much of Guitar Rig this install can actually sp
 after a backup.
 
 **Building a new tone** needs somewhere to put it. Guitar Rig only lists presets its own
-database indexed, and it indexes only what it saved or imported itself — a file written into
-the preset folder never appears, not even after a restart. So a working slot has to be
-registered once, by the user:
+database indexed; it does not watch its preset folder, so a file written there appears only
+after the user does one of these, once:
 
 - Build a preset anywhere with `rackbuild.py`, then have them use Guitar Rig's
   **Main menu → File → Import…** and pick it. Import copies the file into
   `User Content/Guitar Rig <n>/Rack Presets/` and registers it. From then on, write to that
   copy.
 - Or have them save any preset from inside Guitar Rig under a name like `AI Workbench`.
+- Or, for a whole folder at once, **File → Preferences → Library → Scan**.
 
 Either way it is one action, once. Explain why rather than just asking — people reasonably
 assume a program watches its own folder, and this one does not.
+
+### When the scan skips presets
+
+The scan indexes a preset under the `<name>` stored *inside* the file, then resolves that
+entry back to `<name>.ngrr` on disk. Packs shipped as `Artist - Song.ngrr` whose soundinfo
+still says `Song` fail that lookup and are dropped without a message — on one Guitar Rig 7
+install, 444 of 537 copied presets never appeared for exactly this reason.
+
+If the user says presets they copied in are missing, run this before anything else:
+
+```
+python tools/library.py check --version 7
+python tools/library.py fix   --version 7 --backup --apply
+```
+
+`fix` rewrites each file's internal name to match its file name, so the descriptive name is
+what shows up in the browser. Then have them run the Scan again. Presets saved by Guitar
+Rig 6 or later (NISH container) cannot have their metadata resized in place, so those need
+`--mode rename`, which renames the file to the internal name instead.
 
 ## The loop
 
@@ -225,8 +244,8 @@ them.
 
 Say these plainly when they come up, because a confident wrong answer costs the user time:
 
-- **It cannot make Guitar Rig notice a brand-new file.** Import or a manual save is required,
-  once.
+- **It cannot make Guitar Rig notice a brand-new file.** Import, a manual save, or a Library
+  Scan is required, and all three are the user's click.
 - **It cannot reload the preset for them.** That is the double-click.
 - **It cannot hear.** Every judgement about whether something sounds better comes from the
   user. The measurable symptoms — clipping, noise floor, band balance — could be confirmed by

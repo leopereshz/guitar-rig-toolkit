@@ -1,60 +1,40 @@
 ---
 name: Guitar Rig 7 report
-about: Turn the GR7 section of COMPAT.md from prediction into measurement
+about: Fill the last gaps in the GR7 section of COMPAT.md
 title: "GR7: "
 labels: compatibility, data
 ---
 
-No Guitar Rig 7 install was available while this was written, so everything `COMPAT.md` says
-about GR7's **file format** is a prediction. Its component list came from the manual; nothing
-else did.
+Guitar Rig 7.0.2 has now been measured on Windows: the catalog holds 138 components, the 16
+additions the manual lists are confirmed, nothing was removed, the renames in the manual are
+display names only, GR7 writes the same NISH container as GR6 with the same five header
+attributes, and 537 Guitar Rig 4/5 presets parse and rebuild byte-for-byte. See `COMPAT.md`.
 
-If you have GR7, this is the single most useful thing you can send. It needs no code.
+One thing is still open on Windows, plus macOS in general.
 
-## Output
+## Parameters for the 16 new components
+
+`scan.py --coverage` reports 98 of 138 components with parameter data. The 16 GR7 additions
+have none, because parameters are learned from presets and no preset in the sample uses them.
+
+Build a rack in GR7 containing any of AC Box XV, Bass Rage, Cabinet IR Loader, Chainsaw,
+Fire Seeker, Ivp Stomp, Kolor, Maximizer, Noise Machine, Red Fuzz, Reverb Delight,
+Seattle Fuzz, Skreamer Deluxe, Super Fast 100, Tape Wobble or Vintage Vibrato, save it, then:
+
+```
+$ python tools/scan.py --path "<folder with that preset>"
+
+```
+
+and attach the resulting `components.json` diff. No preset file is needed and none should be
+attached — the dictionary is the contribution.
+
+## macOS
+
+Everything above was measured on Windows. `paths.py` has macOS branches that have never run
+against a real install, so its output on a Mac is also useful:
 
 ```
 $ python tools/paths.py
 
 ```
-
-```
-$ python tools/catalog.py
-
-```
-
-```
-$ python tools/test_roundtrip.py
-
-```
-
-## The three questions that matter
-
-Answer whichever you can — partial is fine.
-
-**Which container does GR7 write?** Save any preset from inside GR7, then:
-
-```
-$ python tools/grpreset.py info "<that preset>.ngrr"
-
-```
-
-`sndf` means it still writes the Guitar Rig 4/5 SoundShell format; `nish` means the Guitar
-Rig 6 one; an error naming an unknown magic means a third format exists and this is very
-interesting.
-
-**Does its `User.kad` still carry the component catalog?** `catalog.py` reports this. Guitar
-Rig 5 shipped the `CP://` sets empty and GR6 populated them; whether GR7 kept that is unknown.
-
-**Did the header change again?** GR6 dropped four attributes that GR4 and GR5 wrote. Paste the
-first three lines of a GR7 preset's rack XML:
-
-```
-$ python -c "import sys; sys.path.insert(0,'tools'); from scan import read_rack_xml; print(read_rack_xml(r'<preset>.ngrr')[0][:400])"
-
-```
-
-## Anything unexpected
-
-Components the catalog reports that the manual does not list, names that differ from
-`tools/docs-index.json`, a tool that errors — all worth mentioning.
