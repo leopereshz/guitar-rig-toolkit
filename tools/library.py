@@ -72,10 +72,12 @@ from grpreset import Preset, components
 from ngrr import NgrrFile, NgrrError
 
 NAME_RE = re.compile(r"<name>(.*?)</name>", re.S)
-# a path or a URI scheme inside a database entry, either of which marks where the name
-# ended. The drive-letter form needs its backslash: "CP://" is Guitar Rig's component
-# preset scheme, not C: on a disk.
-PATH_RE = re.compile(r"[A-Za-z]:\\|[A-Za-z]{2,}://|/Users/|/Volumes/")
+# A path or one of Guitar Rig's own URI schemes inside a database entry, either of which
+# marks where the name ended. Both halves are fussier than they look. The drive-letter
+# form needs its backslash, because "CP://" is a scheme and not C: on a disk. The schemes
+# are listed rather than matched as [A-Za-z]{2,}://, which would start matching inside the
+# preceding name - "Guns n Roses - Dont cryCP://" cut at the "c" of "cry".
+PATH_RE = re.compile(r"[A-Za-z]:\\|(?:CP|RP|GR\d*|NKS|https?)://|/Users/|/Volumes/")
 
 
 class LibraryError(Exception):

@@ -190,6 +190,14 @@ def main() -> int:
               library.stale_entries(db, presets) == [],
               str(library.stale_entries(db, presets)))
 
+        # a scheme glued to the name must be cut at the scheme, not inside the name:
+        # "…Dont cryCP://" lost its "cry" to a generic [A-Za-z]{2,}:// pattern
+        write_preset(presets, "Guns n Roses - Dont cry.ngrr", "Guns n Roses - Dont cry")
+        open(db, "wb").write(f"{K}Guns n Roses - Dont cryCP://".encode())
+        check("a trailing CP:// is cut at the scheme, not inside the name",
+              library.stale_entries(db, presets) == [],
+              str(library.stale_entries(db, presets)))
+
         # names that repeat a letter must not be split into it, and an imported entry
         # carries the folder it came from after the name
         open(db, "wb").write(
