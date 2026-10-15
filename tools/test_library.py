@@ -332,6 +332,50 @@ def main() -> int:
     tape = next(a for a in assets if a["element"] == "tapedeckbase")
     check("backing track counted as path-only", tape["embeds_audio"] is False)
 
+    # import: skip what the library has, collapse copies inside the batch, correct names
+    tmp = tempfile.mkdtemp(prefix="grlib-")
+    try:
+        src, dst = os.path.join(tmp, "src"), os.path.join(tmp, "dst")
+        os.makedirs(src)
+        os.makedirs(dst)
+
+        def vary(path, value):
+            p = Preset(path)
+            p.rack = p.rack.replace('value="0.500000"', f'value="{value}"')
+            p.save(path)
+
+        write_preset(dst, "Already Here.ngrr", "Already Here")
+        write_preset(dst, "Clash.ngrr", "Clash")
+        write_preset(dst, "Clash 2.ngrr", "Clash 2")
+        vary(os.path.join(dst, "Clash.ngrr"), "0.111000")
+        vary(os.path.join(dst, "Clash 2.ngrr"), "0.222000")
+
+        write_preset(src, "Same Rack Other Name.ngrr", "whatever")   # == Already Here
+        write_preset(src, "Fresh.ngrr", "an old name")
+        write_preset(src, "Fresh (2).ngrr", "another old name")        # == Fresh
+        write_preset(src, "Clash.ngrr", "x")
+        vary(os.path.join(src, "Fresh.ngrr"), "0.333000")
+        vary(os.path.join(src, "Fresh (2).ngrr"), "0.333000")
+        vary(os.path.join(src, "Clash.ngrr"), "0.444000")
+
+        library.cmd_import(argparse.Namespace(source=src, path=dst, version=None,
+                                              on_clash="suffix", apply=True))
+        landed = sorted(os.listdir(dst))
+        check("import skips what the library already has",
+              "Same Rack Other Name.ngrr" not in landed, str(landed))
+        check("of a batch's own copies only the best-named one is taken",
+              "Fresh.ngrr" in landed and "Fresh (2).ngrr" not in landed, str(landed))
+        check("import corrects the internal name of what it copies",
+              library.read_preset_name(os.path.join(dst, "Fresh.ngrr"))[1] == "Fresh")
+        check("a clashing file name takes the first free number, not 2",
+              "Clash 3.ngrr" in landed, str(landed))
+        check("the renumbered copy's internal name matches its file",
+              library.read_preset_name(os.path.join(dst, "Clash 3.ngrr"))[1] == "Clash 3")
+        check("everything that landed satisfies check",
+              all(r["matches"] for r in library.survey(dst, None)))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
     print("\nall good" if not failures else f"\n{failures} failure(s)")
     return 1 if failures else 0
 

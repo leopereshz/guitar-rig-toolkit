@@ -6,6 +6,7 @@ Guitar Rig's browser, and repair them.
     python library.py index  [--version 7] [--stale]
     python library.py fix    --path DIR [--mode name|rename] [--apply] [--backup]
     python library.py rename --replace "OLD=NEW" [--apply]   |   rename <preset> --to NAME
+    python library.py import <folder> [--version 7] [--apply]
     python library.py dupes  [--path DIR] [--include-renamed] [--apply]
     python library.py assets [--path DIR] [--json]
 
@@ -538,6 +539,132 @@ def cmd_dupes(args) -> None:
         print("this was a dry run - add --apply to delete them")
 
 
+# --------------------------------------------------------------------------- import
+
+def cmd_import(args) -> None:
+    """Bring a folder of downloaded presets into the library, once each and findable.
+
+    Three things have to happen together, and doing them in the wrong order wastes the
+    work: drop what the library already has, drop the copies inside the batch itself, and
+    make each survivor's internal name match its file name so the Scan can index it.
+    """
+    source = args.source
+    directory = args.path or default_preset_dir(args.version)
+    if os.path.abspath(source) == os.path.abspath(directory):
+        raise LibraryError("source and destination are the same folder")
+    if not os.path.isdir(source):
+        raise LibraryError(f"no such folder: {source}")
+
+    def survey_racks(folder: str) -> list[dict]:
+        out = []
+        for f in sorted(os.listdir(folder)):
+            if not f.lower().endswith(".ngrr"):
+                continue
+            path = os.path.join(folder, f)
+            try:
+                rack = Preset(path).rack
+            except Exception as exc:
+                out.append({"file": f, "error": str(exc)[:70]})
+                continue
+            out.append({"file": f, "fingerprint": rack_fingerprint(rack),
+                        "meta": rack_metadata(rack), "profile": rack_profile(rack),
+                        "name": read_preset_name(path)[1],
+                        "container": "sndf" if open(path, "rb").read(4) == b"-in-" else "nish"})
+        return out
+
+    incoming = survey_racks(source)
+    have = {}
+    for e in survey_racks(directory):
+        have.setdefault(e.get("fingerprint"), e["file"])
+
+    broken = [e for e in incoming if "error" in e]
+    already, batch_dupes, new = [], [], []
+    batch: dict[str, list] = {}
+    for e in (e for e in incoming if "error" not in e):
+        if e["fingerprint"] in have:
+            already.append((e, have[e["fingerprint"]]))
+        else:
+            batch.setdefault(e["fingerprint"], []).append(e)
+    for members in batch.values():
+        # same rule `dupes` uses, so which copy survives does not depend on the order the
+        # filesystem happened to list the batch in
+        members.sort(key=_keep_rank)
+        new.append(members[0])
+        batch_dupes.extend((m, members[0]) for m in members[1:])
+    new.sort(key=lambda e: e["file"].lower())
+
+    print(f"from : {source}")
+    print(f"to   : {directory}")
+    print(f"presets in the batch        : {len(incoming)}")
+    print(f"  already in the library    : {len(already)}")
+    print(f"  copies inside the batch   : {len(batch_dupes)}")
+    print(f"  unreadable                : {len(broken)}")
+    print(f"  new to this library       : {len(new)}")
+
+    for e in broken:
+        print(f"\n  unreadable: {e['file']}: {e['error']}")
+    if already:
+        print("\nalready in the library, same rack — skipped:")
+        for e, match in already:
+            print(f"  {e['file']}\n     already there as {match}")
+    if batch_dupes:
+        print("\ncopies of each other inside the batch — only the first is taken:")
+        for e, first in batch_dupes:
+            print(f"  {e['file']}  ==  {first['file']}")
+
+    if not new:
+        print("\nnothing to copy")
+        return
+
+    # Windows matches file names without regard to case, so "Back in Black.ngrr" would
+    # land on top of an existing "Back in black.ngrr" holding a different rack.
+    taken = {f.lower() for f in os.listdir(directory)}
+
+    def free_name(stem: str) -> str:
+        n = 2
+        while f"{stem} {n}.ngrr".lower() in taken:
+            n += 1
+        return f"{stem} {n}"
+
+    print("\nto copy:")
+    copied = renamed_count = skipped = 0
+    for e in new:
+        stem = os.path.splitext(e["file"])[0]
+        note = []
+        if e["file"].lower() in taken:
+            if args.on_clash == "skip":
+                print(f"  {e['file']}\n     a different preset already has that file name"
+                      f" — skipped (--on-clash suffix keeps both)")
+                skipped += 1
+                continue
+            stem = free_name(stem)
+            note.append(f"file name taken, saved as {stem}.ngrr")
+        target = os.path.join(directory, stem + ".ngrr")
+        taken.add(os.path.basename(target).lower())
+
+        fix = e["name"] != stem
+        if fix:
+            note.append(f"name {e['name']!r} -> {stem!r}")
+        if fix and e["container"] == "nish":
+            note.append("NISH: internal name cannot be resized, copied as is")
+        print(f"  {e['file']}" + (f"\n     {'; '.join(note)}" if note else ""))
+
+        if args.apply:
+            shutil.copy2(os.path.join(source, e["file"]), target)
+            if fix and e["container"] == "sndf":
+                write_preset_name(target, stem, target)
+        copied += 1
+        renamed_count += 1 if fix and e["container"] == "sndf" else 0
+
+    print(f"\n{copied} preset(s) {'copied' if args.apply else 'would be copied'}, "
+          f"{renamed_count} with the internal name corrected"
+          + (f", {skipped} skipped on a file name clash" if skipped else ""))
+    if args.apply:
+        print("now run File > Preferences > Library > Scan in Guitar Rig")
+    else:
+        print("this was a dry run - add --apply to copy them")
+
+
 # --------------------------------------------------------------------------- assets
 
 ELEM_RE = re.compile(r'<([a-zA-Z0-9_-]+)((?:\s+[a-zA-Z0-9_-]+="[^"]*")*)\s*/?>')
@@ -833,6 +960,16 @@ def main() -> None:
                    help="instead list indexed entries whose file is gone")
     a.add_argument("--limit", type=int, default=50)
     a.set_defaults(func=cmd_index)
+
+    a = sub.add_parser("import", help="copy a folder of presets in, once each and findable")
+    a.add_argument("source", help="folder of .ngrr files to bring in")
+    a.add_argument("--path", help="Rack Presets folder (default: newest install)")
+    a.add_argument("--version", help="pick the folder of this Guitar Rig version, e.g. 7")
+    a.add_argument("--on-clash", choices=("skip", "suffix"), default="skip",
+                   help="a different preset already holds that file name: skip it, or "
+                        "keep both by adding the first free number")
+    a.add_argument("--apply", action="store_true", help="copy (default is a dry run)")
+    a.set_defaults(func=cmd_import)
 
     a = sub.add_parser("dupes", help="find presets that are copies of each other")
     a.add_argument("--path", help="Rack Presets folder (default: newest install)")

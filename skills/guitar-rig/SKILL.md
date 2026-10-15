@@ -82,6 +82,12 @@ fails to load, so after any renaming or deleting tell the user to clean the libr
 --stale` lists which rows are affected. Guitar Rig owns its database; nothing here writes
 to it.
 
+When the user wants a folder of downloaded presets brought in, use `library.py import
+<folder>`, not a file copy. It skips what the library already holds (compared on the
+rack, not the file name), takes one of any copies inside the batch, and corrects each
+internal name on the way in — doing those in any other order wastes the work. It never
+modifies the source folder, and defaults to a dry run.
+
 A collection built from several downloads usually holds the same rack several times
 (`Nighttrain`, `Nighttrain (2)`, `Nighttrain 1`). `python tools/library.py dupes` finds
 them by fingerprinting the rack with the per-copy bookkeeping removed — byte comparison

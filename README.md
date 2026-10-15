@@ -48,7 +48,7 @@ edit `tools/sintomas.json` and `tools/i18n/*.json`, then run `python tools/build
 | `tools/ngrr.py` | container reader/writer for the SoundShell/zlib `.ngrr` format |
 | `tools/grpreset.py` | CLI: `info`, `dump`, `set`, `rename` — works on both container formats |
 | `tools/paths.py` | cross-platform discovery of preset folders and the Guitar Rig database |
-| `tools/library.py` | `check`, `index`, `fix`, `rename`, `dupes`, `assets` — the library and what is in it |
+| `tools/library.py` | `check`, `index`, `fix`, `rename`, `import`, `dupes`, `assets` — the library and what is in it |
 | `tools/catalog.py` | extracts Guitar Rig's own component catalog from `User.kad`, across versions |
 | `tools/catalog.json` | 138 components in 15 categories, with the version each first appeared in |
 | `tools/scan.py` | builds/extends the parameter dictionary by scanning presets |
@@ -246,6 +246,40 @@ right-click → delete in the browser. To see which rows need it:
 ```bash
 python tools/library.py index --version 7 --stale
 ```
+
+### Bringing a folder of downloads in
+
+Three things have to happen together, and in the wrong order the work is wasted: drop
+what the library already has, drop the copies inside the batch itself, and make each
+survivor's internal name match its file name so the Scan can index it.
+
+```bash
+python tools/library.py import "D:\Downloads\Top10p1" --version 7
+```
+
+```
+presets in the batch        : 30
+  already in the library    : 4
+  copies inside the batch   : 0
+  unreadable                : 0
+  new to this library       : 26
+```
+
+"Already in the library" is decided on the rack, not the file name, so a download called
+`moneyf.ngrr` is recognised as the `moneyfornoth.ngrr` already sitting there. Within the
+batch, the copy that survives is chosen by the same ranking `dupes` uses, so it does not
+depend on the order the filesystem happened to list the files in.
+
+A file name already taken by a **different** rack is left alone by default, because on
+Windows the match ignores case and `Back in Black.ngrr` would land on top of
+`Back in black.ngrr`. `--on-clash suffix` keeps both by appending the first free number:
+
+```
+  ACDC - Back in Black.ngrr
+     file name taken, saved as ACDC - Back in Black 2.ngrr; name 'ACDC Back in' -> 'ACDC - Back in Black 2'
+```
+
+The source folder is never modified. `--apply` copies; without it you get the list.
 
 ### The same preset extracted twice
 
