@@ -48,7 +48,7 @@ edit `tools/sintomas.json` and `tools/i18n/*.json`, then run `python tools/build
 | `tools/ngrr.py` | container reader/writer for the SoundShell/zlib `.ngrr` format |
 | `tools/grpreset.py` | CLI: `info`, `dump`, `set`, `rename` — works on both container formats |
 | `tools/paths.py` | cross-platform discovery of preset folders and the Guitar Rig database |
-| `tools/library.py` | `check`, `index`, `fix`, `rename`, `assets` — presets the scan skips, and external audio |
+| `tools/library.py` | `check`, `index`, `fix`, `rename`, `dupes`, `assets` — the library and what is in it |
 | `tools/catalog.py` | extracts Guitar Rig's own component catalog from `User.kad`, across versions |
 | `tools/catalog.json` | 138 components in 15 categories, with the version each first appeared in |
 | `tools/scan.py` | builds/extends the parameter dictionary by scanning presets |
@@ -246,6 +246,41 @@ right-click → delete in the browser. To see which rows need it:
 ```bash
 python tools/library.py index --version 7 --stale
 ```
+
+### The same preset extracted twice
+
+A collection assembled from several downloads ends up with the same rack under
+`Nighttrain.ngrr`, `Nighttrain (2).ngrr` and `Nighttrain 1.ngrr`. Comparing the files
+byte for byte finds nothing, because each copy carries its own component uuids, its own
+build stamp, its own position in whoever's browser it came from, and its own window
+state. None of that changes the sound.
+
+```bash
+python tools/library.py dupes --version 7
+```
+
+The fingerprint is the rack with that bookkeeping removed: uuids, the
+`<gr-instrument-chunk>` stamp, the Tapedeck path, `<preset-ordering>`, `<view>`, and the
+order automation numbers happen to be serialised in. Measured on a 547-preset collection:
+24 groups of genuine copies, 29 files removable.
+
+The preset's **name, author and comment are deliberately left out of the fingerprint and
+compared separately**, because two copies of one rack saved under different names are not
+the same thing to a person:
+
+```
+same rack, different name : 5 group(s)
+  Alexi Lahio1.ngrr [Alexi Lahio] | Jimi Hendrix.ngrr [Jimi Hendrix]
+  Evanescense.ngrr [(no name)] | LinkParkR.ngrr [LinkPark]
+```
+
+Those are reported and left alone unless you pass `--include-renamed`. Of the copies it
+does collapse, it keeps the one that credits an author, then the one with a comment, then
+the name without a `(2)` or trailing number, and then the **longer** name — the extra
+length is almost always the band or song someone added to make the preset findable.
+
+`--apply` deletes; without it you get the list. Afterwards the database still lists the
+deleted presets, so clean it from **File → Preferences → Library**.
 
 ### Impulse responses and other external audio
 

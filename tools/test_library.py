@@ -181,6 +181,14 @@ def main() -> int:
         check("stale_entries finds the entry with no file",
               stale == ["80 FUZZ - GRIT"], str(stale))
 
+        # a preset whose name repeats its own opening must not be split and declared
+        # missing — the whole run is checked against the folder first
+        write_preset(presets, "Wah-Wah - Clean Talk.ksd.ngrr", "Wah-Wah - Clean Talk.ksd")
+        open(db, "wb").write(f"{K}Wah-Wah - Clean Talk.ksd".encode())
+        check("an undoubled name is matched whole, not split at its repeat",
+              library.stale_entries(db, presets) == [],
+              str(library.stale_entries(db, presets)))
+
         # names that repeat a letter must not be split into it, and an imported entry
         # carries the folder it came from after the name
         open(db, "wb").write(
@@ -196,6 +204,57 @@ def main() -> int:
               "Kravitz" in stale and "Kravitz 1" in stale, str(stale))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+    # _entry_name: every shape a real database record was seen to take
+    check("entry name from the plain doubled form",
+          library._entry_name("Plain TonePlain Tone") == "Plain Tone")
+    check("entry name with author and comment glued on",
+          library._entry_name("Afraid DemonAfraid DemonBen J.californian sound")
+          == "Afraid Demon")
+    check("entry name with binary bytes between the copies",
+          library._entry_name("Gilmour chorus癣㜶Gilmour chorusVC 76")
+          == "Gilmour chorus")
+    check("a name that merely repeats a letter is left whole",
+          library._entry_name("ZZTOOL") == "ZZTOOL")
+    # _entry_name on its own would split "Wah-Wah - Clean Talk.ksd" at "Wah", because the
+    # repetition it looks for is really there. Only stale_entries can know better, by
+    # checking the whole run against the files on disk first — so that is where the
+    # guarantee is tested.
+    check("_entry_name alone over-splits a name that repeats its own opening",
+          library._entry_name("Wah-Wah - Clean Talk.ksd") == "Wah")
+
+    # rack_fingerprint: the same rack saved twice must hash the same
+    base = (
+        '<gr-instrument-chunk build-number="2447" time="Sat May 12 17:37:02 2018">'
+        '<metadata preset-author="&lt;none>" preset-comment="" preset-name="A">'
+        '<component id="1000" name="Lead 800" uuid="AAAA">'
+        '<parameter id="V1" value="0.750000"/></component>'
+        '<automatable-parameter automation-number="17"/>'
+        '<automatable-parameter automation-number="41"/>'
+        '<preset-ordering order-number="9" tag-path="RP://GR3"/>'
+        '<view scroll-position="-54" view-mode="0"/>'
+        '</gr-instrument-chunk>'
+    )
+    copy = (base.replace('uuid="AAAA"', 'uuid="BBBB"')
+                .replace('build-number="2447"', 'build-number="2641"')
+                .replace('order-number="9"', 'order-number="26"')
+                .replace('scroll-position="-54"', 'scroll-position="-170"')
+                .replace('<automatable-parameter automation-number="17"/>'
+                         '<automatable-parameter automation-number="41"/>',
+                         '<automatable-parameter automation-number="41"/>'
+                         '<automatable-parameter automation-number="17"/>'))
+    check("fingerprint ignores uuid, build, ordering, view and automation order",
+          library.rack_fingerprint(base) == library.rack_fingerprint(copy))
+    check("fingerprint ignores the preset name, which is compared separately",
+          library.rack_fingerprint(base)
+          == library.rack_fingerprint(base.replace('preset-name="A"', 'preset-name="B"')))
+    check("fingerprint still sees a changed parameter",
+          library.rack_fingerprint(base)
+          != library.rack_fingerprint(base.replace('0.750000', '0.250000')))
+    check("metadata survives the > inside preset-author",
+          library.rack_metadata(base) == {"preset-author": "&lt;none>", "preset-comment": "",
+                                          "preset-name": "A"},
+          str(library.rack_metadata(base)))
 
     # audio_assets is a pure function over rack XML, so it needs no preset on disk
     import base64

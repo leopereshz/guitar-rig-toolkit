@@ -6,6 +6,7 @@ Guitar Rig's browser, and repair them.
     python library.py index  [--version 7] [--stale]
     python library.py fix    --path DIR [--mode name|rename] [--apply] [--backup]
     python library.py rename --replace "OLD=NEW" [--apply]   |   rename <preset> --to NAME
+    python library.py dupes  [--path DIR] [--include-renamed] [--apply]
     python library.py assets [--path DIR] [--json]
 
 Why presets go missing
@@ -58,6 +59,7 @@ costs nothing but the backing track.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -70,8 +72,10 @@ from grpreset import Preset
 from ngrr import NgrrFile, NgrrError
 
 NAME_RE = re.compile(r"<name>(.*?)</name>", re.S)
-# an absolute path appearing inside a database entry, which marks where the name ended
-PATH_RE = re.compile(r"[A-Za-z]:[\\/]|/Users/|/Volumes/")
+# a path or a URI scheme inside a database entry, either of which marks where the name
+# ended. The drive-letter form needs its backslash: "CP://" is Guitar Rig's component
+# preset scheme, not C: on a disk.
+PATH_RE = re.compile(r"[A-Za-z]:\\|[A-Za-z]{2,}://|/Users/|/Volumes/")
 
 
 class LibraryError(Exception):
@@ -153,6 +157,35 @@ def _user_entry_runs(db_path: str) -> list[str]:
     return runs
 
 
+def _entry_name(text: str) -> str:
+    """The preset name inside one database entry's text.
+
+    A record is `name + name` followed by the author, the comment and whatever opens the
+    next record, all of it variable length - "Afraid Octaver DemonAfraid Octaver DemonBen
+    J. Schlesingercalifornian grunge/metal sound !". The repetition is the only reliable
+    signal, so the name is the longest prefix that appears twice in a row; how much of
+    the text that accounts for says nothing.
+
+    The two copies are not always adjacent: a couple of binary bytes can land between
+    them and decode as anything, so the second copy is looked for anywhere later rather
+    than immediately after the first.
+
+    Splits shorter than three characters are refused, which is what keeps "ZZTOOL" from
+    collapsing to "Z" on the coincidence of its first two letters.
+    """
+    half = len(text) // 2
+    for n in range(half, 2, -1):
+        if text[:n] == text[n:n * 2]:
+            return text[:n]
+    # the copies were not adjacent; allow a few bytes of slack, but no more, or a shared
+    # prefix between two unrelated presets ("Blues Rock - X" / "Blues Rock - Y") passes
+    for n in range(half, 2, -1):
+        j = text.find(text[:n], n)
+        if j != -1 and j - n <= 4:
+            return text[:n]
+    return text
+
+
 def stale_entries(db_path: str, directory: str) -> list[str]:
     """Indexed names with no matching `<name>.ngrr` in `directory`.
 
@@ -161,29 +194,26 @@ def stale_entries(db_path: str, directory: str) -> list[str]:
     and the browser keeps offering a preset that cannot load. Measured by renaming six
     presets and rescanning: the six new names were added and the six old ones stayed.
 
-    Conservative by construction. An entry is only called stale when nothing on disk
-    accounts for it, so a name that happens to start with a real preset's name is let
-    through rather than risk telling someone to delete something that works.
+    The names come from `_entry_name`, so an entry is called stale only when nothing on
+    disk carries that exact name.
     """
     stems = {os.path.splitext(f)[0] for f in os.listdir(directory)
              if f.lower().endswith(".ngrr")}
     stale = []
     for text in _user_entry_runs(db_path):
-        if any(text == s or text.startswith(s) for s in stems):
-            continue
         # An entry Guitar Rig imported stores the folder it came from after the name, so
         # cut at the first absolute path.
         cut = PATH_RE.search(text)
         if cut and cut.start() > 0:
             text = text[:cut.start()]
-        # Only an exact halving is trustworthy for a name shown to a human. The
-        # longest-repeated-prefix rule indexed_names uses is fine for membership tests,
-        # where a spurious candidate costs nothing, but here it would turn "ZZTOOL" into
-        # "Z". Anything else is reported verbatim rather than guessed at.
-        half, name = len(text) // 2, text
-        if half and text[:half] == text[half:]:
-            name = text[:half]
-        if name not in stems and name not in stale:
+        # The whole run is tested before any splitting: "Wah-Wah - Clean Talk.ksd" is a
+        # preset name, and asking _entry_name about it first would split it at "Wah".
+        if text in stems or text[:-1] in stems:
+            continue          # a single stray byte sometimes trails the name
+        name = _entry_name(text)
+        if name in stems or name[:-1] in stems:
+            continue
+        if name not in stale:
             stale.append(name)
     return stale
 
@@ -317,6 +347,154 @@ def cmd_index(args) -> None:
         print("  ", n)
     if len(names) > args.limit:
         print(f"  ... and {len(names) - args.limit} more")
+
+
+# --------------------------------------------------------------------------- duplicates
+
+# Everything below is per-instance bookkeeping, library housekeeping or window state.
+# None of it changes what the rack does, and all of it differs between two copies of the
+# same preset that came out of a zip twice.
+def _tag(name: str) -> re.Pattern:
+    """Match one element by name, tolerating `>` inside a quoted attribute value.
+
+    `<metadata[^>]*>` is wrong here and quietly so: Guitar Rig writes
+    `preset-author="&lt;none>"`, whose `>` ends the match early and leaves the remaining
+    attributes behind as text.
+    """
+    return re.compile(r'<' + name + r'((?:\s+[\w:.-]+="[^"]*")*)\s*/?>')
+
+
+NOISE = (
+    re.compile(r'\s+uuid="[^"]*"'),            # per-instance component id
+    _tag("gr-instrument-chunk"),               # build number and save timestamp
+    _tag("tapedeckbase"),                      # last backing track the author had open
+    _tag("metronomau"),
+    _tag("preset-ordering"),                   # position in the author's browser
+    _tag("view"),                              # panel open, scrolled, zoomed
+    re.compile(r'\s+(?:scroll-position|icons-visible|view-mode|stored-view-mode)="[^"]*"'),
+)
+# The name, author and comment are compared separately: two copies of one rack under
+# different names are a decision for a person, not something to collapse silently.
+METADATA = _tag("metadata")
+AUTOMATION = re.compile(r'<automatable-parameter automation-number="(\d+)"\s*/>')
+META_FIELD = re.compile(r'(preset-name|preset-author|preset-comment)="([^"]*)"')
+
+
+def rack_fingerprint(rack_xml: str) -> str:
+    """Hash of what the rack actually does, with per-copy bookkeeping removed.
+
+    Automation numbers are sorted before hashing: two copies of one preset list the same
+    set in a different order, which is serialisation order rather than a difference.
+    """
+    x = rack_xml
+    for pattern in NOISE:
+        x = pattern.sub("", x)
+    x = METADATA.sub("<metadata>", x)
+    numbers = sorted(AUTOMATION.findall(x))
+    x = AUTOMATION.sub("", x) + "|automation:" + ",".join(numbers)
+    x = re.sub(r"\s+", " ", x)
+    return hashlib.sha256(x.encode("utf-8")).hexdigest()
+
+
+def rack_metadata(rack_xml: str) -> dict:
+    m = METADATA.search(rack_xml)
+    return dict(META_FIELD.findall(m.group(1))) if m else {}
+
+
+def _keep_rank(entry: dict) -> tuple:
+    """Lower sorts first: the copy worth keeping out of a group of identical racks.
+
+    Order of preference: it credits an author, it carries a comment, its name is not a
+    copy marker, it has no stray `.ksd` in it, and then the *longer* name wins. Longer is
+    deliberate - the extra length is almost always the band or song someone added to make
+    the preset findable ("Guns n Roses - Nighttrain" over "Nighttrain 1").
+    """
+    stem = os.path.splitext(entry["file"])[0]
+    meta = entry["meta"]
+    return (
+        0 if meta.get("preset-author") else 1,
+        0 if meta.get("preset-comment") else 1,
+        1 if re.search(r"(?:\(\d+\)|\s\d+)$", stem) else 0,   # "… (2)", "… 1"
+        1 if ".ksd" in stem.lower() else 0,
+        -len(stem),
+        stem.lower(),
+    )
+
+
+def find_duplicates(directory: str) -> tuple[list, list]:
+    """(groups that agree on everything, groups that agree on the rack but not its name)."""
+    entries = []
+    for f in sorted(os.listdir(directory)):
+        if not f.lower().endswith(".ngrr"):
+            continue
+        try:
+            rack = Preset(os.path.join(directory, f)).rack
+        except Exception:
+            continue
+        entries.append({"file": f, "fingerprint": rack_fingerprint(rack),
+                        "meta": rack_metadata(rack),
+                        "size": os.path.getsize(os.path.join(directory, f))})
+
+    groups: dict[str, list] = {}
+    for e in entries:
+        groups.setdefault(e["fingerprint"], []).append(e)
+
+    same, renamed = [], []
+    for members in groups.values():
+        if len(members) < 2:
+            continue
+        members.sort(key=_keep_rank)
+        labels = {(m["meta"].get("preset-name", ""), m["meta"].get("preset-author", ""),
+                   m["meta"].get("preset-comment", "")) for m in members}
+        (same if len(labels) == 1 else renamed).append(members)
+    same.sort(key=lambda g: g[0]["file"].lower())
+    renamed.sort(key=lambda g: g[0]["file"].lower())
+    return same, renamed
+
+
+def cmd_dupes(args) -> None:
+    directory = args.path or default_preset_dir(args.version)
+    same, renamed = find_duplicates(directory)
+
+    if args.json:
+        print(json.dumps({"directory": directory, "identical": same,
+                          "same_rack_different_name": renamed}, ensure_ascii=False, indent=2))
+        return
+
+    print(f"folder : {directory}")
+    print(f"identical presets         : {len(same)} group(s), "
+          f"{sum(len(g) - 1 for g in same)} removable")
+    print(f"same rack, different name : {len(renamed)} group(s), "
+          f"{sum(len(g) - 1 for g in renamed)} removable")
+
+    if renamed:
+        print("\nSame rack, different name or author. To a person these are not the same")
+        print("preset, so they are left alone unless you pass --include-renamed:")
+        for g in renamed:
+            print("  " + " | ".join(
+                f"{m['file']} [{m['meta'].get('preset-name') or '(sem nome)'}]" for m in g))
+
+    targets = same + renamed if args.include_renamed else same
+    if not targets:
+        print("\nnothing to remove")
+        return
+
+    removed = 0
+    print("\nkeeping the first of each group:")
+    for g in targets:
+        print(f"  KEEP {g[0]['file']}")
+        for m in g[1:]:
+            print(f"  del  {m['file']}")
+            if args.apply:
+                os.remove(os.path.join(directory, m["file"]))
+            removed += 1
+
+    print(f"\n{removed} file(s) {'deleted' if args.apply else 'would be deleted'}")
+    if args.apply:
+        print("Guitar Rig's database still lists them. Clean it from")
+        print("File > Preferences > Library; 'library.py index --stale' shows which rows.")
+    else:
+        print("this was a dry run - add --apply to delete them")
 
 
 # --------------------------------------------------------------------------- assets
@@ -614,6 +792,15 @@ def main() -> None:
                    help="instead list indexed entries whose file is gone")
     a.add_argument("--limit", type=int, default=50)
     a.set_defaults(func=cmd_index)
+
+    a = sub.add_parser("dupes", help="find presets that are copies of each other")
+    a.add_argument("--path", help="Rack Presets folder (default: newest install)")
+    a.add_argument("--version", help="pick the folder of this Guitar Rig version, e.g. 7")
+    a.add_argument("--include-renamed", action="store_true",
+                   help="also collapse groups whose rack matches but whose name or author differs")
+    a.add_argument("--apply", action="store_true", help="delete (default is a dry run)")
+    a.add_argument("--json", action="store_true")
+    a.set_defaults(func=cmd_dupes)
 
     a = sub.add_parser("assets", help="report external audio (impulse responses, backing tracks)")
     a.add_argument("--path", help="Rack Presets folder (default: newest install)")

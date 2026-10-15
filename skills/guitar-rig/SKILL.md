@@ -77,9 +77,18 @@ Rig 6 or later (NISH container) cannot have their metadata resized in place, so 
 `--mode rename`, which renames the file to the internal name instead.
 
 The Scan **only adds**. An entry whose file was renamed or deleted stays in the browser and
-fails to load, so after any renaming tell the user to clean those up by hand — Guitar Rig
-owns its database and nothing here writes to it. `python tools/library.py index --stale`
-lists exactly which rows to right-click and delete.
+fails to load, so after any renaming or deleting tell the user to clean the library —
+**File → Preferences → Library** has the cleanup, and `python tools/library.py index
+--stale` lists which rows are affected. Guitar Rig owns its database; nothing here writes
+to it.
+
+A collection built from several downloads usually holds the same rack several times
+(`Nighttrain`, `Nighttrain (2)`, `Nighttrain 1`). `python tools/library.py dupes` finds
+them by fingerprinting the rack with the per-copy bookkeeping removed — byte comparison
+finds nothing, because every copy has its own uuids and save stamp. It reports separately
+the groups whose rack matches but whose **name or author differs**, and leaves those
+alone: those are a decision for the user, not a cleanup. Never run `dupes --apply`
+without showing the list first.
 
 Renaming a preset is itself a way back into this mess, so use the command that does both
 halves at once rather than moving files around:
